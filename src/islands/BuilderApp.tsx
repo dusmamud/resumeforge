@@ -873,6 +873,11 @@ export default function BuilderApp({ locale, dict }: Props) {
     };
   }, [data]);
 
+  /* ---- remove the static loading fallback as soon as the island mounts ---- */
+  useEffect(() => {
+    document.getElementById('builder-fallback')?.remove();
+  }, []);
+
   /* ---- print: hide all chrome, force A4 print root ---- */
   useEffect(() => {
     const onBefore = () => {
@@ -980,8 +985,24 @@ export default function BuilderApp({ locale, dict }: Props) {
     setData(s);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+  /* Two-step inline confirm (no native dialog — reliable in all browsers) */
+  const [clearArmed, setClearArmed] = useState(false);
+  const clearTimer = useRef<number | null>(null);
+  useEffect(
+    () => () => {
+      if (clearTimer.current) window.clearTimeout(clearTimer.current);
+    },
+    []
+  );
   const clearAll = () => {
-    if (!window.confirm(b.actions.confirmClear)) return;
+    if (!clearArmed) {
+      setClearArmed(true);
+      if (clearTimer.current) window.clearTimeout(clearTimer.current);
+      clearTimer.current = window.setTimeout(() => setClearArmed(false), 4000);
+      return;
+    }
+    if (clearTimer.current) window.clearTimeout(clearTimer.current);
+    setClearArmed(false);
     const prefs = { template: data.template, accent: data.accent, font: data.font };
     setData({ ...emptyData(), ...prefs });
   };
@@ -1015,10 +1036,15 @@ export default function BuilderApp({ locale, dict }: Props) {
           <button
             type="button"
             onClick={clearAll}
-            className="inline-flex items-center gap-2 rounded-lg border border-graphite-200 bg-white px-4 py-2.5 text-sm font-semibold text-graphite-700 transition hover:border-red-400 hover:text-red-600 dark:border-graphite-700 dark:bg-graphite-900 dark:text-graphite-200 dark:hover:border-red-500 dark:hover:text-red-400"
+            aria-live="polite"
+            className={`inline-flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-semibold transition ${
+              clearArmed
+                ? 'border-red-600 bg-red-600 text-white hover:bg-red-700 dark:border-red-500 dark:bg-red-600'
+                : 'border-graphite-200 bg-white text-graphite-700 hover:border-red-400 hover:text-red-600 dark:border-graphite-700 dark:bg-graphite-900 dark:text-graphite-200 dark:hover:border-red-500 dark:hover:text-red-400'
+            }`}
           >
             <Trash className="h-4 w-4" />
-            {b.actions.clear}
+            {clearArmed ? b.actions.confirmClear : b.actions.clear}
           </button>
         </div>
         <span className="ml-auto inline-flex min-w-[90px] items-center justify-end gap-1.5 text-sm text-graphite-400 dark:text-graphite-500">
@@ -1044,6 +1070,7 @@ export default function BuilderApp({ locale, dict }: Props) {
                 type="button"
                 onClick={() => set('template', id)}
                 aria-pressed={selected}
+                aria-label={b.templates[id].name}
                 className={`overflow-hidden rounded-xl border-2 bg-white text-left transition ${
                   selected
                     ? 'border-brand-500 ring-2 ring-brand-500/20'
