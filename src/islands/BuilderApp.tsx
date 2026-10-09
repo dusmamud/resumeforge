@@ -124,6 +124,7 @@ interface TraditionalData {
   languages: string;
   nationality: string;
   maritalStatus: '' | 'Married' | 'Unmarried';
+  photo: string | null; // optional profile photo (data URL)
 }
 
 const TRADITIONAL_DRAFT_KEY = 'resumeforge-traditional-draft';
@@ -157,6 +158,7 @@ const emptyTraditionalData = (): TraditionalData => ({
   languages: '',
   nationality: '',
   maritalStatus: '',
+  photo: null,
 });
 
 const SAMPLE_TRADITIONAL: TraditionalData = {
@@ -182,6 +184,7 @@ const SAMPLE_TRADITIONAL: TraditionalData = {
   languages: 'Hindi & English',
   nationality: 'Indian',
   maritalStatus: 'Unmarried',
+  photo: null,
 };
 
 const cloneTraditionalSample = (): TraditionalData =>
@@ -213,6 +216,7 @@ function loadTraditionalDraft(): TraditionalData {
       maritalStatus: (['', 'Married', 'Unmarried'] as const).includes(d.maritalStatus as TraditionalData['maritalStatus'])
         ? (d.maritalStatus as TraditionalData['maritalStatus'])
         : '',
+      photo: typeof d.photo === 'string' ? d.photo : null,
     };
   } catch {
     return emptyTraditionalData();
@@ -242,7 +246,7 @@ const emptyData = (): ResumeData => ({
   skills: [],
   languages: [],
   customSections: [],
-  template: 'minimal',
+  template: 'traditional',
   accent: '#0084D1',
   font: 'poppins',
   showPhoto: true,
@@ -295,7 +299,7 @@ const SAMPLE: ResumeData = {
       bullets: ['Awwwards Honorable Mention — 2023', 'Design of the Year, internal award — Novacart, 2022'],
     },
   ],
-  template: 'minimal',
+  template: 'traditional',
   accent: '#0084D1',
   font: 'poppins',
   showPhoto: true,
@@ -322,7 +326,7 @@ function loadDraft(): ResumeData {
       customSections: Array.isArray(d.customSections) ? (d.customSections as CustomSection[]) : [],
       template: (['minimal', 'professional', 'modern', 'classic', 'traditional'] as TemplateId[]).includes(d.template as TemplateId)
         ? (d.template as TemplateId)
-        : 'minimal',
+        : 'traditional',
       font: (['poppins', 'inter', 'serif'] as ResumeData['font'][]).includes(d.font as ResumeData['font'])
         ? (d.font as ResumeData['font'])
         : 'poppins',
@@ -818,11 +822,11 @@ function ResumeClassic(data: ResumeData, t: Dict): ReactElement {
 }
 
 const TEMPLATES: { id: TemplateId; render: (data: ResumeData, t: Dict) => ReactElement }[] = [
+  { id: 'traditional', render: (d) => ResumeTraditional(SAMPLE_TRADITIONAL, d.accent, d.font) },
   { id: 'minimal', render: ResumeMinimal },
   { id: 'professional', render: ResumeProfessional },
   { id: 'modern', render: ResumeModern },
   { id: 'classic', render: ResumeClassic },
-  { id: 'traditional', render: () => ResumeTraditional(SAMPLE_TRADITIONAL) },
 ];
 
 /* ================= traditional renderer (resumeground.com reference) =============
@@ -833,11 +837,22 @@ const TEMPLATES: { id: TemplateId; render: (data: ResumeData, t: Dict) => ReactE
 
 const TRAD_BAR = '#D3D3D3';
 
-function ResumeTraditional(d: TraditionalData): ReactElement {
+const TRAD_FONTS: Record<'poppins' | 'inter' | 'serif', string> = {
+  poppins: "'Poppins',sans-serif",
+  inter: "'Inter',sans-serif",
+  serif: "Georgia,'Times New Roman',serif",
+};
+
+function ResumeTraditional(
+  d: TraditionalData,
+  accent = '#000000',
+  fontId: 'poppins' | 'inter' | 'serif' = 'poppins'
+): ReactElement {
+  const fontFamily = TRAD_FONTS[fontId] ?? TRAD_FONTS.poppins;
   const bar = (text: string) => (
     <h2
       className="mb-2 mt-4 px-2 py-1.5 text-[14px] font-bold uppercase"
-      style={{ background: TRAD_BAR, color: '#000000' }}
+      style={{ background: TRAD_BAR, color: accent }}
     >
       {text}
     </h2>
@@ -870,15 +885,24 @@ function ResumeTraditional(d: TraditionalData): ReactElement {
   const objective = d.objectivePreset === 'entry' ? ENTRY_LEVEL_OBJECTIVE : d.objective;
   return (
     <div
-      style={{ fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif", color: '#000000', background: '#ffffff' }}
-      className="p-8 text-[12px] leading-relaxed"
+      style={{ fontFamily, color: '#000000', background: '#ffffff' }}
+      className="relative p-8 text-[12px] leading-relaxed"
     >
       <h1 className="text-center text-[22px] font-bold uppercase" style={{ color: '#000000' }}>
         {d.heading || 'RESUME'}
       </h1>
 
+      {d.photo && (
+        <img
+          src={d.photo}
+          alt=""
+          className="absolute right-8 top-8 h-28 w-24 object-cover"
+          style={{ border: '1px solid #999' }}
+        />
+      )}
+
       {d.name && (
-        <p className="mt-4 text-[16px] font-bold" style={{ color: '#000000' }}>
+        <p className="mt-4 text-[16px] font-bold" style={{ color: accent }}>
           {d.name}
         </p>
       )}
@@ -1001,24 +1025,37 @@ function ResumeTraditional(d: TraditionalData): ReactElement {
    bordered qualification table, bullets, personal-info rows, declaration,
    and the Date/Place/(name) footer. All text stays selectable. */
 
-function generateTraditionalPdf(d: TraditionalData): void {
+function hexToRgb(hex: string): [number, number, number] {
+  const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim());
+  if (!m) return [0, 0, 0];
+  const v = parseInt(m[1], 16);
+  return [(v >> 16) & 255, (v >> 8) & 255, v & 255];
+}
+
+function generateTraditionalPdf(
+  d: TraditionalData,
+  accent = '#000000',
+  fontId: 'poppins' | 'inter' | 'serif' = 'poppins'
+): void {
   const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
   const PW = 210;
-  const ML = 15;
-  const MR = 15;
-  const CW = PW - ML - MR; // 180
-  let y = 15;
+  const ML = 19; // measured from the reference PDF
+  const MR = 19;
+  const CW = PW - ML - MR; // 172
+  let y = 10; // reference heading starts ~9mm from top edge
   const BLACK: [number, number, number] = [0, 0, 0];
   const GRAY: [number, number, number] = [211, 211, 211];
+  const ACC = hexToRgb(accent);
+  const PDFFONT = fontId === 'serif' ? 'times' : 'helvetica';
 
   const need = (h: number) => {
-    if (y + h > 282) {
+    if (y + h > 278) {
       doc.addPage();
-      y = 15;
+      y = 19;
     }
   };
   const para = (text: string, size: number, style: 'normal' | 'bold', indent = 0) => {
-    doc.setFont('helvetica', style);
+    doc.setFont(PDFFONT, style);
     doc.setFontSize(size);
     doc.setTextColor(...BLACK);
     const lines = doc.splitTextToSize(text, CW - indent);
@@ -1034,29 +1071,41 @@ function generateTraditionalPdf(d: TraditionalData): void {
     need(10);
     doc.setFillColor(...GRAY);
     doc.rect(ML, y, CW, 7, 'F');
-    doc.setFont('helvetica', 'bold');
+    doc.setFont(PDFFONT, 'bold');
     doc.setFontSize(12);
-    doc.setTextColor(...BLACK);
+    doc.setTextColor(...ACC);
     doc.text(text.toUpperCase(), ML + 2, y + 5);
     y += 10;
   };
 
   // 1. heading
-  doc.setFont('helvetica', 'bold');
+  doc.setFont(PDFFONT, 'bold');
   doc.setFontSize(20);
   doc.setTextColor(...BLACK);
   doc.text(d.heading || 'RESUME', PW / 2, y, { align: 'center' });
   y += 10;
 
+  // 1b. photo (optional, top-right like the reference)
+  if (d.photo) {
+    try {
+      const fmt = d.photo.startsWith('data:image/png') ? 'PNG' : 'JPEG';
+      doc.addImage(d.photo, fmt, PW - MR - 30, 22, 30, 36);
+    } catch {
+      /* ignore unreadable image data */
+    }
+  }
+
   // 2-4. name / profile / address / contact
   if (d.name.trim()) {
-    doc.setFont('helvetica', 'bold');
+    doc.setFont(PDFFONT, 'bold');
     doc.setFontSize(14);
+    doc.setTextColor(...ACC);
     doc.text(d.name.trim(), ML, y);
+    doc.setTextColor(...BLACK);
     y += 7;
   }
   if (d.profile.trim()) {
-    doc.setFont('helvetica', 'normal');
+    doc.setFont(PDFFONT, 'normal');
     doc.setFontSize(11);
     doc.text(d.profile.trim(), ML, y);
     y += 6;
@@ -1064,7 +1113,7 @@ function generateTraditionalPdf(d: TraditionalData): void {
   const addr = [d.house, d.area, d.state && d.pincode ? `${d.state} - ${d.pincode}` : d.state || d.pincode]
     .map((s) => s.trim())
     .filter(Boolean);
-  doc.setFont('helvetica', 'normal');
+  doc.setFont(PDFFONT, 'normal');
   doc.setFontSize(10);
   addr.forEach((l) => {
     need(5);
@@ -1105,7 +1154,7 @@ function generateTraditionalPdf(d: TraditionalData): void {
       head: [['S.No.', 'Qualification', 'University / Board', 'Year', 'Per %']],
       body: quals.map((q, i) => [String(i + 1), q.degree, q.university, q.year, q.gpa]),
       theme: 'grid',
-      styles: { font: 'helvetica', fontSize: 10, textColor: BLACK, lineColor: [150, 150, 150], lineWidth: 0.2, cellPadding: 2 },
+      styles: { font: PDFFONT, fontSize: 10, textColor: BLACK, lineColor: [150, 150, 150], lineWidth: 0.2, cellPadding: 2.5 },
       headStyles: { fillColor: GRAY, textColor: BLACK, fontStyle: 'bold' },
       columnStyles: { 0: { cellWidth: 15 }, 1: { cellWidth: 45 }, 2: { cellWidth: 60 }, 3: { cellWidth: 25 }, 4: { cellWidth: 35 } },
       margin: { left: ML, right: MR },
@@ -1118,7 +1167,7 @@ function generateTraditionalPdf(d: TraditionalData): void {
     const list = items.map((s) => s.trim()).filter(Boolean);
     if (list.length === 0) return;
     grayBar(title);
-    doc.setFont('helvetica', 'normal');
+    doc.setFont(PDFFONT, 'normal');
     doc.setFontSize(10.5);
     doc.setTextColor(...BLACK);
     list.forEach((s) => {
@@ -1157,7 +1206,7 @@ function generateTraditionalPdf(d: TraditionalData): void {
     ['Nationality', d.nationality],
     ['Marital Status', d.maritalStatus],
   ];
-  doc.setFont('helvetica', 'normal');
+  doc.setFont(PDFFONT, 'normal');
   doc.setFontSize(10.5);
   doc.setTextColor(...BLACK);
   rows.forEach(([label, value]) => {
@@ -1180,7 +1229,7 @@ function generateTraditionalPdf(d: TraditionalData): void {
 
   // 7. footer
   need(14);
-  doc.setFont('helvetica', 'bold');
+  doc.setFont(PDFFONT, 'bold');
   doc.setFontSize(11);
   doc.text('Date :', ML, y);
   y += 6;
@@ -1565,7 +1614,7 @@ export default function BuilderApp({ locale, dict }: Props) {
 
   const downloadTraditional = () => {
     if (!validateTraditional()) return;
-    generateTraditionalPdf(tdata);
+    generateTraditionalPdf(tdata, data.accent, data.font);
   };
 
   /* ---- photo ---- */
@@ -1573,6 +1622,15 @@ export default function BuilderApp({ locale, dict }: Props) {
     if (!f) return;
     const reader = new FileReader();
     reader.onload = () => setPersonal('photo', String(reader.result));
+    reader.readAsDataURL(f);
+  };
+
+  /* ---- traditional photo (optional) ---- */
+  const tradPhotoInputRef = useRef<HTMLInputElement | null>(null);
+  const onTradPhotoFile = (f: File | undefined) => {
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = () => setT('photo', String(reader.result));
     reader.readAsDataURL(f);
   };
 
@@ -1684,6 +1742,44 @@ export default function BuilderApp({ locale, dict }: Props) {
               onChange={(e) => setT('profile', e.target.value)}
               placeholder={tr.profilePlaceholder}
               className={inputCls}
+            />
+          </div>
+          <div className="col-span-2">
+            <span className={labelCls}>{tr.photoLabel}</span>
+            <div className="flex items-center gap-3">
+              {tdata.photo ? (
+                <img src={tdata.photo} alt="" className="h-14 w-14 rounded object-cover ring-1 ring-graphite-200 dark:ring-graphite-700" />
+              ) : (
+                <span className="flex h-14 w-14 items-center justify-center rounded bg-graphite-100 text-graphite-400 dark:bg-graphite-800 dark:text-graphite-500">
+                  <Camera className="h-6 w-6" />
+                </span>
+              )}
+              <button
+                type="button"
+                onClick={() => tradPhotoInputRef.current?.click()}
+                className="rounded-lg border border-graphite-200 px-3 py-2 text-xs font-semibold text-graphite-600 transition hover:border-brand-400 hover:text-brand-600 dark:border-graphite-700 dark:text-graphite-300 dark:hover:border-brand-500 dark:hover:text-brand-400"
+              >
+                {tdata.photo ? tr.photoChange : tr.photoUpload}
+              </button>
+              {tdata.photo && (
+                <button
+                  type="button"
+                  onClick={() => setT('photo', null)}
+                  className="rounded-lg px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-50 dark:hover:bg-red-500/10"
+                >
+                  {tr.photoRemove}
+                </button>
+              )}
+            </div>
+            <input
+              ref={tradPhotoInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => {
+                onTradPhotoFile(e.target.files?.[0]);
+                e.target.value = '';
+              }}
             />
           </div>
         </div>
@@ -2138,11 +2234,7 @@ export default function BuilderApp({ locale, dict }: Props) {
       <div className="mt-8 grid items-start gap-8 lg:grid-cols-[480px_1fr]">
         {/* ---- form column ---- */}
         <div className={`space-y-4 ${mobileTab === 'edit' ? '' : 'hidden'} rf-no-print lg:block`}>
-          {data.template === 'traditional' ? (
-            renderTraditionalForm()
-          ) : (
-            <>
-          {/* customize */}
+          {/* customize — shown for every template (photo toggle only where it applies) */}
           <SectionCard title={b.customizeTitle} icon={<SlidersHorizontal className="h-5 w-5" />}>
             <div>
               <span className={labelCls}>{b.accentLabel}</span>
@@ -2185,9 +2277,15 @@ export default function BuilderApp({ locale, dict }: Props) {
                 ))}
               </div>
             </div>
-            <Switch checked={data.showPhoto} onChange={(v) => set('showPhoto', v)} label={b.showPhotoLabel} />
+            {data.template !== 'traditional' && (
+              <Switch checked={data.showPhoto} onChange={(v) => set('showPhoto', v)} label={b.showPhotoLabel} />
+            )}
           </SectionCard>
 
+          {data.template === 'traditional' ? (
+            renderTraditionalForm()
+          ) : (
+            <>
           {/* personal */}
           <SectionCard title={b.sections.personal} icon={<User className="h-5 w-5" />}>
             <div className="grid grid-cols-2 gap-3">
@@ -2607,7 +2705,7 @@ export default function BuilderApp({ locale, dict }: Props) {
               id="resume-print-root"
               className="aspect-[1/1.414] w-full overflow-y-auto rounded-sm bg-white shadow-xl ring-1 ring-graphite-200 dark:ring-graphite-700"
             >
-              {data.template === 'traditional' ? ResumeTraditional(tdata) : activeTemplate.render(data, t)}
+              {data.template === 'traditional' ? ResumeTraditional(tdata, data.accent, data.font) : activeTemplate.render(data, t)}
             </div>
           </div>
         </div>
