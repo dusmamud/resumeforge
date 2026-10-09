@@ -23,6 +23,7 @@ import {
 } from 'phosphor-react';
 import type { Dict } from '../i18n/dicts';
 import type { Locale } from '../i18n/index';
+import { EXTRA_TEMPLATES } from './extraTemplates';
 
 interface Props {
   locale: Locale;
@@ -31,7 +32,7 @@ interface Props {
 
 /* ============================== state model ============================== */
 
-interface Personal {
+export interface Personal {
   fullName: string;
   jobTitle: string;
   email: string;
@@ -40,7 +41,7 @@ interface Personal {
   photo: string | null; // dataURL
 }
 
-interface Experience {
+export interface Experience {
   id: string;
   jobTitle: string;
   company: string;
@@ -50,14 +51,14 @@ interface Experience {
   description: string; // one bullet per line
 }
 
-interface Education {
+export interface Education {
   id: string;
   degree: string;
   school: string;
   year: string;
 }
 
-interface CustomSection {
+export interface CustomSection {
   id: string;
   title: string;
   type: 'text' | 'bullets';
@@ -65,7 +66,7 @@ interface CustomSection {
   bullets: string[];
 }
 
-interface ResumeData {
+export interface ResumeData {
   personal: Personal;
   summary: string;
   experience: Experience[];
@@ -73,7 +74,10 @@ interface ResumeData {
   skills: string[];
   languages: string[];
   customSections: CustomSection[];
-  template: 'minimal' | 'professional' | 'modern' | 'classic' | 'traditional';
+  template: 'minimal' | 'professional' | 'modern' | 'classic' | 'traditional'
+    | 'executive' | 'corporate' | 'elegant' | 'sidebar' | 'boldheader' | 'swiss'
+    | 'creative' | 'infographic' | 'tech' | 'academic' | 'fresher' | 'functional'
+    | 'compact' | 'atsplain' | 'timeline';
   accent: string;
   font: 'poppins' | 'inter' | 'serif';
   showPhoto: boolean;
@@ -328,7 +332,7 @@ function loadDraft(): ResumeData {
       skills: Array.isArray(d.skills) ? (d.skills as string[]) : [],
       languages: Array.isArray(d.languages) ? (d.languages as string[]) : [],
       customSections: Array.isArray(d.customSections) ? (d.customSections as CustomSection[]) : [],
-      template: (['minimal', 'professional', 'modern', 'classic', 'traditional'] as TemplateId[]).includes(d.template as TemplateId)
+      template: (['minimal', 'professional', 'modern', 'classic', 'traditional', 'executive', 'corporate', 'elegant', 'sidebar', 'boldheader', 'swiss', 'creative', 'infographic', 'tech', 'academic', 'fresher', 'functional', 'compact', 'atsplain', 'timeline'] as TemplateId[]).includes(d.template as TemplateId)
         ? (d.template as TemplateId)
         : 'traditional',
       font: (['poppins', 'inter', 'serif'] as ResumeData['font'][]).includes(d.font as ResumeData['font'])
@@ -831,6 +835,7 @@ const TEMPLATES: { id: TemplateId; render: (data: ResumeData, t: Dict) => ReactE
   { id: 'professional', render: ResumeProfessional },
   { id: 'modern', render: ResumeModern },
   { id: 'classic', render: ResumeClassic },
+  ...EXTRA_TEMPLATES.map(({ id, render }) => ({ id: id as TemplateId, render })),
 ];
 
 /* ================= traditional renderer (resumeground.com reference) =============
