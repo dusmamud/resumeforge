@@ -11,6 +11,8 @@ import {
   ArrowUp,
   ArrowDown,
   CaretDown,
+  CaretLeft,
+  CaretRight,
   Camera,
   User,
   Briefcase,
@@ -1414,6 +1416,11 @@ export default function BuilderApp({ locale, dict }: Props) {
   const [showSaved, setShowSaved] = useState(false);
   const rootRef = useRef<HTMLDivElement | null>(null);
   const photoInputRef = useRef<HTMLInputElement | null>(null);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+  const scrollCarousel = (dir: 1 | -1) => {
+    const el = carouselRef.current;
+    if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: 'smooth' });
+  };
   const saveTimer = useRef<number | null>(null);
   const savedHideTimer = useRef<number | null>(null);
   const firstRender = useRef(true);
@@ -2211,11 +2218,37 @@ export default function BuilderApp({ locale, dict }: Props) {
         </span>
       </div>
 
-      {/* ============ template strip ============ */}
+      {/* ============ template carousel (single row) ============ */}
       <div className="rf-no-print mt-8">
-        <h2 className="text-lg font-bold text-graphite-900 dark:text-white">{b.templateTitle}</h2>
-        <p className="mt-1 text-sm text-graphite-500 dark:text-graphite-400">{b.templateSubtitle}</p>
-        <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="flex items-end justify-between gap-4">
+          <div>
+            <h2 className="text-lg font-bold text-graphite-900 dark:text-white">{b.templateTitle}</h2>
+            <p className="mt-1 text-sm text-graphite-500 dark:text-graphite-400">{b.templateSubtitle}</p>
+          </div>
+          <div className="flex shrink-0 gap-2">
+            <button
+              type="button"
+              onClick={() => scrollCarousel(-1)}
+              aria-label="Previous templates"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-graphite-200 bg-white text-graphite-600 transition hover:border-brand-500 hover:text-brand-600 dark:border-graphite-700 dark:bg-graphite-900 dark:text-graphite-300"
+            >
+              <CaretLeft size={18} weight="bold" />
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollCarousel(1)}
+              aria-label="Next templates"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-graphite-200 bg-white text-graphite-600 transition hover:border-brand-500 hover:text-brand-600 dark:border-graphite-700 dark:bg-graphite-900 dark:text-graphite-300"
+            >
+              <CaretRight size={18} weight="bold" />
+            </button>
+          </div>
+        </div>
+        <div
+          ref={carouselRef}
+          className="mt-4 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2"
+          style={{ scrollbarWidth: 'thin' }}
+        >
           {TEMPLATES.map(({ id, render }) => {
             const selected = data.template === id;
             return (
@@ -2225,7 +2258,7 @@ export default function BuilderApp({ locale, dict }: Props) {
                 onClick={() => set('template', id)}
                 aria-pressed={selected}
                 aria-label={b.templates[id].name}
-                className={`overflow-hidden rounded-xl border-2 bg-white text-left transition ${
+                className={`w-52 shrink-0 snap-start overflow-hidden rounded-xl border-2 bg-white text-left transition sm:w-60 ${
                   selected
                     ? 'border-brand-500 ring-2 ring-brand-500/20'
                     : 'border-graphite-200 hover:border-graphite-300 dark:border-graphite-700 dark:hover:border-graphite-600'
