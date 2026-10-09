@@ -1,0 +1,31 @@
+---
+import { BRAND } from '../brand';
+
+interface Props {
+  size?: number;
+  class?: string;
+}
+const { size = 36, class: cls = '' } = Astro.props;
+---
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 48 48"
+  fill="none"
+  class={cls}
+  role="img"
+  aria-label={`${BRAND.name} logo`}
+>
+  <defs>
+    <linearGradient id="resumeforge-g" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2AA5E4"></stop>
+      <stop offset="1" stop-color="#0069A8"></stop>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="12" fill="url(#resumeforge-g)"></rect>
+  <g stroke="#fff" stroke-width="3.2" stroke-linecap="round">
+    <line x1="14" y1="17" x2="34" y2="17"></line>
+    <line x1="14" y1="24" x2="28" y2="24"></line>
+    <line x1="14" y1="31" x2="32" y2="31"></line>
+  </g>
+</svg>

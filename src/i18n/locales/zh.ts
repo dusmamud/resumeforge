@@ -1,0 +1,263 @@
+import type { Dict } from './en';
+import { BRAND } from '../../brand';
+
+const zh: Dict = {
+  dir: 'ltr' as 'ltr' | 'rtl',
+  meta: {
+    siteName: BRAND.name,
+    landingTitle: `${BRAND.name} — 100% 免费创建简历和 CV`,
+    landingDescription: `${BRAND.name} 是一款免费的在线简历制作工具。填写您的信息，选择一个模板，即可下载专业的 PDF 简历——无需注册。您的数据永远不会离开您的浏览器。`,
+    builderTitle: `创建简历 — ${BRAND.name}`,
+    builderDescription: `使用 ${BRAND.name} 的免费简历制作工具创建您的简历。多种模板、实时预览、即时下载 PDF。无需账户，没有费用。`,
+    aboutTitle: `关于 — ${BRAND.name}`,
+    aboutDescription: `了解 ${BRAND.name} 是什么，以及为什么简洁、结构清晰的简历能为您带来更多面试机会。`,
+    privacyTitle: `隐私政策 — ${BRAND.name}`,
+    privacyDescription: `${BRAND.name} 隐私政策：您的简历数据保留在您的浏览器中。不会上传任何内容。`,
+  },
+  nav: {
+    home: '首页',
+    builder: '创建简历',
+    about: '关于',
+    theme: '主题',
+    themeLight: '浅色',
+    themeDark: '深色',
+    themeSystem: '跟随系统',
+    language: '语言',
+    createNow: '立即创建',
+  },
+  hero: {
+    badge: '100% 免费 · 无需注册 · 隐私优先设计',
+    titleA: '创建',
+    titleHighlight: '100% 免费简历',
+    titleB: '和 CV',
+    subtitle:
+      '几分钟内创建一份专业简历。填写您的信息，选择一个模板，即可下载 PDF 简历——完全免费，无需账户。',
+    ctaPrimary: '立即创建——免费',
+    ctaSecondary: '工作原理',
+  },
+  steps: {
+    title: '3 个简单步骤创建您的简历',
+    subtitle: '无需设计技能——只需按照流程操作。',
+    items: [
+      {
+        title: '点击“立即创建”',
+        text: '一键开始创建新简历。选择我们简洁专业的模板之一即可开始。',
+      },
+      {
+        title: '填写您的信息',
+        text: '添加联系方式、工作经历、教育背景和技能。所有内容都会自动保存在您的浏览器中。',
+      },
+      {
+        title: '下载您的 PDF',
+        text: '实时预览您的简历，进行微调，然后下载可打印的 PDF——永远免费。',
+      },
+    ],
+  },
+  why: {
+    title: '为什么选择我们',
+    subtitle: '打造能获得面试机会的简历所需的一切。',
+    items: [
+      {
+        icon: 'ph:gift',
+        title: '100% 免费',
+        text: '所有功能永久免费。没有高级套餐，没有锁定的模板，PDF 上没有水印。',
+      },
+      {
+        icon: 'ph:cursor-click',
+        title: '简单易用',
+        text: '简单明了的引导式表单即可完成。如果您会打字，就能在这里创建一份出色的简历。',
+      },
+      {
+        icon: 'ph:sliders-horizontal',
+        title: '轻松自定义',
+        text: '一键切换模板、更改强调色和字体，并开启或关闭各个板块。',
+      },
+      {
+        icon: 'ph:lightning',
+        title: '快速可靠',
+        text: '您的简历在您输入时自动保存。关闭标签页后再回来——草稿还在。',
+      },
+      {
+        icon: 'ph:download-simple',
+        title: '即时下载',
+        text: '完成后即可导出干净、可打印的 PDF。无需等待，无需邮箱验证。',
+      },
+      {
+        icon: 'ph:lock-key',
+        title: '安全私密',
+        text: '您的数据保留在浏览器的本地存储中。不会上传任何内容，也永远不需要账户。',
+      },
+    ],
+  },
+  faq: {
+    title: '常见问题',
+    subtitle: '常见问题的快速解答。',
+    items: [
+      {
+        q: '使用简历制作工具需要设计技能吗？',
+        a: '不需要。该工具使用简洁的专业设计模板，格式已经为您准备好了。只需填写您的信息，工具会处理排版、间距和字体。',
+      },
+      {
+        q: '我可以在简历中添加个人照片吗？',
+        a: '可以。您可以在个人信息板块上传照片，并为任何模板开启或关闭照片。照片是可选的——许多招聘人员更喜欢没有照片的简历。',
+      },
+      {
+        q: '创建或下载简历需要注册吗？',
+        a: '无需注册。您可以完全免费创建简历并下载 PDF，无需创建账户或提供邮箱。',
+      },
+      {
+        q: '真的免费吗？',
+        a: '是的——所有功能都是免费的，包括所有模板和 PDF 下载。没有高级套餐，也没有隐藏收费。',
+      },
+      {
+        q: '下载后还能编辑简历吗？',
+        a: '当然可以。您的草稿会自动保存在浏览器中，因此您可以随时重新打开工具、进行修改并下载更新后的 PDF。',
+      },
+      {
+        q: '我可以添加自定义板块吗？',
+        a: '可以。您可以添加纯文本或项目符号的自定义板块——适用于证书、项目、志愿者经历，或任何您想让招聘人员看到的内容。',
+      },
+    ],
+  },
+  ctaBand: {
+    title: '准备好创建您的简历了吗？',
+    text: '加入数千名求职者，几分钟内创建专业简历——免费、私密、无需注册。',
+    button: '创建我的简历',
+  },
+  footer: {
+    tagline: `${BRAND.name} 是一款免费的在线简历制作工具。无需注册——您的数据保留在您的浏览器中。`,
+    usefulTitle: '实用链接',
+    importantTitle: '重要事项',
+    followTitle: '关注我们',
+    rights: '版权所有。',
+  },
+  about: {
+    title: `关于 ${BRAND.name}`,
+    p1: `${BRAND.name} 是一款免费的在线简历制作工具，只为一个简单的目标而生：帮助您快速创建专业简历，无需设计技能，也不收取任何费用。`,
+    p2: '招聘人员通常只花几秒钟浏览一份简历，因此结构和可读性比装饰更重要。这里的每个模板都围绕这一理念设计——清晰的标题、明确的板块，以及同时适合人工阅读和求职者跟踪系统的排版。',
+    p3: '无需注册，也不会上传任何内容。您的简历数据保存在您自己的浏览器中，您写下的内容永远属于您。',
+  },
+  privacy: {
+    title: '隐私政策',
+    intro: '本政策说明您使用本网站时您的数据会发生什么。简而言之：几乎什么都不会发生——一切都保留在您的设备上。',
+    items: [
+      {
+        h: '您的简历数据保留在您的浏览器中',
+        p: '您在制作工具中输入的详细信息——姓名、联系方式、经历和教育背景——仅存储在您自己设备的浏览器本地存储中。我们不会将这些数据发送到任何服务器。',
+      },
+      {
+        h: '不会上传任何内容',
+        p: '您附加的文件（如个人照片）在浏览器本地处理，永远不会上传到任何地方。没有后端账户或数据库保存您的信息。',
+      },
+      {
+        h: '无账户，无跟踪',
+        p: '使用制作工具不需要账户，因此我们不会收集姓名、邮箱或密码。我们不使用广告或第三方分析来为您画像。',
+      },
+      {
+        h: '联系方式',
+        p: '如果您对本政策或您的数据有任何疑问，可以通过“关于”页面上的联系信息联系我们。',
+      },
+    ],
+  },
+  notFound: {
+    title: '页面未找到',
+    text: '您要查找的页面不存在或已被移动。',
+    button: '返回首页',
+  },
+  builder: {
+    title: '创建您的简历',
+    metaDesc: '免费的简历制作工具，实时预览。填写您的信息，选择模板，下载 PDF——无需注册。',
+    templateTitle: '选择模板',
+    templateSubtitle: '选择一个设计——您可以随时更换。',
+    templates: {
+      minimal: { name: '简约', desc: '干净简洁，可读性最佳。' },
+      professional: { name: '专业', desc: '适合企业职位的经典排版。' },
+      modern: { name: '现代', desc: '带有醒目标题的清新设计。' },
+      classic: { name: '经典', desc: '适合正式行业的永恒衬线风格。' },
+    },
+    customizeTitle: '自定义',
+    accentLabel: '强调色',
+    fontLabel: '字体',
+    fontOptions: { poppins: 'Poppins', inter: 'Inter', serif: 'Serif' },
+    showPhotoLabel: '显示照片',
+    sections: {
+      personal: '个人信息',
+      summary: '职业简介',
+      experience: '工作经历',
+      education: '教育背景',
+      skills: '技能',
+      languages: '语言',
+      custom: '自定义板块',
+    },
+    personal: {
+      fullName: '全名',
+      jobTitle: '职位',
+      email: '邮箱',
+      phone: '电话',
+      location: '地点',
+      photo: '照片',
+      photoUpload: '上传照片',
+      photoChange: '更换照片',
+      photoRemove: '移除',
+    },
+    summary: {
+      label: '简介',
+      placeholder: '一段关于您的经历、优势和职业目标的简短文字……',
+    },
+    experience: {
+      add: '添加经历',
+      jobTitle: '职位',
+      company: '公司',
+      startDate: '开始日期',
+      endDate: '结束日期',
+      present: '至今',
+      description: '描述',
+      descriptionHint: '每行写一项成就',
+      remove: '移除',
+      moveUp: '上移',
+      moveDown: '下移',
+    },
+    education: {
+      add: '添加教育经历',
+      degree: '学位 / 学历',
+      school: '学校 / 大学',
+      year: '年份',
+      remove: '移除',
+      moveUp: '上移',
+      moveDown: '下移',
+    },
+    skills: {
+      label: '技能',
+      hint: '用逗号分隔技能',
+      placeholder: '例如：沟通能力、JavaScript、项目管理',
+    },
+    languages: {
+      label: '语言',
+      hint: '用逗号分隔语言',
+      placeholder: '例如：英语、印地语、西班牙语',
+    },
+    custom: {
+      addSection: '添加自定义板块',
+      sectionTitle: '板块标题',
+      typeLabel: '类型',
+      typeText: '文本',
+      typeBullets: '项目符号',
+      contentLabel: '内容',
+      remove: '移除板块',
+    },
+    actions: {
+      downloadPdf: '下载 PDF',
+      fillSample: '填入示例数据',
+      clear: '清空全部',
+      saved: '已保存',
+      confirmClear: '确定要清空所有数据吗？',
+    },
+    tabs: {
+      edit: '编辑',
+      preview: '预览',
+    },
+    previewTitle: '实时预览',
+  },
+};
+
+export default zh;

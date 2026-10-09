@@ -1,0 +1,263 @@
+import type { Dict } from './en';
+import { BRAND } from '../../brand';
+
+const ko: Dict = {
+  dir: 'ltr' as 'ltr' | 'rtl',
+  meta: {
+    siteName: BRAND.name,
+    landingTitle: `${BRAND.name} — 100% 무료 이력서 & CV 만들기`,
+    landingDescription: `${BRAND.name}는 무료 온라인 이력서 제작 도구입니다. 정보를 입력하고 템플릿을 선택한 뒤 전문적인 이력서를 PDF로 다운로드하세요 — 가입 불필요. 데이터는 브라우저를 절대 떠나지 않습니다.`,
+    builderTitle: `이력서 만들기 — ${BRAND.name}`,
+    builderDescription: `${BRAND.name}의 무료 이력서 제작 도구로 이력서를 만드세요. 다양한 템플릿, 실시간 미리보기, 즉시 PDF 다운로드. 계정도, 비용도 없습니다.`,
+    aboutTitle: `소개 — ${BRAND.name}`,
+    aboutDescription: `${BRAND.name}가 무엇인지, 그리고 왜 깔끔하고 체계적인 이력서가 더 많은 면접 기회를 가져오는지 알아보세요.`,
+    privacyTitle: `개인정보처리방침 — ${BRAND.name}`,
+    privacyDescription: `${BRAND.name} 개인정보처리방침: 이력서 데이터는 브라우저에 그대로 머무릅니다. 업로드되는 것은 없습니다.`,
+  },
+  nav: {
+    home: '홈',
+    builder: '이력서 만들기',
+    about: '소개',
+    theme: '테마',
+    themeLight: '라이트',
+    themeDark: '다크',
+    themeSystem: '시스템',
+    language: '언어',
+    createNow: '지금 만들기',
+  },
+  hero: {
+    badge: '100% 무료 · 가입 불필요 · 프라이버시 우선 설계',
+    titleA: '',
+    titleHighlight: '100% 무료 이력서',
+    titleB: '와 CV 만들기',
+    subtitle:
+      '몇 분 만에 전문적인 이력서를 만드세요. 정보를 입력하고 템플릿을 선택한 뒤 PDF로 다운로드 — 완전 무료, 계정 불필요.',
+    ctaPrimary: '지금 만들기 — 무료',
+    ctaSecondary: '사용 방법',
+  },
+  steps: {
+    title: '간단한 3단계로 이력서 만들기',
+    subtitle: '디자인 기술이 필요 없습니다 — 흐름만 따라오세요.',
+    items: [
+      {
+        title: '지금 만들기 클릭',
+        text: '한 번의 클릭으로 새 이력서를 시작하세요. 깔끔하고 전문적인 템플릿 중 하나를 골라 시작하세요.',
+      },
+      {
+        title: '정보 입력',
+        text: '연락처, 경력, 학력, 기술을 추가하세요. 모든 내용은 브라우저에 자동으로 저장됩니다.',
+      },
+      {
+        title: 'PDF 다운로드',
+        text: '이력서를 실시간으로 미리보고 다듬은 뒤 인쇄용 PDF를 다운로드 — 평생 무료.',
+      },
+    ],
+  },
+  why: {
+    title: '선택 이유',
+    subtitle: '면접으로 이어지는 이력서에 필요한 모든 것.',
+    items: [
+      {
+        icon: 'ph:gift',
+        title: '100% 무료',
+        text: '모든 기능이 평생 무료입니다. 프리미엄 요금제, 잠긴 템플릿, PDF 워터마크가 없습니다.',
+      },
+      {
+        icon: 'ph:cursor-click',
+        title: '사용하기 쉬움',
+        text: '간단한 안내 양식이 모든 작업을 처리합니다. 타이핑만 할 수 있으면 훌륭한 이력서를 만들 수 있습니다.',
+      },
+      {
+        icon: 'ph:sliders-horizontal',
+        title: '간단한 커스터마이징',
+        text: '원클릭으로 템플릿을 바꾸고, 강조 색상과 글꼴을 변경하며, 섹션을 켜고 끌 수 있습니다.',
+      },
+      {
+        icon: 'ph:lightning',
+        title: '빠르고 안정적',
+        text: '입력하는 동안 이력서가 자동으로 저장됩니다. 탭을 닫고 돌아와도 — 초안은 그대로 있습니다.',
+      },
+      {
+        icon: 'ph:download-simple',
+        title: '즉시 다운로드',
+        text: '완성하는 즉시 깔끔하고 인쇄 가능한 PDF를 내보내세요. 대기나 이메일 인증이 없습니다.',
+      },
+      {
+        icon: 'ph:lock-key',
+        title: '안전하고 비공개',
+        text: '데이터는 브라우저의 로컬 저장소에 머뭅니다. 업로드되는 것이 없으며 계정이 필요하지 않습니다.',
+      },
+    ],
+  },
+  faq: {
+    title: '자주 묻는 질문',
+    subtitle: '자주 묻는 질문에 대한 간단한 답변.',
+    items: [
+      {
+        q: '이력서 제작 도구를 사용하려면 디자인 기술이 필요한가요?',
+        a: '아니요. 제작 도구는 깔끔하고 전문적으로 디자인된 템플릿을 사용하므로 서식은 이미 준비되어 있습니다. 정보만 입력하면 레이아웃, 간격, 타이포그래피는 제작 도구가 알아서 처리합니다.',
+      },
+      {
+        q: '이력서에 프로필 사진을 추가할 수 있나요?',
+        a: '네. 개인정보 섹션에서 사진을 업로드하고 모든 템플릿에서 사진 표시를 켜거나 끌 수 있습니다. 사진은 선택 사항입니다 — 많은 채용 담당자가 사진 없는 이력서를 선호합니다.',
+      },
+      {
+        q: '이력서를 만들거나 다운로드하려면 가입해야 하나요?',
+        a: '가입이 필요 없습니다. 계정을 만들거나 이메일을 공유하지 않고도 완전 무료로 이력서를 만들고 PDF를 다운로드할 수 있습니다.',
+      },
+      {
+        q: '정말 무료인가요?',
+        a: '네 — 모든 템플릿과 PDF 다운로드를 포함해 모든 기능이 무료입니다. 프리미엄 요금제나 숨겨진 요금이 없습니다.',
+      },
+      {
+        q: '다운로드한 뒤 이력서를 수정할 수 있나요?',
+        a: '물론입니다. 초안은 브라우저에 자동으로 저장되므로 언제든 제작 도구를 다시 열고 수정한 뒤 업데이트된 PDF를 다운로드할 수 있습니다.',
+      },
+      {
+        q: '나만의 사용자 정의 섹션을 추가할 수 있나요?',
+        a: '네. 일반 텍스트나 글머리 기호의 사용자 정의 섹션을 추가할 수 있습니다 — 자격증, 프로젝트, 봉사 활동 등 채용 담당자에게 보여주고 싶은 내용에 유용합니다.',
+      },
+    ],
+  },
+  ctaBand: {
+    title: '이력서를 만들 준비가 되셨나요?',
+    text: '수천 명의 구직자와 함께 몇 분 만에 전문적인 이력서를 만드세요 — 무료, 비공개, 가입 불필요.',
+    button: '내 이력서 만들기',
+  },
+  footer: {
+    tagline: `${BRAND.name}는 무료 온라인 이력서 제작 도구입니다. 가입 불필요 — 데이터는 브라우저에 그대로 머무릅니다.`,
+    usefulTitle: '유용한 링크',
+    importantTitle: '중요',
+    followTitle: '팔로우',
+    rights: '모든 권리 보유.',
+  },
+  about: {
+    title: `${BRAND.name} 소개`,
+    p1: `${BRAND.name}는 단 하나의 단순한 목적을 위해 만들어진 무료 온라인 이력서 제작 도구입니다. 디자인 기술 없이, 비용 없이 빠르게 전문적인 이력서를 만들 수 있도록 돕는 것입니다.`,
+    p2: '채용 담당자는 보통 이력서를 몇 초만 훑어보므로, 장식보다 구조와 가독성이 중요합니다. 이곳의 모든 템플릿은 이 아이디어를 중심으로 만들어졌습니다 — 깔끔한 제목, 명확한 섹션, 그리고 사람과 지원자 추적 시스템 모두에게 통하는 레이아웃입니다.',
+    p3: '가입도 없고 업로드도 없습니다. 이력서 데이터는 여러분 자신의 브라우저에 저장되므로, 작성한 내용은 여러분의 것입니다.',
+  },
+  privacy: {
+    title: '개인정보처리방침',
+    intro: '이 방침은 이 사이트를 이용할 때 여러분의 데이터가 어떻게 되는지 설명합니다. 요약하자면: 거의 아무 일도 일어나지 않습니다 — 모든 것은 여러분의 기기에 머무릅니다.',
+    items: [
+      {
+        h: '이력서 데이터는 브라우저에 머무릅니다',
+        p: '제작 도구에 입력한 정보 — 이름, 연락처, 경력, 학력 — 은 여러분 기기의 브라우저 로컬 저장소에만 저장됩니다. 이 데이터를 어떤 서버로도 전송하지 않습니다.',
+      },
+      {
+        h: '업로드되는 것이 없습니다',
+        p: '프로필 사진처럼 첨부한 파일은 브라우저에서 로컬로 처리되며 어디에도 업로드되지 않습니다. 정보를 보관하는 백엔드 계정이나 데이터베이스는 존재하지 않습니다.',
+      },
+      {
+        h: '계정도, 추적도 없습니다',
+        p: '제작 도구를 이용하는 데 계정이 필요 없으므로 이름, 이메일, 비밀번호를 수집하지 않습니다. 여러분을 프로파일링하는 광고나 제3자 분석 도구를 사용하지 않습니다.',
+      },
+      {
+        h: '문의',
+        p: '이 방침이나 여러분의 데이터에 대해 질문이 있으면 소개 페이지의 연락처로 문의해 주세요.',
+      },
+    ],
+  },
+  notFound: {
+    title: '페이지를 찾을 수 없습니다',
+    text: '찾으시는 페이지가 존재하지 않거나 이동되었습니다.',
+    button: '홈으로 돌아가기',
+  },
+  builder: {
+    title: '이력서 만들기',
+    metaDesc: '실시간 미리보기가 있는 무료 이력서 제작 도구. 정보를 입력하고 템플릿을 선택한 뒤 PDF 다운로드 — 가입 불필요.',
+    templateTitle: '템플릿 선택',
+    templateSubtitle: '디자인을 선택하세요 — 언제든 변경할 수 있습니다.',
+    templates: {
+      minimal: { name: '미니멀', desc: '깔끔하고 단순하며 최대의 가독성.' },
+      professional: { name: '프로페셔널', desc: '기업 직무를 위한 클래식 레이아웃.' },
+      modern: { name: '모던', desc: '대담한 헤더의 신선한 디자인.' },
+      classic: { name: '클래식', desc: '격식 있는 업계를 위한 시대를 초월한 세리프 스타일.' },
+    },
+    customizeTitle: '사용자 정의',
+    accentLabel: '강조 색상',
+    fontLabel: '글꼴',
+    fontOptions: { poppins: 'Poppins', inter: 'Inter', serif: '세리프' },
+    showPhotoLabel: '사진 표시',
+    sections: {
+      personal: '개인정보',
+      summary: '경력 요약',
+      experience: '경력',
+      education: '학력',
+      skills: '기술',
+      languages: '언어',
+      custom: '사용자 정의 섹션',
+    },
+    personal: {
+      fullName: '이름',
+      jobTitle: '직무',
+      email: '이메일',
+      phone: '전화',
+      location: '위치',
+      photo: '사진',
+      photoUpload: '사진 업로드',
+      photoChange: '사진 변경',
+      photoRemove: '제거',
+    },
+    summary: {
+      label: '요약',
+      placeholder: '경험, 강점, 커리어 목표에 대한 짧은 문단…',
+    },
+    experience: {
+      add: '경력 추가',
+      jobTitle: '직무',
+      company: '회사',
+      startDate: '시작일',
+      endDate: '종료일',
+      present: '현재',
+      description: '설명',
+      descriptionHint: '한 줄에 하나의 성과',
+      remove: '제거',
+      moveUp: '위로 이동',
+      moveDown: '아래로 이동',
+    },
+    education: {
+      add: '학력 추가',
+      degree: '학위 / 자격',
+      school: '학교 / 대학교',
+      year: '연도',
+      remove: '제거',
+      moveUp: '위로 이동',
+      moveDown: '아래로 이동',
+    },
+    skills: {
+      label: '기술',
+      hint: '쉼표로 기술을 구분하세요',
+      placeholder: '예: 커뮤니케이션, JavaScript, 프로젝트 관리',
+    },
+    languages: {
+      label: '언어',
+      hint: '쉼표로 언어를 구분하세요',
+      placeholder: '예: 영어, 힌디어, 스페인어',
+    },
+    custom: {
+      addSection: '사용자 정의 섹션 추가',
+      sectionTitle: '섹션 제목',
+      typeLabel: '유형',
+      typeText: '텍스트',
+      typeBullets: '글머리 기호',
+      contentLabel: '내용',
+      remove: '섹션 제거',
+    },
+    actions: {
+      downloadPdf: 'PDF 다운로드',
+      fillSample: '샘플 데이터 입력',
+      clear: '모두 지우기',
+      saved: '저장됨',
+      confirmClear: '모든 데이터를 지우시겠습니까?',
+    },
+    tabs: {
+      edit: '편집',
+      preview: '미리보기',
+    },
+    previewTitle: '실시간 미리보기',
+  },
+};
+
+export default ko;

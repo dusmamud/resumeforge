@@ -1,0 +1,263 @@
+import { BRAND } from '../../brand';
+
+const en = {
+  dir: 'ltr' as 'ltr' | 'rtl',
+  meta: {
+    siteName: BRAND.name,
+    landingTitle: `${BRAND.name} — Create 100% Free Resume & CV`,
+    landingDescription: `${BRAND.name} is a free online resume builder. Fill in your details, pick a template, and download your professional resume as PDF — no sign-up required. Your data never leaves your browser.`,
+    builderTitle: `Create Resume — ${BRAND.name}`,
+    builderDescription: `Build your resume with ${BRAND.name}'s free resume builder. Multiple templates, live preview, instant PDF download. No account, no fees.`,
+    aboutTitle: `About — ${BRAND.name}`,
+    aboutDescription: `What ${BRAND.name} is, and why a clean, well-structured resume gets you more interviews.`,
+    privacyTitle: `Privacy Policy — ${BRAND.name}`,
+    privacyDescription: `${BRAND.name} privacy policy: your resume data stays in your browser. Nothing is uploaded.`,
+  },
+  nav: {
+    home: 'Home',
+    builder: 'Create Resume',
+    about: 'About',
+    theme: 'Theme',
+    themeLight: 'Light',
+    themeDark: 'Dark',
+    themeSystem: 'System',
+    language: 'Language',
+    createNow: 'Create Now',
+  },
+  hero: {
+    badge: '100% Free · No sign-up · Private by design',
+    titleA: 'Create',
+    titleHighlight: '100% Free Resume',
+    titleB: '& CV',
+    subtitle:
+      'Build a professional resume in minutes. Fill in your details, choose a template, and download your resume as a PDF — completely free, no account needed.',
+    ctaPrimary: 'Create Now — it’s free',
+    ctaSecondary: 'How it works',
+  },
+  steps: {
+    title: 'Build your resume in 3 simple steps',
+    subtitle: 'No design skills needed — just follow the flow.',
+    items: [
+      {
+        title: 'Click Create Now',
+        text: 'Start a new resume in one click. Pick one of our clean, professional templates to begin.',
+      },
+      {
+        title: 'Fill in your details',
+        text: 'Add your contact info, work experience, education and skills. Everything saves automatically in your browser.',
+      },
+      {
+        title: 'Download your PDF',
+        text: 'Preview your resume live, fine-tune it, and download a print-ready PDF — free forever.',
+      },
+    ],
+  },
+  why: {
+    title: 'Why choose us',
+    subtitle: 'Everything you need for a resume that gets interviews.',
+    items: [
+      {
+        icon: 'ph:gift',
+        title: '100% Free',
+        text: 'Every feature is free, forever. No premium plans, no locked templates, no watermark on your PDF.',
+      },
+      {
+        icon: 'ph:cursor-click',
+        title: 'Easy to Use',
+        text: 'A simple guided form does the work. If you can type, you can build a great resume here.',
+      },
+      {
+        icon: 'ph:sliders-horizontal',
+        title: 'Simple Customization',
+        text: 'Switch templates, change accent colors and fonts, and toggle sections on or off in one click.',
+      },
+      {
+        icon: 'ph:lightning',
+        title: 'Fast & Reliable',
+        text: 'Your resume saves automatically as you type. Close the tab and come back — your draft is still there.',
+      },
+      {
+        icon: 'ph:download-simple',
+        title: 'Instant Download',
+        text: 'Export a clean, print-ready PDF the moment you are done. No waiting, no email verification.',
+      },
+      {
+        icon: 'ph:lock-key',
+        title: 'Secure & Private',
+        text: 'Your data stays in your browser’s local storage. Nothing is uploaded, no account is ever required.',
+      },
+    ],
+  },
+  faq: {
+    title: 'Frequently asked questions',
+    subtitle: 'Quick answers to common questions.',
+    items: [
+      {
+        q: 'Do I need design skills to use the resume builder?',
+        a: 'No. The builder uses clean, professionally designed templates, so the formatting is done for you. Just fill in your details and the builder takes care of the layout, spacing and typography.',
+      },
+      {
+        q: 'Can I add a profile photo to my resume?',
+        a: 'Yes. You can upload a photo in the personal details section and toggle it on or off for any template. A photo is optional — many recruiters prefer resumes without one.',
+      },
+      {
+        q: 'Do I need to sign up to create or download my resume?',
+        a: 'No sign-up is required. You can build your resume and download the PDF completely free, without creating an account or sharing your email.',
+      },
+      {
+        q: 'Is it really free?',
+        a: 'Yes — every feature is free, including all templates and PDF downloads. There are no premium tiers and no hidden charges.',
+      },
+      {
+        q: 'Can I edit my resume after downloading it?',
+        a: 'Absolutely. Your draft is saved automatically in your browser, so you can reopen the builder any time, make changes, and download an updated PDF.',
+      },
+      {
+        q: 'Can I add my own custom sections?',
+        a: 'Yes. You can add custom sections with plain text or bullet points — useful for certifications, projects, volunteer work, or anything else you want recruiters to see.',
+      },
+    ],
+  },
+  ctaBand: {
+    title: 'Ready to build your resume?',
+    text: 'Join thousands of job seekers creating professional resumes in minutes — free, private, no sign-up.',
+    button: 'Create My Resume',
+  },
+  footer: {
+    tagline: `${BRAND.name} is a free online resume builder. No sign-up required — your data stays in your browser.`,
+    usefulTitle: 'Useful Links',
+    importantTitle: 'Important',
+    followTitle: 'Follow Us',
+    rights: 'All rights reserved.',
+  },
+  about: {
+    title: `About ${BRAND.name}`,
+    p1: `${BRAND.name} is a free online resume builder made for one simple job: helping you create a professional resume quickly, without design skills and without paying a fee.`,
+    p2: 'Recruiters typically spend only a few seconds scanning a resume, so structure and readability matter more than decoration. Every template here is built around that idea — clean headings, clear sections, and a layout that works for both human readers and applicant tracking systems.',
+    p3: 'There is no sign-up and nothing is uploaded. Your resume data lives in your own browser, so what you write stays yours.',
+  },
+  privacy: {
+    title: 'Privacy Policy',
+    intro: 'This policy explains what happens to your data when you use this site. The short version: almost nothing — everything stays on your device.',
+    items: [
+      {
+        h: 'Your resume data stays in your browser',
+        p: 'The details you type into the builder — your name, contact info, experience and education — are stored only in your browser’s local storage on your own device. We do not send this data to any server.',
+      },
+      {
+        h: 'Nothing is uploaded',
+        p: 'Files you attach, such as a profile photo, are processed locally in your browser and never uploaded anywhere. There is no backend account or database holding your information.',
+      },
+      {
+        h: 'No account, no tracking',
+        p: 'You do not need an account to use the builder, so we do not collect names, emails or passwords. We do not use advertising or third-party analytics that profile you.',
+      },
+      {
+        h: 'Contact',
+        p: 'If you have questions about this policy or about your data, you can reach us through the contact information on the About page.',
+      },
+    ],
+  },
+  notFound: {
+    title: 'Page not found',
+    text: 'The page you are looking for doesn’t exist or was moved.',
+    button: 'Back to home',
+  },
+  builder: {
+    title: 'Create Your Resume',
+    metaDesc: 'Free resume builder with live preview. Fill in your details, choose a template, download PDF — no sign-up.',
+    templateTitle: 'Choose a template',
+    templateSubtitle: 'Pick a design — you can switch any time.',
+    templates: {
+      minimal: { name: 'Minimal', desc: 'Clean and simple, maximum readability.' },
+      professional: { name: 'Professional', desc: 'Classic layout for corporate roles.' },
+      modern: { name: 'Modern', desc: 'Fresh design with a bold header.' },
+      classic: { name: 'Classic', desc: 'Timeless serif style for formal industries.' },
+    },
+    customizeTitle: 'Customize',
+    accentLabel: 'Accent color',
+    fontLabel: 'Font',
+    fontOptions: { poppins: 'Poppins', inter: 'Inter', serif: 'Serif' },
+    showPhotoLabel: 'Show photo',
+    sections: {
+      personal: 'Personal Details',
+      summary: 'Professional Summary',
+      experience: 'Work Experience',
+      education: 'Education',
+      skills: 'Skills',
+      languages: 'Languages',
+      custom: 'Custom Sections',
+    },
+    personal: {
+      fullName: 'Full name',
+      jobTitle: 'Job title',
+      email: 'Email',
+      phone: 'Phone',
+      location: 'Location',
+      photo: 'Photo',
+      photoUpload: 'Upload photo',
+      photoChange: 'Change photo',
+      photoRemove: 'Remove',
+    },
+    summary: {
+      label: 'Summary',
+      placeholder: 'A short paragraph about your experience, strengths and career goals…',
+    },
+    experience: {
+      add: 'Add experience',
+      jobTitle: 'Job title',
+      company: 'Company',
+      startDate: 'Start date',
+      endDate: 'End date',
+      present: 'Present',
+      description: 'Description',
+      descriptionHint: 'One achievement per line',
+      remove: 'Remove',
+      moveUp: 'Move up',
+      moveDown: 'Move down',
+    },
+    education: {
+      add: 'Add education',
+      degree: 'Degree / Qualification',
+      school: 'School / University',
+      year: 'Year',
+      remove: 'Remove',
+      moveUp: 'Move up',
+      moveDown: 'Move down',
+    },
+    skills: {
+      label: 'Skills',
+      hint: 'Separate skills with commas',
+      placeholder: 'e.g. Communication, JavaScript, Project Management',
+    },
+    languages: {
+      label: 'Languages',
+      hint: 'Separate languages with commas',
+      placeholder: 'e.g. English, Hindi, Spanish',
+    },
+    custom: {
+      addSection: 'Add custom section',
+      sectionTitle: 'Section title',
+      typeLabel: 'Type',
+      typeText: 'Text',
+      typeBullets: 'Bullet points',
+      contentLabel: 'Content',
+      remove: 'Remove section',
+    },
+    actions: {
+      downloadPdf: 'Download PDF',
+      fillSample: 'Fill sample data',
+      clear: 'Clear all',
+      saved: 'Saved',
+      confirmClear: 'Are you sure you want to clear all data?',
+    },
+    tabs: {
+      edit: 'Edit',
+      preview: 'Preview',
+    },
+    previewTitle: 'Live preview',
+  },
+};
+
+export type Dict = typeof en;
+export default en;

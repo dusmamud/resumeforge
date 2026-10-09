@@ -1,0 +1,60 @@
+---
+import { Icon } from 'astro-icon/components';
+import Logo from './Logo.astro';
+import { BRAND } from '../brand';
+import { link, type Locale } from '../i18n/index';
+import type { Dict } from '../i18n/dicts';
+
+interface Props {
+  locale: Locale;
+  dict: Dict;
+}
+const { locale, dict } = Astro.props;
+---
+<footer class="bg-graphite-900 text-graphite-300">
+  <div class="mx-auto max-w-7xl px-4 py-14 sm:px-6">
+    <div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+      <div>
+        <a href={link(locale, '/')} class="flex items-center gap-2.5">
+          <Logo size={32} />
+          <span class="font-display text-lg font-bold tracking-tight text-white">{BRAND.name}</span>
+        </a>
+        <p class="mt-4 max-w-xs text-sm leading-relaxed text-graphite-400">
+          {dict.footer.tagline}
+        </p>
+      </div>
+      <div>
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-graphite-400">{dict.footer.usefulTitle}</h3>
+        <ul class="mt-4 space-y-2.5 text-sm">
+          <li><a href={link(locale, '/')} class="text-graphite-300 hover:text-white">{dict.nav.home}</a></li>
+          <li><a href={link(locale, '/builder')} class="text-graphite-300 hover:text-white">{dict.nav.builder}</a></li>
+          <li><a href={link(locale, '/about')} class="text-graphite-300 hover:text-white">{dict.nav.about}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-graphite-400">{dict.footer.importantTitle}</h3>
+        <ul class="mt-4 space-y-2.5 text-sm">
+          <li><a href={link(locale, '/privacy')} class="text-graphite-300 hover:text-white">Privacy</a></li>
+          <li><a href={link(locale, '/#faq')} class="text-graphite-300 hover:text-white">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-sm font-semibold uppercase tracking-wider text-graphite-400">{dict.footer.followTitle}</h3>
+        <div class="mt-4 flex items-center gap-3">
+          <a href="#" aria-label="Facebook" class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-graphite-800 text-graphite-300 transition hover:bg-brand-600 hover:text-white">
+            <Icon name="ph:facebook-logo" class="h-5 w-5" />
+          </a>
+          <a href="#" aria-label="YouTube" class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-graphite-800 text-graphite-300 transition hover:bg-brand-600 hover:text-white">
+            <Icon name="ph:youtube-logo" class="h-5 w-5" />
+          </a>
+          <a href="#" aria-label="Instagram" class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-graphite-800 text-graphite-300 transition hover:bg-brand-600 hover:text-white">
+            <Icon name="ph:instagram-logo" class="h-5 w-5" />
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="mt-12 border-t border-graphite-800 pt-6 text-center text-xs text-graphite-500">
+      <p>© 2026 {BRAND.name}. {dict.footer.rights}</p>
+    </div>
+  </div>
+</footer>

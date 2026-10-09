@@ -1,0 +1,263 @@
+import type { Dict } from './en';
+import { BRAND } from '../../brand';
+
+const vi: Dict = {
+  dir: 'ltr' as 'ltr' | 'rtl',
+  meta: {
+    siteName: BRAND.name,
+    landingTitle: `${BRAND.name} — Tạo Resume & CV 100% Miễn Phí`,
+    landingDescription: `${BRAND.name} là công cụ tạo resume trực tuyến miễn phí. Điền thông tin của bạn, chọn một mẫu và tải resume chuyên nghiệp dưới dạng PDF — không cần đăng ký. Dữ liệu của bạn không bao giờ rời khỏi trình duyệt.`,
+    builderTitle: `Tạo Resume — ${BRAND.name}`,
+    builderDescription: `Tạo resume của bạn với công cụ miễn phí của ${BRAND.name}. Nhiều mẫu, xem trước trực tiếp, tải PDF ngay lập tức. Không cần tài khoản, không phí.`,
+    aboutTitle: `Giới thiệu — ${BRAND.name}`,
+    aboutDescription: `${BRAND.name} là gì và tại sao một resume gọn gàng, cấu trúc tốt giúp bạn có nhiều cuộc phỏng vấn hơn.`,
+    privacyTitle: `Chính sách Quyền riêng tư — ${BRAND.name}`,
+    privacyDescription: `Chính sách quyền riêng tư của ${BRAND.name}: dữ liệu resume của bạn ở lại trong trình duyệt. Không có gì được tải lên.`,
+  },
+  nav: {
+    home: 'Trang chủ',
+    builder: 'Tạo Resume',
+    about: 'Giới thiệu',
+    theme: 'Chủ đề',
+    themeLight: 'Sáng',
+    themeDark: 'Tối',
+    themeSystem: 'Hệ thống',
+    language: 'Ngôn ngữ',
+    createNow: 'Tạo Ngay',
+  },
+  hero: {
+    badge: '100% Miễn phí · Không cần đăng ký · Riêng tư theo thiết kế',
+    titleA: 'Tạo',
+    titleHighlight: 'Resume 100% Miễn phí',
+    titleB: '& CV',
+    subtitle:
+      'Tạo resume chuyên nghiệp trong vài phút. Điền thông tin của bạn, chọn một mẫu và tải resume dưới dạng PDF — hoàn toàn miễn phí, không cần tài khoản.',
+    ctaPrimary: 'Tạo Ngay — miễn phí',
+    ctaSecondary: 'Cách hoạt động',
+  },
+  steps: {
+    title: 'Tạo resume của bạn trong 3 bước đơn giản',
+    subtitle: 'Không cần kỹ năng thiết kế — chỉ cần làm theo quy trình.',
+    items: [
+      {
+        title: 'Nhấp vào Tạo Ngay',
+        text: 'Bắt đầu resume mới chỉ với một cú nhấp. Chọn một trong các mẫu gọn gàng, chuyên nghiệp của chúng tôi để bắt đầu.',
+      },
+      {
+        title: 'Điền thông tin của bạn',
+        text: 'Thêm thông tin liên hệ, kinh nghiệm làm việc, học vấn và kỹ năng. Mọi thứ tự động lưu trong trình duyệt của bạn.',
+      },
+      {
+        title: 'Tải PDF của bạn',
+        text: 'Xem trước resume trực tiếp, tinh chỉnh và tải PDF sẵn sàng in — miễn phí mãi mãi.',
+      },
+    ],
+  },
+  why: {
+    title: 'Tại sao chọn chúng tôi',
+    subtitle: 'Mọi thứ bạn cần cho một resume mang lại cuộc phỏng vấn.',
+    items: [
+      {
+        icon: 'ph:gift',
+        title: '100% Miễn phí',
+        text: 'Mọi tính năng đều miễn phí, mãi mãi. Không có gói cao cấp, không có mẫu bị khóa, không có hình mờ trên PDF của bạn.',
+      },
+      {
+        icon: 'ph:cursor-click',
+        title: 'Dễ Sử Dụng',
+        text: 'Một biểu mẫu hướng dẫn đơn giản sẽ lo mọi việc. Nếu bạn biết gõ phím, bạn có thể tạo một resume tuyệt vời tại đây.',
+      },
+      {
+        icon: 'ph:sliders-horizontal',
+        title: 'Tùy Chỉnh Đơn Giản',
+        text: 'Chuyển mẫu, đổi màu nhấn và phông chữ, bật hoặc tắt các phần chỉ với một cú nhấp.',
+      },
+      {
+        icon: 'ph:lightning',
+        title: 'Nhanh & Đáng Tin Cậy',
+        text: 'Resume của bạn tự động lưu khi bạn nhập. Đóng tab và quay lại — bản nháp của bạn vẫn còn đó.',
+      },
+      {
+        icon: 'ph:download-simple',
+        title: 'Tải Xuống Ngay Lập Tức',
+        text: 'Xuất PDF gọn gàng, sẵn sàng in ngay khi bạn hoàn thành. Không chờ đợi, không xác minh email.',
+      },
+      {
+        icon: 'ph:lock-key',
+        title: 'An Toàn & Riêng Tư',
+        text: 'Dữ liệu của bạn ở trong bộ nhớ cục bộ của trình duyệt. Không có gì được tải lên, không bao giờ cần tài khoản.',
+      },
+    ],
+  },
+  faq: {
+    title: 'Câu hỏi thường gặp',
+    subtitle: 'Câu trả lời nhanh cho các câu hỏi phổ biến.',
+    items: [
+      {
+        q: 'Tôi có cần kỹ năng thiết kế để dùng công cụ tạo resume không?',
+        a: 'Không. Công cụ sử dụng các mẫu gọn gàng, thiết kế chuyên nghiệp nên định dạng đã được chuẩn bị sẵn cho bạn. Chỉ cần điền thông tin của bạn và công cụ sẽ lo về bố cục, khoảng cách và kiểu chữ.',
+      },
+      {
+        q: 'Tôi có thể thêm ảnh đại diện vào resume không?',
+        a: 'Có. Bạn có thể tải ảnh lên trong phần thông tin cá nhân và bật hoặc tắt nó cho bất kỳ mẫu nào. Ảnh là tùy chọn — nhiều nhà tuyển dụng thích resume không có ảnh.',
+      },
+      {
+        q: 'Tôi có cần đăng ký để tạo hoặc tải resume không?',
+        a: 'Không cần đăng ký. Bạn có thể tạo resume và tải PDF hoàn toàn miễn phí, không cần tạo tài khoản hay chia sẻ email.',
+      },
+      {
+        q: 'Có thực sự miễn phí không?',
+        a: 'Có — mọi tính năng đều miễn phí, bao gồm tất cả các mẫu và tải PDF. Không có gói cao cấp và không có phí ẩn.',
+      },
+      {
+        q: 'Tôi có thể chỉnh sửa resume sau khi tải xuống không?',
+        a: 'Hoàn toàn được. Bản nháp của bạn tự động lưu trong trình duyệt, vì vậy bạn có thể mở lại công cụ bất cứ lúc nào, thực hiện thay đổi và tải PDF đã cập nhật.',
+      },
+      {
+        q: 'Tôi có thể thêm phần tùy chỉnh của riêng mình không?',
+        a: 'Có. Bạn có thể thêm các phần tùy chỉnh với văn bản thuần hoặc gạch đầu dòng — hữu ích cho chứng chỉ, dự án, công việc tình nguyện hoặc bất cứ điều gì bạn muốn nhà tuyển dụng thấy.',
+      },
+    ],
+  },
+  ctaBand: {
+    title: 'Sẵn sàng tạo resume của bạn?',
+    text: 'Tham gia cùng hàng nghìn người tìm việc đang tạo resume chuyên nghiệp trong vài phút — miễn phí, riêng tư, không cần đăng ký.',
+    button: 'Tạo Resume Của Tôi',
+  },
+  footer: {
+    tagline: `${BRAND.name} là công cụ tạo resume trực tuyến miễn phí. Không cần đăng ký — dữ liệu của bạn ở lại trong trình duyệt.`,
+    usefulTitle: 'Liên kết Hữu ích',
+    importantTitle: 'Quan trọng',
+    followTitle: 'Theo Dõi Chúng Tôi',
+    rights: 'Đã đăng ký bản quyền.',
+  },
+  about: {
+    title: `Về ${BRAND.name}`,
+    p1: `${BRAND.name} là công cụ tạo resume trực tuyến miễn phí được tạo cho một nhiệm vụ đơn giản: giúp bạn tạo resume chuyên nghiệp nhanh chóng, không cần kỹ năng thiết kế và không mất phí.`,
+    p2: 'Nhà tuyển dụng thường chỉ dành vài giây để lướt qua một resume, vì vậy cấu trúc và khả năng đọc quan trọng hơn trang trí. Mỗi mẫu ở đây đều được xây dựng quanh ý tưởng đó — tiêu đề rõ ràng, các phần rành mạch và bố cục phù hợp cả với người đọc lẫn hệ thống theo dõi ứng viên.',
+    p3: 'Không đăng ký và không có gì được tải lên. Dữ liệu resume của bạn nằm trong trình duyệt của chính bạn, vì vậy những gì bạn viết vẫn là của bạn.',
+  },
+  privacy: {
+    title: 'Chính sách Quyền riêng tư',
+    intro: 'Chính sách này giải thích điều gì xảy ra với dữ liệu của bạn khi bạn dùng trang web này. Nói ngắn gọn: hầu như không có gì — mọi thứ ở lại trên thiết bị của bạn.',
+    items: [
+      {
+        h: 'Dữ liệu resume của bạn ở lại trong trình duyệt',
+        p: 'Các chi tiết bạn nhập vào công cụ — tên, thông tin liên hệ, kinh nghiệm và học vấn — chỉ được lưu trong bộ nhớ cục bộ của trình duyệt trên thiết bị của chính bạn. Chúng tôi không gửi dữ liệu này đến bất kỳ máy chủ nào.',
+      },
+      {
+        h: 'Không có gì được tải lên',
+        p: 'Các tệp bạn đính kèm, như ảnh đại diện, được xử lý cục bộ trong trình duyệt của bạn và không bao giờ được tải lên đâu. Không có tài khoản backend hay cơ sở dữ liệu nào lưu giữ thông tin của bạn.',
+      },
+      {
+        h: 'Không tài khoản, không theo dõi',
+        p: 'Bạn không cần tài khoản để dùng công cụ, vì vậy chúng tôi không thu thập tên, email hay mật khẩu. Chúng tôi không dùng quảng cáo hay công cụ phân tích của bên thứ ba để lập hồ sơ về bạn.',
+      },
+      {
+        h: 'Liên hệ',
+        p: 'Nếu bạn có câu hỏi về chính sách này hoặc về dữ liệu của mình, bạn có thể liên hệ với chúng tôi qua thông tin liên hệ trên trang Giới thiệu.',
+      },
+    ],
+  },
+  notFound: {
+    title: 'Không tìm thấy trang',
+    text: 'Trang bạn tìm không tồn tại hoặc đã bị di chuyển.',
+    button: 'Về trang chủ',
+  },
+  builder: {
+    title: 'Tạo Resume Của Bạn',
+    metaDesc: 'Công cụ tạo resume miễn phí với xem trước trực tiếp. Điền thông tin, chọn mẫu, tải PDF — không cần đăng ký.',
+    templateTitle: 'Chọn một mẫu',
+    templateSubtitle: 'Chọn một thiết kế — bạn có thể đổi bất cứ lúc nào.',
+    templates: {
+      minimal: { name: 'Tối giản', desc: 'Gọn gàng và đơn giản, dễ đọc nhất.' },
+      professional: { name: 'Chuyên nghiệp', desc: 'Bố cục cổ điển cho vai trò doanh nghiệp.' },
+      modern: { name: 'Hiện đại', desc: 'Thiết kế mới mẻ với tiêu đề nổi bật.' },
+      classic: { name: 'Cổ điển', desc: 'Phong cách serif vượt thời gian cho các ngành trang trọng.' },
+    },
+    customizeTitle: 'Tùy chỉnh',
+    accentLabel: 'Màu nhấn',
+    fontLabel: 'Phông chữ',
+    fontOptions: { poppins: 'Poppins', inter: 'Inter', serif: 'Serif' },
+    showPhotoLabel: 'Hiển thị ảnh',
+    sections: {
+      personal: 'Thông tin Cá nhân',
+      summary: 'Tóm tắt Chuyên nghiệp',
+      experience: 'Kinh nghiệm Làm việc',
+      education: 'Học vấn',
+      skills: 'Kỹ năng',
+      languages: 'Ngôn ngữ',
+      custom: 'Phần Tùy chỉnh',
+    },
+    personal: {
+      fullName: 'Họ và tên',
+      jobTitle: 'Chức danh',
+      email: 'Email',
+      phone: 'Điện thoại',
+      location: 'Địa điểm',
+      photo: 'Ảnh',
+      photoUpload: 'Tải ảnh lên',
+      photoChange: 'Đổi ảnh',
+      photoRemove: 'Xóa',
+    },
+    summary: {
+      label: 'Tóm tắt',
+      placeholder: 'Một đoạn ngắn về kinh nghiệm, điểm mạnh và mục tiêu nghề nghiệp của bạn…',
+    },
+    experience: {
+      add: 'Thêm kinh nghiệm',
+      jobTitle: 'Chức danh',
+      company: 'Công ty',
+      startDate: 'Ngày bắt đầu',
+      endDate: 'Ngày kết thúc',
+      present: 'Hiện tại',
+      description: 'Mô tả',
+      descriptionHint: 'Một thành tựu mỗi dòng',
+      remove: 'Xóa',
+      moveUp: 'Di chuyển lên',
+      moveDown: 'Di chuyển xuống',
+    },
+    education: {
+      add: 'Thêm học vấn',
+      degree: 'Bằng cấp / Trình độ',
+      school: 'Trường / Đại học',
+      year: 'Năm',
+      remove: 'Xóa',
+      moveUp: 'Di chuyển lên',
+      moveDown: 'Di chuyển xuống',
+    },
+    skills: {
+      label: 'Kỹ năng',
+      hint: 'Ngăn cách các kỹ năng bằng dấu phẩy',
+      placeholder: 'ví dụ: Giao tiếp, JavaScript, Quản lý dự án',
+    },
+    languages: {
+      label: 'Ngôn ngữ',
+      hint: 'Ngăn cách các ngôn ngữ bằng dấu phẩy',
+      placeholder: 'ví dụ: Tiếng Anh, Tiếng Hindi, Tiếng Tây Ban Nha',
+    },
+    custom: {
+      addSection: 'Thêm phần tùy chỉnh',
+      sectionTitle: 'Tiêu đề phần',
+      typeLabel: 'Loại',
+      typeText: 'Văn bản',
+      typeBullets: 'Gạch đầu dòng',
+      contentLabel: 'Nội dung',
+      remove: 'Xóa phần',
+    },
+    actions: {
+      downloadPdf: 'Tải PDF',
+      fillSample: 'Điền dữ liệu mẫu',
+      clear: 'Xóa tất cả',
+      saved: 'Đã lưu',
+      confirmClear: 'Bạn có chắc muốn xóa tất cả dữ liệu?',
+    },
+    tabs: {
+      edit: 'Chỉnh sửa',
+      preview: 'Xem trước',
+    },
+    previewTitle: 'Xem trước trực tiếp',
+  },
+};
+
+export default vi;

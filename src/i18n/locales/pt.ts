@@ -1,0 +1,263 @@
+import type { Dict } from './en';
+import { BRAND } from '../../brand';
+
+const pt: Dict = {
+  dir: 'ltr' as 'ltr' | 'rtl',
+  meta: {
+    siteName: BRAND.name,
+    landingTitle: `${BRAND.name} — Crie currículos e CVs 100% grátis`,
+    landingDescription: `${BRAND.name} é um criador de currículos online gratuito. Preencha seus dados, escolha um modelo e baixe seu currículo profissional em PDF — sem cadastro. Seus dados nunca saem do seu navegador.`,
+    builderTitle: `Criar currículo — ${BRAND.name}`,
+    builderDescription: `Crie seu currículo com o criador gratuito do ${BRAND.name}. Vários modelos, pré-visualização ao vivo, download de PDF instantâneo. Sem conta, sem taxas.`,
+    aboutTitle: `Sobre — ${BRAND.name}`,
+    aboutDescription: `O que é o ${BRAND.name} e por que um currículo limpo e bem estruturado gera mais entrevistas.`,
+    privacyTitle: `Política de Privacidade — ${BRAND.name}`,
+    privacyDescription: `Política de privacidade do ${BRAND.name}: os dados do seu currículo ficam no seu navegador. Nada é enviado.`,
+  },
+  nav: {
+    home: 'Início',
+    builder: 'Criar currículo',
+    about: 'Sobre',
+    theme: 'Tema',
+    themeLight: 'Claro',
+    themeDark: 'Escuro',
+    themeSystem: 'Sistema',
+    language: 'Idioma',
+    createNow: 'Criar agora',
+  },
+  hero: {
+    badge: '100% grátis · Sem cadastro · Privado por design',
+    titleA: 'Crie um',
+    titleHighlight: 'currículo 100% grátis',
+    titleB: 'e CV',
+    subtitle:
+      'Crie um currículo profissional em minutos. Preencha seus dados, escolha um modelo e baixe seu currículo em PDF — totalmente grátis, sem conta.',
+    ctaPrimary: 'Criar agora — é grátis',
+    ctaSecondary: 'Como funciona',
+  },
+  steps: {
+    title: 'Crie seu currículo em 3 passos simples',
+    subtitle: 'Sem habilidades de design — basta seguir o fluxo.',
+    items: [
+      {
+        title: 'Clique em Criar agora',
+        text: 'Comece um novo currículo com um clique. Escolha um dos nossos modelos limpos e profissionais para começar.',
+      },
+      {
+        title: 'Preencha seus dados',
+        text: 'Adicione suas informações de contato, experiência profissional, formação e habilidades. Tudo é salvo automaticamente no seu navegador.',
+      },
+      {
+        title: 'Baixe seu PDF',
+        text: 'Visualize seu currículo ao vivo, ajuste e baixe um PDF pronto para impressão — grátis para sempre.',
+      },
+    ],
+  },
+  why: {
+    title: 'Por que nos escolher',
+    subtitle: 'Tudo que você precisa para um currículo que gera entrevistas.',
+    items: [
+      {
+        icon: 'ph:gift',
+        title: '100% grátis',
+        text: 'Todos os recursos são grátis, para sempre. Sem planos premium, sem modelos bloqueados, sem marca d’água no seu PDF.',
+      },
+      {
+        icon: 'ph:cursor-click',
+        title: 'Fácil de usar',
+        text: 'Um formulário guiado simples faz o trabalho. Se você sabe digitar, pode criar um ótimo currículo aqui.',
+      },
+      {
+        icon: 'ph:sliders-horizontal',
+        title: 'Personalização simples',
+        text: 'Troque de modelo, mude cores de destaque e fontes, e ative ou desative seções com um clique.',
+      },
+      {
+        icon: 'ph:lightning',
+        title: 'Rápido e confiável',
+        text: 'Seu currículo é salvo automaticamente enquanto você digita. Feche a aba e volte — seu rascunho ainda estará lá.',
+      },
+      {
+        icon: 'ph:download-simple',
+        title: 'Download instantâneo',
+        text: 'Exporte um PDF limpo e pronto para impressão no momento em que terminar. Sem espera, sem verificação de e-mail.',
+      },
+      {
+        icon: 'ph:lock-key',
+        title: 'Seguro e privado',
+        text: 'Seus dados ficam no armazenamento local do seu navegador. Nada é enviado, nenhuma conta é necessária.',
+      },
+    ],
+  },
+  faq: {
+    title: 'Perguntas frequentes',
+    subtitle: 'Respostas rápidas para perguntas comuns.',
+    items: [
+      {
+        q: 'Preciso de habilidades de design para usar o criador de currículos?',
+        a: 'Não. O criador usa modelos limpos e de design profissional, então a formatação já está pronta para você. Basta preencher seus dados e o criador cuida do layout, espaçamento e tipografia.',
+      },
+      {
+        q: 'Posso adicionar uma foto de perfil ao meu currículo?',
+        a: 'Sim. Você pode enviar uma foto na seção de dados pessoais e ativá-la ou desativá-la em qualquer modelo. A foto é opcional — muitos recrutadores preferem currículos sem foto.',
+      },
+      {
+        q: 'Preciso me cadastrar para criar ou baixar meu currículo?',
+        a: 'Não é necessário cadastro. Você pode criar seu currículo e baixar o PDF totalmente grátis, sem criar uma conta ou compartilhar seu e-mail.',
+      },
+      {
+        q: 'É realmente grátis?',
+        a: 'Sim — todos os recursos são grátis, incluindo todos os modelos e downloads de PDF. Não há planos premium nem cobranças ocultas.',
+      },
+      {
+        q: 'Posso editar meu currículo depois de baixá-lo?',
+        a: 'Com certeza. Seu rascunho é salvo automaticamente no seu navegador, então você pode reabrir o criador a qualquer momento, fazer alterações e baixar um PDF atualizado.',
+      },
+      {
+        q: 'Posso adicionar minhas próprias seções personalizadas?',
+        a: 'Sim. Você pode adicionar seções personalizadas com texto simples ou marcadores — útil para certificações, projetos, trabalho voluntário ou qualquer outra coisa que você queira que os recrutadores vejam.',
+      },
+    ],
+  },
+  ctaBand: {
+    title: 'Pronto para criar seu currículo?',
+    text: 'Junte-se a milhares de candidatos criando currículos profissionais em minutos — grátis, privado, sem cadastro.',
+    button: 'Criar meu currículo',
+  },
+  footer: {
+    tagline: `${BRAND.name} é um criador de currículos online gratuito. Sem cadastro — seus dados ficam no seu navegador.`,
+    usefulTitle: 'Links úteis',
+    importantTitle: 'Importante',
+    followTitle: 'Siga-nos',
+    rights: 'Todos os direitos reservados.',
+  },
+  about: {
+    title: `Sobre o ${BRAND.name}`,
+    p1: `${BRAND.name} é um criador de currículos online gratuito feito para um trabalho simples: ajudar você a criar um currículo profissional rapidamente, sem habilidades de design e sem pagar nada.`,
+    p2: 'Recrutadores geralmente gastam apenas alguns segundos analisando um currículo, por isso estrutura e legibilidade importam mais do que decoração. Cada modelo aqui é construído com essa ideia — títulos limpos, seções claras e um layout que funciona tanto para leitores humanos quanto para sistemas de rastreamento de candidatos.',
+    p3: 'Não há cadastro e nada é enviado. Os dados do seu currículo ficam no seu próprio navegador, então o que você escreve continua sendo seu.',
+  },
+  privacy: {
+    title: 'Política de Privacidade',
+    intro: 'Esta política explica o que acontece com seus dados quando você usa este site. A versão curta: quase nada — tudo fica no seu dispositivo.',
+    items: [
+      {
+        h: 'Os dados do seu currículo ficam no seu navegador',
+        p: 'Os dados que você digita no criador — seu nome, informações de contato, experiência e formação — são armazenados apenas no armazenamento local do seu navegador, no seu próprio dispositivo. Não enviamos esses dados para nenhum servidor.',
+      },
+      {
+        h: 'Nada é enviado',
+        p: 'Arquivos que você anexa, como uma foto de perfil, são processados localmente no seu navegador e nunca são enviados para lugar nenhum. Não há conta de backend nem banco de dados guardando suas informações.',
+      },
+      {
+        h: 'Sem conta, sem rastreamento',
+        p: 'Você não precisa de uma conta para usar o criador, então não coletamos nomes, e-mails ou senhas. Não usamos publicidade nem análises de terceiros que criem seu perfil.',
+      },
+      {
+        h: 'Contato',
+        p: 'Se você tiver dúvidas sobre esta política ou sobre seus dados, pode nos contatar pelas informações de contato na página Sobre.',
+      },
+    ],
+  },
+  notFound: {
+    title: 'Página não encontrada',
+    text: 'A página que você procura não existe ou foi movida.',
+    button: 'Voltar ao início',
+  },
+  builder: {
+    title: 'Crie seu currículo',
+    metaDesc: 'Criador de currículos gratuito com pré-visualização ao vivo. Preencha seus dados, escolha um modelo, baixe o PDF — sem cadastro.',
+    templateTitle: 'Escolha um modelo',
+    templateSubtitle: 'Escolha um design — você pode trocar a qualquer momento.',
+    templates: {
+      minimal: { name: 'Minimalista', desc: 'Limpo e simples, máxima legibilidade.' },
+      professional: { name: 'Profissional', desc: 'Layout clássico para cargos corporativos.' },
+      modern: { name: 'Moderno', desc: 'Design moderno com um cabeçalho marcante.' },
+      classic: { name: 'Clássico', desc: 'Estilo serif atemporal para setores formais.' },
+    },
+    customizeTitle: 'Personalizar',
+    accentLabel: 'Cor de destaque',
+    fontLabel: 'Fonte',
+    fontOptions: { poppins: 'Poppins', inter: 'Inter', serif: 'Serif' },
+    showPhotoLabel: 'Mostrar foto',
+    sections: {
+      personal: 'Dados pessoais',
+      summary: 'Resumo profissional',
+      experience: 'Experiência profissional',
+      education: 'Formação',
+      skills: 'Habilidades',
+      languages: 'Idiomas',
+      custom: 'Seções personalizadas',
+    },
+    personal: {
+      fullName: 'Nome completo',
+      jobTitle: 'Cargo',
+      email: 'E-mail',
+      phone: 'Telefone',
+      location: 'Localização',
+      photo: 'Foto',
+      photoUpload: 'Enviar foto',
+      photoChange: 'Trocar foto',
+      photoRemove: 'Remover',
+    },
+    summary: {
+      label: 'Resumo',
+      placeholder: 'Um breve parágrafo sobre sua experiência, pontos fortes e objetivos de carreira…',
+    },
+    experience: {
+      add: 'Adicionar experiência',
+      jobTitle: 'Cargo',
+      company: 'Empresa',
+      startDate: 'Data de início',
+      endDate: 'Data de término',
+      present: 'Atual',
+      description: 'Descrição',
+      descriptionHint: 'Uma conquista por linha',
+      remove: 'Remover',
+      moveUp: 'Mover para cima',
+      moveDown: 'Mover para baixo',
+    },
+    education: {
+      add: 'Adicionar formação',
+      degree: 'Diploma / Qualificação',
+      school: 'Escola / Universidade',
+      year: 'Ano',
+      remove: 'Remover',
+      moveUp: 'Mover para cima',
+      moveDown: 'Mover para baixo',
+    },
+    skills: {
+      label: 'Habilidades',
+      hint: 'Separe as habilidades com vírgulas',
+      placeholder: 'ex.: Comunicação, JavaScript, Gestão de projetos',
+    },
+    languages: {
+      label: 'Idiomas',
+      hint: 'Separe os idiomas com vírgulas',
+      placeholder: 'ex.: Inglês, Hindi, Espanhol',
+    },
+    custom: {
+      addSection: 'Adicionar seção personalizada',
+      sectionTitle: 'Título da seção',
+      typeLabel: 'Tipo',
+      typeText: 'Texto',
+      typeBullets: 'Marcadores',
+      contentLabel: 'Conteúdo',
+      remove: 'Remover seção',
+    },
+    actions: {
+      downloadPdf: 'Baixar PDF',
+      fillSample: 'Preencher com dados de exemplo',
+      clear: 'Limpar tudo',
+      saved: 'Salvo',
+      confirmClear: 'Tem certeza de que deseja apagar todos os dados?',
+    },
+    tabs: {
+      edit: 'Editar',
+      preview: 'Pré-visualização',
+    },
+    previewTitle: 'Pré-visualização ao vivo',
+  },
+};
+
+export default pt;

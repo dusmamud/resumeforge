@@ -1,0 +1,47 @@
+---
+import { Icon } from 'astro-icon/components';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BuilderApp from '../../islands/BuilderApp';
+import { locales, type Locale } from '../../i18n/index';
+import { getDict } from '../../i18n/dicts';
+
+export async function getStaticPaths() {
+  return locales.map((locale) => ({ params: { locale } }));
+}
+
+const { locale } = Astro.params as { locale: Locale };
+const dict = getDict(locale);
+---
+<BaseLayout
+  locale={locale}
+  dict={dict}
+  title={dict.meta.builderTitle}
+  description={dict.meta.builderDescription}
+  path="/builder"
+>
+  <section class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:py-14">
+    <div class="max-w-2xl">
+      <h1 class="font-display text-3xl font-bold tracking-tight text-graphite-900 sm:text-4xl dark:text-white">
+        {dict.builder.title}
+      </h1>
+      <p class="mt-3 text-graphite-500 dark:text-graphite-400">{dict.meta.builderDescription}</p>
+    </div>
+
+    <div class="mt-8">
+      <BuilderApp client:only="react" locale={locale} dict={dict} />
+      <div id="builder-fallback" class="rounded-2xl border border-graphite-200 bg-white p-12 text-center dark:border-graphite-800 dark:bg-graphite-900">
+        <Icon name="ph:file-text" class="mx-auto h-10 w-10 text-brand-600 dark:text-brand-400" />
+        <p class="mt-4 text-graphite-500 dark:text-graphite-400">Builder loading…</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Remove the loading fallback once the island hydrates
+    function clearFallback() {
+      document.getElementById('builder-fallback')?.remove();
+    }
+    document.addEventListener('astro:page-load', clearFallback);
+    setTimeout(clearFallback, 5000);
+  </script>
+</BaseLayout>

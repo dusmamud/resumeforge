@@ -1,0 +1,263 @@
+import type { Dict } from './en';
+import { BRAND } from '../../brand';
+
+const de: Dict = {
+  dir: 'ltr' as 'ltr' | 'rtl',
+  meta: {
+    siteName: BRAND.name,
+    landingTitle: `${BRAND.name} — 100% kostenlosen Lebenslauf & CV erstellen`,
+    landingDescription: `${BRAND.name} ist ein kostenloser Online-Lebenslaufersteller. Geben Sie Ihre Daten ein, wählen Sie eine Vorlage und laden Sie Ihren professionellen Lebenslauf als PDF herunter — ohne Anmeldung. Ihre Daten verlassen niemals Ihren Browser.`,
+    builderTitle: `Lebenslauf erstellen — ${BRAND.name}`,
+    builderDescription: `Erstellen Sie Ihren Lebenslauf mit dem kostenlosen Ersteller von ${BRAND.name}. Mehrere Vorlagen, Live-Vorschau, sofortiger PDF-Download. Kein Konto, keine Gebühren.`,
+    aboutTitle: `Über — ${BRAND.name}`,
+    aboutDescription: `Was ${BRAND.name} ist und warum ein sauberer, gut strukturierter Lebenslauf Ihnen mehr Vorstellungsgespräche einbringt.`,
+    privacyTitle: `Datenschutzerklärung — ${BRAND.name}`,
+    privacyDescription: `Datenschutzerklärung von ${BRAND.name}: Ihre Lebenslaufdaten bleiben in Ihrem Browser. Nichts wird hochgeladen.`,
+  },
+  nav: {
+    home: 'Start',
+    builder: 'Lebenslauf erstellen',
+    about: 'Über',
+    theme: 'Design',
+    themeLight: 'Hell',
+    themeDark: 'Dunkel',
+    themeSystem: 'System',
+    language: 'Sprache',
+    createNow: 'Jetzt erstellen',
+  },
+  hero: {
+    badge: '100% kostenlos · Keine Anmeldung · Privat by Design',
+    titleA: 'Erstellen Sie',
+    titleHighlight: '100% kostenlosen Lebenslauf',
+    titleB: '& CV',
+    subtitle:
+      'Erstellen Sie in Minuten einen professionellen Lebenslauf. Geben Sie Ihre Daten ein, wählen Sie eine Vorlage und laden Sie Ihren Lebenslauf als PDF herunter — völlig kostenlos, kein Konto erforderlich.',
+    ctaPrimary: 'Jetzt erstellen — kostenlos',
+    ctaSecondary: 'So funktioniert’s',
+  },
+  steps: {
+    title: 'Erstellen Sie Ihren Lebenslauf in 3 einfachen Schritten',
+    subtitle: 'Keine Designkenntnisse nötig — folgen Sie einfach dem Ablauf.',
+    items: [
+      {
+        title: 'Klicken Sie auf Jetzt erstellen',
+        text: 'Starten Sie mit einem Klick einen neuen Lebenslauf. Wählen Sie eine unserer sauberen, professionellen Vorlagen zum Beginnen.',
+      },
+      {
+        title: 'Geben Sie Ihre Daten ein',
+        text: 'Fügen Sie Ihre Kontaktdaten, Berufserfahrung, Ausbildung und Fähigkeiten hinzu. Alles wird automatisch in Ihrem Browser gespeichert.',
+      },
+      {
+        title: 'Laden Sie Ihr PDF herunter',
+        text: 'Sehen Sie sich Ihren Lebenslauf live in der Vorschau an, feinjustieren Sie ihn und laden Sie ein druckfertiges PDF herunter — für immer kostenlos.',
+      },
+    ],
+  },
+  why: {
+    title: 'Warum wir',
+    subtitle: 'Alles, was Sie für einen Lebenslauf brauchen, der Vorstellungsgespräche einbringt.',
+    items: [
+      {
+        icon: 'ph:gift',
+        title: '100% kostenlos',
+        text: 'Jede Funktion ist kostenlos, für immer. Keine Premium-Tarife, keine gesperrten Vorlagen, kein Wasserzeichen auf Ihrem PDF.',
+      },
+      {
+        icon: 'ph:cursor-click',
+        title: 'Einfach zu bedienen',
+        text: 'Ein einfaches, geführtes Formular erledigt die Arbeit. Wer tippen kann, kann hier einen großartigen Lebenslauf erstellen.',
+      },
+      {
+        icon: 'ph:sliders-horizontal',
+        title: 'Einfache Anpassung',
+        text: 'Wechseln Sie Vorlagen, ändern Sie Akzentfarben und Schriftarten und schalten Sie Bereiche mit einem Klick ein oder aus.',
+      },
+      {
+        icon: 'ph:lightning',
+        title: 'Schnell & zuverlässig',
+        text: 'Ihr Lebenslauf wird automatisch beim Tippen gespeichert. Schließen Sie den Tab und kommen Sie zurück — Ihr Entwurf ist noch da.',
+      },
+      {
+        icon: 'ph:download-simple',
+        title: 'Sofort-Download',
+        text: 'Exportieren Sie ein sauberes, druckfertiges PDF, sobald Sie fertig sind. Kein Warten, keine E-Mail-Verifizierung.',
+      },
+      {
+        icon: 'ph:lock-key',
+        title: 'Sicher & privat',
+        text: 'Ihre Daten bleiben im lokalen Speicher Ihres Browsers. Nichts wird hochgeladen, ein Konto ist nie erforderlich.',
+      },
+    ],
+  },
+  faq: {
+    title: 'Häufige Fragen',
+    subtitle: 'Kurze Antworten auf häufige Fragen.',
+    items: [
+      {
+        q: 'Brauche ich Designkenntnisse, um den Lebenslaufersteller zu nutzen?',
+        a: 'Nein. Der Ersteller verwendet saubere, professionell gestaltete Vorlagen, die Formatierung ist also bereits erledigt. Geben Sie einfach Ihre Daten ein und der Ersteller kümmert sich um Layout, Abstände und Typografie.',
+      },
+      {
+        q: 'Kann ich meinem Lebenslauf ein Profilfoto hinzufügen?',
+        a: 'Ja. Sie können im Bereich der persönlichen Daten ein Foto hochladen und es für jede Vorlage ein- oder ausblenden. Ein Foto ist optional — viele Recruiter bevorzugen Lebensläufe ohne Foto.',
+      },
+      {
+        q: 'Muss ich mich anmelden, um meinen Lebenslauf zu erstellen oder herunterzuladen?',
+        a: 'Keine Anmeldung erforderlich. Sie können Ihren Lebenslauf erstellen und das PDF völlig kostenlos herunterladen, ohne ein Konto zu erstellen oder Ihre E-Mail anzugeben.',
+      },
+      {
+        q: 'Ist es wirklich kostenlos?',
+        a: 'Ja — jede Funktion ist kostenlos, einschließlich aller Vorlagen und PDF-Downloads. Es gibt keine Premium-Stufen und keine versteckten Kosten.',
+      },
+      {
+        q: 'Kann ich meinen Lebenslauf nach dem Download bearbeiten?',
+        a: 'Absolut. Ihr Entwurf wird automatisch in Ihrem Browser gespeichert, sodass Sie den Ersteller jederzeit erneut öffnen, Änderungen vornehmen und ein aktualisiertes PDF herunterladen können.',
+      },
+      {
+        q: 'Kann ich eigene benutzerdefinierte Bereiche hinzufügen?',
+        a: 'Ja. Sie können benutzerdefinierte Bereiche mit einfachem Text oder Aufzählungspunkten hinzufügen — nützlich für Zertifizierungen, Projekte, ehrenamtliche Arbeit oder alles andere, was Recruiter sehen sollen.',
+      },
+    ],
+  },
+  ctaBand: {
+    title: 'Bereit, Ihren Lebenslauf zu erstellen?',
+    text: 'Schließen Sie sich Tausenden von Jobsuchenden an, die in Minuten professionelle Lebensläufe erstellen — kostenlos, privat, ohne Anmeldung.',
+    button: 'Meinen Lebenslauf erstellen',
+  },
+  footer: {
+    tagline: `${BRAND.name} ist ein kostenloser Online-Lebenslaufersteller. Keine Anmeldung erforderlich — Ihre Daten bleiben in Ihrem Browser.`,
+    usefulTitle: 'Nützliche Links',
+    importantTitle: 'Wichtig',
+    followTitle: 'Folgen Sie uns',
+    rights: 'Alle Rechte vorbehalten.',
+  },
+  about: {
+    title: `Über ${BRAND.name}`,
+    p1: `${BRAND.name} ist ein kostenloser Online-Lebenslaufersteller für eine einfache Aufgabe: Ihnen zu helfen, schnell einen professionellen Lebenslauf zu erstellen, ohne Designkenntnisse und ohne Kosten.`,
+    p2: 'Recruiter verbringen in der Regel nur wenige Sekunden damit, einen Lebenslauf zu überfliegen, daher sind Struktur und Lesbarkeit wichtiger als Dekoration. Jede Vorlage hier basiert auf dieser Idee — klare Überschriften, übersichtliche Bereiche und ein Layout, das sowohl für menschliche Leser als auch für Bewerber-Tracking-Systeme funktioniert.',
+    p3: 'Es gibt keine Anmeldung und nichts wird hochgeladen. Ihre Lebenslaufdaten leben in Ihrem eigenen Browser, also bleibt das, was Sie schreiben, bei Ihnen.',
+  },
+  privacy: {
+    title: 'Datenschutzerklärung',
+    intro: 'Diese Richtlinie erklärt, was mit Ihren Daten passiert, wenn Sie diese Website nutzen. Kurz gesagt: fast nichts — alles bleibt auf Ihrem Gerät.',
+    items: [
+      {
+        h: 'Ihre Lebenslaufdaten bleiben in Ihrem Browser',
+        p: 'Die Daten, die Sie in den Ersteller eingeben — Ihr Name, Ihre Kontaktdaten, Erfahrung und Ausbildung — werden nur im lokalen Speicher Ihres Browsers auf Ihrem eigenen Gerät gespeichert. Wir senden diese Daten an keinen Server.',
+      },
+      {
+        h: 'Nichts wird hochgeladen',
+        p: 'Angehängte Dateien, wie ein Profilfoto, werden lokal in Ihrem Browser verarbeitet und niemals irgendwohin hochgeladen. Es gibt kein Backend-Konto und keine Datenbank, die Ihre Informationen speichern.',
+      },
+      {
+        h: 'Kein Konto, kein Tracking',
+        p: 'Sie benötigen kein Konto, um den Ersteller zu nutzen, daher erfassen wir keine Namen, E-Mails oder Passwörter. Wir verwenden keine Werbung oder Analyse-Tools von Drittanbietern, die Sie profilieren.',
+      },
+      {
+        h: 'Kontakt',
+        p: 'Bei Fragen zu dieser Richtlinie oder zu Ihren Daten erreichen Sie uns über die Kontaktinformationen auf der Seite „Über“.',
+      },
+    ],
+  },
+  notFound: {
+    title: 'Seite nicht gefunden',
+    text: 'Die gesuchte Seite existiert nicht oder wurde verschoben.',
+    button: 'Zurück zur Startseite',
+  },
+  builder: {
+    title: 'Erstellen Sie Ihren Lebenslauf',
+    metaDesc: 'Kostenloser Lebenslaufersteller mit Live-Vorschau. Geben Sie Ihre Daten ein, wählen Sie eine Vorlage, laden Sie das PDF herunter — ohne Anmeldung.',
+    templateTitle: 'Wählen Sie eine Vorlage',
+    templateSubtitle: 'Wählen Sie ein Design — Sie können jederzeit wechseln.',
+    templates: {
+      minimal: { name: 'Minimal', desc: 'Sauber und einfach, maximale Lesbarkeit.' },
+      professional: { name: 'Professionell', desc: 'Klassisches Layout für Unternehmenspositionen.' },
+      modern: { name: 'Modern', desc: 'Frisches Design mit markanter Kopfzeile.' },
+      classic: { name: 'Klassisch', desc: 'Zeitloser Serif-Stil für formelle Branchen.' },
+    },
+    customizeTitle: 'Anpassen',
+    accentLabel: 'Akzentfarbe',
+    fontLabel: 'Schriftart',
+    fontOptions: { poppins: 'Poppins', inter: 'Inter', serif: 'Serif' },
+    showPhotoLabel: 'Foto anzeigen',
+    sections: {
+      personal: 'Persönliche Daten',
+      summary: 'Berufliche Zusammenfassung',
+      experience: 'Berufserfahrung',
+      education: 'Ausbildung',
+      skills: 'Fähigkeiten',
+      languages: 'Sprachen',
+      custom: 'Benutzerdefinierte Bereiche',
+    },
+    personal: {
+      fullName: 'Vollständiger Name',
+      jobTitle: 'Berufsbezeichnung',
+      email: 'E-Mail',
+      phone: 'Telefon',
+      location: 'Standort',
+      photo: 'Foto',
+      photoUpload: 'Foto hochladen',
+      photoChange: 'Foto ändern',
+      photoRemove: 'Entfernen',
+    },
+    summary: {
+      label: 'Zusammenfassung',
+      placeholder: 'Ein kurzer Absatz über Ihre Erfahrung, Stärken und Karriereziele…',
+    },
+    experience: {
+      add: 'Erfahrung hinzufügen',
+      jobTitle: 'Berufsbezeichnung',
+      company: 'Unternehmen',
+      startDate: 'Startdatum',
+      endDate: 'Enddatum',
+      present: 'Aktuell',
+      description: 'Beschreibung',
+      descriptionHint: 'Eine Leistung pro Zeile',
+      remove: 'Entfernen',
+      moveUp: 'Nach oben',
+      moveDown: 'Nach unten',
+    },
+    education: {
+      add: 'Ausbildung hinzufügen',
+      degree: 'Abschluss / Qualifikation',
+      school: 'Schule / Universität',
+      year: 'Jahr',
+      remove: 'Entfernen',
+      moveUp: 'Nach oben',
+      moveDown: 'Nach unten',
+    },
+    skills: {
+      label: 'Fähigkeiten',
+      hint: 'Fähigkeiten durch Kommas trennen',
+      placeholder: 'z. B. Kommunikation, JavaScript, Projektmanagement',
+    },
+    languages: {
+      label: 'Sprachen',
+      hint: 'Sprachen durch Kommas trennen',
+      placeholder: 'z. B. Englisch, Hindi, Spanisch',
+    },
+    custom: {
+      addSection: 'Benutzerdefinierten Bereich hinzufügen',
+      sectionTitle: 'Bereichstitel',
+      typeLabel: 'Typ',
+      typeText: 'Text',
+      typeBullets: 'Aufzählungspunkte',
+      contentLabel: 'Inhalt',
+      remove: 'Bereich entfernen',
+    },
+    actions: {
+      downloadPdf: 'PDF herunterladen',
+      fillSample: 'Beispieldaten einfügen',
+      clear: 'Alles löschen',
+      saved: 'Gespeichert',
+      confirmClear: 'Möchten Sie wirklich alle Daten löschen?',
+    },
+    tabs: {
+      edit: 'Bearbeiten',
+      preview: 'Vorschau',
+    },
+    previewTitle: 'Live-Vorschau',
+  },
+};
+
+export default de;

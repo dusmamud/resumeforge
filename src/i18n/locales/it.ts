@@ -1,0 +1,263 @@
+import type { Dict } from './en';
+import { BRAND } from '../../brand';
+
+const it: Dict = {
+  dir: 'ltr' as 'ltr' | 'rtl',
+  meta: {
+    siteName: BRAND.name,
+    landingTitle: `${BRAND.name} — Crea un curriculum e CV 100% gratis`,
+    landingDescription: `${BRAND.name} è un creatore di curriculum online gratuito. Compila i tuoi dati, scegli un modello e scarica il tuo curriculum professionale in PDF — senza registrazione. I tuoi dati non lasciano mai il tuo browser.`,
+    builderTitle: `Crea curriculum — ${BRAND.name}`,
+    builderDescription: `Crea il tuo curriculum con il creatore gratuito di ${BRAND.name}. Diversi modelli, anteprima dal vivo, download PDF istantaneo. Nessun account, nessun costo.`,
+    aboutTitle: `Chi siamo — ${BRAND.name}`,
+    aboutDescription: `Cos’è ${BRAND.name} e perché un curriculum pulito e ben strutturato ti fa ottenere più colloqui.`,
+    privacyTitle: `Informativa sulla privacy — ${BRAND.name}`,
+    privacyDescription: `Informativa sulla privacy di ${BRAND.name}: i dati del tuo curriculum restano nel tuo browser. Nulla viene caricato.`,
+  },
+  nav: {
+    home: 'Home',
+    builder: 'Crea curriculum',
+    about: 'Chi siamo',
+    theme: 'Tema',
+    themeLight: 'Chiaro',
+    themeDark: 'Scuro',
+    themeSystem: 'Sistema',
+    language: 'Lingua',
+    createNow: 'Crea ora',
+  },
+  hero: {
+    badge: '100% gratis · Nessuna registrazione · Privato per progettazione',
+    titleA: 'Crea un',
+    titleHighlight: 'curriculum 100% gratis',
+    titleB: 'e CV',
+    subtitle:
+      'Crea un curriculum professionale in pochi minuti. Compila i tuoi dati, scegli un modello e scarica il tuo curriculum in PDF — completamente gratis, senza account.',
+    ctaPrimary: 'Crea ora — è gratis',
+    ctaSecondary: 'Come funziona',
+  },
+  steps: {
+    title: 'Crea il tuo curriculum in 3 semplici passaggi',
+    subtitle: 'Nessuna abilità di design richiesta — segui il flusso.',
+    items: [
+      {
+        title: 'Fai clic su Crea ora',
+        text: 'Inizia un nuovo curriculum con un clic. Scegli uno dei nostri modelli puliti e professionali per cominciare.',
+      },
+      {
+        title: 'Compila i tuoi dati',
+        text: 'Aggiungi i tuoi dati di contatto, l’esperienza lavorativa, l’istruzione e le competenze. Tutto viene salvato automaticamente nel tuo browser.',
+      },
+      {
+        title: 'Scarica il tuo PDF',
+        text: 'Visualizza l’anteprima dal vivo del tuo curriculum, perfezionalo e scarica un PDF pronto per la stampa — gratis per sempre.',
+      },
+    ],
+  },
+  why: {
+    title: 'Perché sceglierci',
+    subtitle: 'Tutto ciò che serve per un curriculum che porta ai colloqui.',
+    items: [
+      {
+        icon: 'ph:gift',
+        title: '100% gratis',
+        text: 'Ogni funzionalità è gratuita, per sempre. Nessun piano premium, nessun modello bloccato, nessuna filigrana sul tuo PDF.',
+      },
+      {
+        icon: 'ph:cursor-click',
+        title: 'Facile da usare',
+        text: 'Un semplice modulo guidato fa il lavoro. Se sai digitare, puoi creare un ottimo curriculum qui.',
+      },
+      {
+        icon: 'ph:sliders-horizontal',
+        title: 'Personalizzazione semplice',
+        text: 'Cambia modello, modifica colori d’accento e font, e attiva o disattiva le sezioni con un clic.',
+      },
+      {
+        icon: 'ph:lightning',
+        title: 'Veloce e affidabile',
+        text: 'Il tuo curriculum viene salvato automaticamente mentre digiti. Chiudi la scheda e torna — la tua bozza è ancora lì.',
+      },
+      {
+        icon: 'ph:download-simple',
+        title: 'Download istantaneo',
+        text: 'Esporta un PDF pulito e pronto per la stampa appena hai finito. Nessuna attesa, nessuna verifica via e-mail.',
+      },
+      {
+        icon: 'ph:lock-key',
+        title: 'Sicuro e privato',
+        text: 'I tuoi dati restano nello storage locale del tuo browser. Nulla viene caricato, nessun account è mai richiesto.',
+      },
+    ],
+  },
+  faq: {
+    title: 'Domande frequenti',
+    subtitle: 'Risposte rapide alle domande comuni.',
+    items: [
+      {
+        q: 'Servono abilità di design per usare il creatore di curriculum?',
+        a: 'No. Il creatore usa modelli puliti dal design professionale, quindi la formattazione è già pronta per te. Compila semplicemente i tuoi dati e il creatore si occupa di layout, spaziatura e tipografia.',
+      },
+      {
+        q: 'Posso aggiungere una foto profilo al mio curriculum?',
+        a: 'Sì. Puoi caricare una foto nella sezione dei dati personali e attivarla o disattivarla per qualsiasi modello. La foto è facoltativa — molti recruiter preferiscono curriculum senza foto.',
+      },
+      {
+        q: 'Devo registrarmi per creare o scaricare il mio curriculum?',
+        a: 'Non è richiesta alcuna registrazione. Puoi creare il tuo curriculum e scaricare il PDF completamente gratis, senza creare un account o condividere la tua e-mail.',
+      },
+      {
+        q: 'È davvero gratis?',
+        a: 'Sì — ogni funzionalità è gratuita, inclusi tutti i modelli e i download PDF. Nessun piano premium e nessun costo nascosto.',
+      },
+      {
+        q: 'Posso modificare il mio curriculum dopo averlo scaricato?',
+        a: 'Assolutamente. La tua bozza viene salvata automaticamente nel tuo browser, quindi puoi riaprire il creatore in qualsiasi momento, apportare modifiche e scaricare un PDF aggiornato.',
+      },
+      {
+        q: 'Posso aggiungere le mie sezioni personalizzate?',
+        a: 'Sì. Puoi aggiungere sezioni personalizzate con testo semplice o elenchi puntati — utili per certificazioni, progetti, volontariato o qualsiasi altra cosa vuoi che i recruiter vedano.',
+      },
+    ],
+  },
+  ctaBand: {
+    title: 'Pronto a creare il tuo curriculum?',
+    text: 'Unisciti a migliaia di candidati che creano curriculum professionali in pochi minuti — gratis, privato, senza registrazione.',
+    button: 'Crea il mio curriculum',
+  },
+  footer: {
+    tagline: `${BRAND.name} è un creatore di curriculum online gratuito. Nessuna registrazione richiesta — i tuoi dati restano nel tuo browser.`,
+    usefulTitle: 'Link utili',
+    importantTitle: 'Importante',
+    followTitle: 'Seguici',
+    rights: 'Tutti i diritti riservati.',
+  },
+  about: {
+    title: `Chi è ${BRAND.name}`,
+    p1: `${BRAND.name} è un creatore di curriculum online gratuito nato per un compito semplice: aiutarti a creare un curriculum professionale in fretta, senza abilità di design e senza pagare.`,
+    p2: 'I recruiter di solito dedicano solo pochi secondi alla scansione di un curriculum, quindi struttura e leggibilità contano più della decorazione. Ogni modello qui è costruito attorno a questa idea — titoli puliti, sezioni chiare e un layout che funziona sia per i lettori umani sia per i sistemi di tracciamento delle candidature.',
+    p3: 'Nessuna registrazione e nulla viene caricato. I dati del tuo curriculum vivono nel tuo browser, quindi ciò che scrivi resta tuo.',
+  },
+  privacy: {
+    title: 'Informativa sulla privacy',
+    intro: 'Questa informativa spiega cosa succede ai tuoi dati quando usi questo sito. La versione breve: quasi niente — tutto resta sul tuo dispositivo.',
+    items: [
+      {
+        h: 'I dati del tuo curriculum restano nel tuo browser',
+        p: 'I dati che digiti nel creatore — nome, dati di contatto, esperienza e istruzione — sono archiviati solo nello storage locale del tuo browser, sul tuo dispositivo. Non inviamo questi dati a nessun server.',
+      },
+      {
+        h: 'Nulla viene caricato',
+        p: 'I file che alleghi, come una foto profilo, vengono elaborati localmente nel tuo browser e non vengono mai caricati da nessuna parte. Non esiste un account di backend né un database che conservi le tue informazioni.',
+      },
+      {
+        h: 'Nessun account, nessun tracciamento',
+        p: 'Non serve un account per usare il creatore, quindi non raccogliamo nomi, e-mail o password. Non usiamo pubblicità né analisi di terze parti che ti profilano.',
+      },
+      {
+        h: 'Contatti',
+        p: 'Se hai domande su questa informativa o sui tuoi dati, puoi contattarci tramite le informazioni di contatto nella pagina Chi siamo.',
+      },
+    ],
+  },
+  notFound: {
+    title: 'Pagina non trovata',
+    text: 'La pagina che cerchi non esiste o è stata spostata.',
+    button: 'Torna alla home',
+  },
+  builder: {
+    title: 'Crea il tuo curriculum',
+    metaDesc: 'Creatore di curriculum gratuito con anteprima dal vivo. Compila i tuoi dati, scegli un modello, scarica il PDF — senza registrazione.',
+    templateTitle: 'Scegli un modello',
+    templateSubtitle: 'Scegli un design — puoi cambiarlo in qualsiasi momento.',
+    templates: {
+      minimal: { name: 'Minimal', desc: 'Pulito e semplice, massima leggibilità.' },
+      professional: { name: 'Professionale', desc: 'Layout classico per ruoli aziendali.' },
+      modern: { name: 'Moderno', desc: 'Design fresco con un’intestazione decisa.' },
+      classic: { name: 'Classico', desc: 'Stile serif senza tempo per settori formali.' },
+    },
+    customizeTitle: 'Personalizza',
+    accentLabel: 'Colore d’accento',
+    fontLabel: 'Font',
+    fontOptions: { poppins: 'Poppins', inter: 'Inter', serif: 'Serif' },
+    showPhotoLabel: 'Mostra foto',
+    sections: {
+      personal: 'Dati personali',
+      summary: 'Riepilogo professionale',
+      experience: 'Esperienza lavorativa',
+      education: 'Istruzione',
+      skills: 'Competenze',
+      languages: 'Lingue',
+      custom: 'Sezioni personalizzate',
+    },
+    personal: {
+      fullName: 'Nome completo',
+      jobTitle: 'Qualifica',
+      email: 'E-mail',
+      phone: 'Telefono',
+      location: 'Località',
+      photo: 'Foto',
+      photoUpload: 'Carica foto',
+      photoChange: 'Cambia foto',
+      photoRemove: 'Rimuovi',
+    },
+    summary: {
+      label: 'Riepilogo',
+      placeholder: 'Un breve paragrafo sulla tua esperienza, i tuoi punti di forza e i tuoi obiettivi di carriera…',
+    },
+    experience: {
+      add: 'Aggiungi esperienza',
+      jobTitle: 'Qualifica',
+      company: 'Azienda',
+      startDate: 'Data di inizio',
+      endDate: 'Data di fine',
+      present: 'Attuale',
+      description: 'Descrizione',
+      descriptionHint: 'Un risultato per riga',
+      remove: 'Rimuovi',
+      moveUp: 'Sposta su',
+      moveDown: 'Sposta giù',
+    },
+    education: {
+      add: 'Aggiungi istruzione',
+      degree: 'Titolo / Qualifica',
+      school: 'Scuola / Università',
+      year: 'Anno',
+      remove: 'Rimuovi',
+      moveUp: 'Sposta su',
+      moveDown: 'Sposta giù',
+    },
+    skills: {
+      label: 'Competenze',
+      hint: 'Separa le competenze con le virgole',
+      placeholder: 'es. Comunicazione, JavaScript, Project management',
+    },
+    languages: {
+      label: 'Lingue',
+      hint: 'Separa le lingue con le virgole',
+      placeholder: 'es. Inglese, Hindi, Spagnolo',
+    },
+    custom: {
+      addSection: 'Aggiungi sezione personalizzata',
+      sectionTitle: 'Titolo della sezione',
+      typeLabel: 'Tipo',
+      typeText: 'Testo',
+      typeBullets: 'Elenco puntato',
+      contentLabel: 'Contenuto',
+      remove: 'Rimuovi sezione',
+    },
+    actions: {
+      downloadPdf: 'Scarica PDF',
+      fillSample: 'Compila con dati di esempio',
+      clear: 'Cancella tutto',
+      saved: 'Salvato',
+      confirmClear: 'Sei sicuro di voler cancellare tutti i dati?',
+    },
+    tabs: {
+      edit: 'Modifica',
+      preview: 'Anteprima',
+    },
+    previewTitle: 'Anteprima dal vivo',
+  },
+};
+
+export default it;
