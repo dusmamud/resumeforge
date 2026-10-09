@@ -125,6 +125,7 @@ interface TraditionalData {
   nationality: string;
   maritalStatus: '' | 'Married' | 'Unmarried';
   photo: string | null; // optional profile photo (data URL)
+  photoAspect: number | null; // width/height ratio of the uploaded photo
 }
 
 const TRADITIONAL_DRAFT_KEY = 'resumeforge-traditional-draft';
@@ -159,6 +160,7 @@ const emptyTraditionalData = (): TraditionalData => ({
   nationality: '',
   maritalStatus: '',
   photo: null,
+  photoAspect: null,
 });
 
 const SAMPLE_TRADITIONAL: TraditionalData = {
@@ -185,6 +187,7 @@ const SAMPLE_TRADITIONAL: TraditionalData = {
   nationality: 'Indian',
   maritalStatus: 'Unmarried',
   photo: null,
+  photoAspect: null,
 };
 
 const cloneTraditionalSample = (): TraditionalData =>
@@ -217,6 +220,7 @@ function loadTraditionalDraft(): TraditionalData {
         ? (d.maritalStatus as TraditionalData['maritalStatus'])
         : '',
       photo: typeof d.photo === 'string' ? d.photo : null,
+      photoAspect: typeof d.photoAspect === 'number' && d.photoAspect > 0 ? d.photoAspect : null,
     };
   } catch {
     return emptyTraditionalData();
@@ -896,8 +900,9 @@ function ResumeTraditional(
         <img
           src={d.photo}
           alt=""
-          className="absolute right-8 top-8 h-28 w-24 object-cover"
-          style={{ border: '1px solid #999' }}
+          className="absolute"
+          /* cross-verified vs reference PDF: photo top ~26.4mm, right edge ~199mm on A4 (210x297) */
+          style={{ top: '8.9%', right: '5.2%', width: '12.6%', height: 'auto' }}
         />
       )}
 
@@ -1085,11 +1090,15 @@ function generateTraditionalPdf(
   doc.text(d.heading || 'RESUME', PW / 2, y, { align: 'center' });
   y += 10;
 
-  // 1b. photo (optional, top-right like the reference)
+  // 1b. photo (optional, top-right like the reference:
+  // measured x 172.9-199.3mm, y 26.4-58.1mm, width ~26.5mm = 100px@96dpi, aspect preserved)
   if (d.photo) {
     try {
       const fmt = d.photo.startsWith('data:image/png') ? 'PNG' : 'JPEG';
-      doc.addImage(d.photo, fmt, PW - MR - 30, 22, 30, 36);
+      const pw = 26.5;
+      const aspect = d.photoAspect && d.photoAspect > 0 ? d.photoAspect : 0.83;
+      const ph = Math.min(pw / aspect, 42);
+      doc.addImage(d.photo, fmt, PW - 11 - pw, 26, pw, ph);
     } catch {
       /* ignore unreadable image data */
     }
@@ -1630,7 +1639,17 @@ export default function BuilderApp({ locale, dict }: Props) {
   const onTradPhotoFile = (f: File | undefined) => {
     if (!f) return;
     const reader = new FileReader();
-    reader.onload = () => setT('photo', String(reader.result));
+    reader.onload = () => {
+      const url = String(reader.result);
+      // capture natural aspect ratio so the PDF can preserve it
+      const img = new Image();
+      img.onload = () => {
+        const aspect = img.naturalHeight > 0 ? img.naturalWidth / img.naturalHeight : null;
+        setTdata((prev) => ({ ...prev, photo: url, photoAspect: aspect }));
+      };
+      img.onerror = () => setT('photo', url);
+      img.src = url;
+    };
     reader.readAsDataURL(f);
   };
 
@@ -1764,7 +1783,10 @@ export default function BuilderApp({ locale, dict }: Props) {
               {tdata.photo && (
                 <button
                   type="button"
-                  onClick={() => setT('photo', null)}
+                  onClick={() => {
+                    setT('photo', null);
+                    setT('photoAspect', null);
+                  }}
                   className="rounded-lg px-3 py-2 text-xs font-semibold text-red-600 transition hover:bg-red-50 dark:hover:bg-red-500/10"
                 >
                   {tr.photoRemove}
