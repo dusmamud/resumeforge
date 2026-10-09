@@ -875,7 +875,13 @@ function ResumeTraditional(
       </ul>
     );
   };
-  const addressLines = [d.house, d.area, d.state && d.pincode ? `${d.state} - ${d.pincode}` : d.state || d.pincode]
+  const addressLines = [
+    [d.house, d.landmark].map((s) => s.trim()).filter(Boolean).join(' '),
+    d.area.trim(),
+    d.state.trim() && d.pincode.trim()
+      ? `${d.state.trim()} - ${d.pincode.trim()}`
+      : d.state.trim() || d.pincode.trim(),
+  ]
     .map((s) => s.trim())
     .filter(Boolean);
   const personalRows: [string, string][] = [
@@ -892,7 +898,10 @@ function ResumeTraditional(
       style={{ fontFamily, color: '#000000', background: '#ffffff' }}
       className="relative p-8 text-[12px] leading-relaxed"
     >
-      <h1 className="text-center text-[22px] font-bold uppercase" style={{ color: '#000000' }}>
+      <h1
+        className="text-center text-[28px] font-bold uppercase leading-none"
+        style={{ color: '#000000', marginTop: '1%' }}
+      >
         {d.heading || 'RESUME'}
       </h1>
 
@@ -907,32 +916,34 @@ function ResumeTraditional(
       )}
 
       {d.name && (
-        <p className="mt-4 text-[16px] font-bold" style={{ color: accent }}>
+        <p className="text-[22px] font-bold leading-tight" style={{ color: accent, marginTop: '5.5%' }}>
           {d.name}
         </p>
       )}
       {d.profile && (
-        <p className="text-[13px]" style={{ color: '#000000' }}>
+        <p className="text-[14px] leading-snug" style={{ color: '#000000', marginTop: '1.5%' }}>
           {d.profile}
         </p>
       )}
-      {addressLines.map((l, i) => (
-        <p key={i} style={{ color: '#000000' }}>
-          {l}
-        </p>
-      ))}
-      {d.mobile && (
-        <p style={{ color: '#000000' }}>
-          Mob No. : {d.mobile}
-        </p>
-      )}
-      {d.email && (
-        <p style={{ color: '#000000' }}>
-          Email Id : {d.email}
-        </p>
-      )}
+      <div style={{ marginTop: '3%' }}>
+        {addressLines.map((l, i) => (
+          <p key={i} className="text-[12px] leading-relaxed" style={{ color: '#000000' }}>
+            {l}
+          </p>
+        ))}
+        {d.mobile && (
+          <p className="text-[12px] leading-relaxed" style={{ color: '#000000' }}>
+            Mob No. : {d.mobile}
+          </p>
+        )}
+        {d.email && (
+          <p className="text-[12px] leading-relaxed" style={{ color: '#000000' }}>
+            Email Id : {d.email}
+          </p>
+        )}
+      </div>
 
-      <hr className="my-2 border-t-[3px] border-black" />
+      <hr className="border-t-[3px] border-black" style={{ marginTop: '2%', marginBottom: '3%' }} />
 
       {objective.trim() && (
         <section>
@@ -1047,7 +1058,7 @@ function generateTraditionalPdf(
   const ML = 19; // measured from the reference PDF
   const MR = 19;
   const CW = PW - ML - MR; // 172
-  let y = 10; // reference heading starts ~9mm from top edge
+  let y = 28; // header block starts here; set before first need()/heading use
   const BLACK: [number, number, number] = [0, 0, 0];
   const GRAY: [number, number, number] = [211, 211, 211];
   const ACC = hexToRgb(accent);
@@ -1083,12 +1094,11 @@ function generateTraditionalPdf(
     y += 10;
   };
 
-  // 1. heading
+  // 1. heading (reference measured: text top ~9mm => baseline ~14.5mm for 20pt bold)
   doc.setFont(PDFFONT, 'bold');
   doc.setFontSize(20);
   doc.setTextColor(...BLACK);
-  doc.text(d.heading || 'RESUME', PW / 2, y, { align: 'center' });
-  y += 10;
+  doc.text(d.heading || 'RESUME', PW / 2, 14.5, { align: 'center' });
 
   // 1b. photo (optional, top-right like the reference:
   // measured x 172.9-199.3mm, y 26.4-58.1mm, width ~26.5mm = 100px@96dpi, aspect preserved)
@@ -1105,23 +1115,32 @@ function generateTraditionalPdf(
   }
 
   // 2-4. name / profile / address / contact
+  // (reference measured baselines: name ~28mm @17pt bold, title ~34mm,
+  //  address block 5mm steps from ~41.7mm: "house street", area, "state - pin", mob, email)
+  y = 28;
   if (d.name.trim()) {
     doc.setFont(PDFFONT, 'bold');
-    doc.setFontSize(14);
+    doc.setFontSize(17);
     doc.setTextColor(...ACC);
     doc.text(d.name.trim(), ML, y);
     doc.setTextColor(...BLACK);
-    y += 7;
+    y += 6;
   }
   if (d.profile.trim()) {
     doc.setFont(PDFFONT, 'normal');
     doc.setFontSize(11);
     doc.text(d.profile.trim(), ML, y);
-    y += 6;
+    y += 7.7;
   }
-  const addr = [d.house, d.area, d.state && d.pincode ? `${d.state} - ${d.pincode}` : d.state || d.pincode]
-    .map((s) => s.trim())
-    .filter(Boolean);
+  const addr = [
+    [d.house, d.landmark].map((s) => s.trim()).filter(Boolean).join(' '),
+    d.area.trim(),
+    d.state.trim() && d.pincode.trim()
+      ? `${d.state.trim()} - ${d.pincode.trim()}`
+      : d.state.trim() || d.pincode.trim(),
+    d.mobile.trim() ? `Mob No. : ${d.mobile.trim()}` : '',
+    d.email.trim() ? `Email Id : ${d.email.trim()}` : '',
+  ].filter(Boolean);
   doc.setFont(PDFFONT, 'normal');
   doc.setFontSize(10);
   addr.forEach((l) => {
@@ -1129,16 +1148,6 @@ function generateTraditionalPdf(
     doc.text(l, ML, y);
     y += 5;
   });
-  if (d.mobile.trim()) {
-    need(5);
-    doc.text(`Mob No. : ${d.mobile.trim()}`, ML, y);
-    y += 5;
-  }
-  if (d.email.trim()) {
-    need(5);
-    doc.text(`Email Id : ${d.email.trim()}`, ML, y);
-    y += 5;
-  }
 
   // 5. thick rule
   need(4);
