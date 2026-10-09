@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react';
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import {
   DownloadSimple,
   MagicWand,
@@ -71,7 +73,7 @@ interface ResumeData {
   skills: string[];
   languages: string[];
   customSections: CustomSection[];
-  template: 'minimal' | 'professional' | 'modern' | 'classic';
+  template: 'minimal' | 'professional' | 'modern' | 'classic' | 'traditional';
   accent: string;
   font: 'poppins' | 'inter' | 'serif';
   showPhoto: boolean;
@@ -80,6 +82,142 @@ interface ResumeData {
 type TemplateId = ResumeData['template'];
 
 const DRAFT_KEY = 'resumeforge-draft';
+
+/* ============================== traditional template model ==============================
+   Mirrors the resumeground.com/create-resume reference form + output exactly. */
+
+interface TraditionalQualification {
+  degree: string;
+  university: string;
+  year: string;
+  gpa: string;
+}
+
+interface TraditionalCustomSection {
+  id: string;
+  title: string;
+  type: 'text' | 'bullets';
+  content: string;
+  bullets: string[];
+}
+
+interface TraditionalData {
+  heading: 'RESUME' | 'CURRICULUM VITAE';
+  name: string;
+  house: string;
+  landmark: string; // collected but NOT rendered (reference quirk)
+  area: string;
+  state: string;
+  pincode: string;
+  mobile: string;
+  email: string;
+  profile: string;
+  objectivePreset: '' | 'entry' | 'custom';
+  objective: string;
+  qualifications: TraditionalQualification[];
+  otherQual: string[];
+  experience: string[];
+  customSections: TraditionalCustomSection[];
+  gender: '' | 'Male' | 'Female' | 'Others';
+  fatherName: string;
+  dob: string;
+  languages: string;
+  nationality: string;
+  maritalStatus: '' | 'Married' | 'Unmarried';
+}
+
+const TRADITIONAL_DRAFT_KEY = 'resumeforge-traditional-draft';
+
+const ENTRY_LEVEL_OBJECTIVE =
+  'To make contribution in the organization with best of my ability and also to Develop new skills during the interaction to achieve new heights.';
+
+const DECLARATION_TEXT =
+  'I hereby declared that the above information given by me is true to best of my Knowledge.';
+
+const emptyTraditionalData = (): TraditionalData => ({
+  heading: 'RESUME',
+  name: '',
+  house: '',
+  landmark: '',
+  area: '',
+  state: '',
+  pincode: '',
+  mobile: '',
+  email: '',
+  profile: '',
+  objectivePreset: '',
+  objective: '',
+  qualifications: [{ degree: '', university: '', year: '', gpa: '' }],
+  otherQual: [''],
+  experience: [''],
+  customSections: [],
+  gender: '',
+  fatherName: '',
+  dob: '',
+  languages: '',
+  nationality: '',
+  maritalStatus: '',
+});
+
+const SAMPLE_TRADITIONAL: TraditionalData = {
+  heading: 'RESUME',
+  name: 'Rahul Sharma',
+  house: '123',
+  landmark: 'Near Park',
+  area: 'Model Town',
+  state: 'Delhi',
+  pincode: '110001',
+  mobile: '9876543210',
+  email: 'rahul@example.com',
+  profile: 'Web Designer',
+  objectivePreset: 'custom',
+  objective: 'To obtain a challenging position.',
+  qualifications: [{ degree: 'BCA', university: 'Delhi University', year: '2020', gpa: '75' }],
+  otherQual: ['Basic Knowledge of Computer'],
+  experience: ['2 years as Web Designer'],
+  customSections: [],
+  gender: 'Male',
+  fatherName: 'Ramesh Sharma',
+  dob: '1995-05-15',
+  languages: 'Hindi & English',
+  nationality: 'Indian',
+  maritalStatus: 'Unmarried',
+};
+
+const cloneTraditionalSample = (): TraditionalData =>
+  JSON.parse(JSON.stringify(SAMPLE_TRADITIONAL)) as TraditionalData;
+
+function loadTraditionalDraft(): TraditionalData {
+  try {
+    const raw = localStorage.getItem(TRADITIONAL_DRAFT_KEY);
+    if (!raw) return emptyTraditionalData();
+    const d = JSON.parse(raw) as Partial<TraditionalData>;
+    if (!d || typeof d !== 'object') return emptyTraditionalData();
+    const base = emptyTraditionalData();
+    return {
+      ...base,
+      ...d,
+      heading: d.heading === 'CURRICULUM VITAE' ? 'CURRICULUM VITAE' : 'RESUME',
+      objectivePreset: (['', 'entry', 'custom'] as const).includes(d.objectivePreset as '' | 'entry' | 'custom')
+        ? (d.objectivePreset as '' | 'entry' | 'custom')
+        : '',
+      qualifications: Array.isArray(d.qualifications) && d.qualifications.length > 0
+        ? (d.qualifications as TraditionalQualification[])
+        : base.qualifications,
+      otherQual: Array.isArray(d.otherQual) ? (d.otherQual as string[]) : [],
+      experience: Array.isArray(d.experience) ? (d.experience as string[]) : [],
+      customSections: Array.isArray(d.customSections) ? (d.customSections as TraditionalCustomSection[]) : [],
+      gender: (['', 'Male', 'Female', 'Others'] as const).includes(d.gender as TraditionalData['gender'])
+        ? (d.gender as TraditionalData['gender'])
+        : '',
+      maritalStatus: (['', 'Married', 'Unmarried'] as const).includes(d.maritalStatus as TraditionalData['maritalStatus'])
+        ? (d.maritalStatus as TraditionalData['maritalStatus'])
+        : '',
+    };
+  } catch {
+    return emptyTraditionalData();
+  }
+}
 
 const ACCENTS = [
   { name: 'Blue', value: '#0084D1' },
@@ -182,7 +320,7 @@ function loadDraft(): ResumeData {
       skills: Array.isArray(d.skills) ? (d.skills as string[]) : [],
       languages: Array.isArray(d.languages) ? (d.languages as string[]) : [],
       customSections: Array.isArray(d.customSections) ? (d.customSections as CustomSection[]) : [],
-      template: (['minimal', 'professional', 'modern', 'classic'] as TemplateId[]).includes(d.template as TemplateId)
+      template: (['minimal', 'professional', 'modern', 'classic', 'traditional'] as TemplateId[]).includes(d.template as TemplateId)
         ? (d.template as TemplateId)
         : 'minimal',
       font: (['poppins', 'inter', 'serif'] as ResumeData['font'][]).includes(d.font as ResumeData['font'])
@@ -684,9 +822,373 @@ const TEMPLATES: { id: TemplateId; render: (data: ResumeData, t: Dict) => ReactE
   { id: 'professional', render: ResumeProfessional },
   { id: 'modern', render: ResumeModern },
   { id: 'classic', render: ResumeClassic },
+  { id: 'traditional', render: () => ResumeTraditional(SAMPLE_TRADITIONAL) },
 ];
 
-/* ============================== form subcomponents ============================== */
+/* ================= traditional renderer (resumeground.com reference) =============
+   Pixel-faithful to the reference dompdf output: centered heading, name block,
+   thick rule, gray #D3D3D3 section bars, bordered qualification table, bullets,
+   personal-info "Label : value" rows, declaration, and the Date/Place/(name)
+   footer. Structural labels stay in English exactly like the reference. */
+
+const TRAD_BAR = '#D3D3D3';
+
+function ResumeTraditional(d: TraditionalData): ReactElement {
+  const bar = (text: string) => (
+    <h2
+      className="mb-2 mt-4 px-2 py-1.5 text-[14px] font-bold uppercase"
+      style={{ background: TRAD_BAR, color: '#000000' }}
+    >
+      {text}
+    </h2>
+  );
+  const bullets = (items: string[]) => {
+    const list = items.map((s) => s.trim()).filter(Boolean);
+    if (list.length === 0) return null;
+    return (
+      <ul className="mb-2 ml-6 list-none text-[12px] leading-relaxed" style={{ color: '#000000' }}>
+        {list.map((s, i) => (
+          <li key={i} className="mb-1">
+            <span className="mr-2">•</span>
+            {s}
+          </li>
+        ))}
+      </ul>
+    );
+  };
+  const addressLines = [d.house, d.area, d.state && d.pincode ? `${d.state} - ${d.pincode}` : d.state || d.pincode]
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const personalRows: [string, string][] = [
+    ["Father's Name", d.fatherName],
+    ['Date of Birth', d.dob],
+    ['Language Known', d.languages],
+    ['Gender', d.gender],
+    ['Nationality', d.nationality],
+    ['Marital Status', d.maritalStatus],
+  ];
+  const objective = d.objectivePreset === 'entry' ? ENTRY_LEVEL_OBJECTIVE : d.objective;
+  return (
+    <div
+      style={{ fontFamily: "'Helvetica Neue',Helvetica,Arial,sans-serif", color: '#000000', background: '#ffffff' }}
+      className="p-8 text-[12px] leading-relaxed"
+    >
+      <h1 className="text-center text-[22px] font-bold uppercase" style={{ color: '#000000' }}>
+        {d.heading || 'RESUME'}
+      </h1>
+
+      {d.name && (
+        <p className="mt-4 text-[16px] font-bold" style={{ color: '#000000' }}>
+          {d.name}
+        </p>
+      )}
+      {d.profile && (
+        <p className="text-[13px]" style={{ color: '#000000' }}>
+          {d.profile}
+        </p>
+      )}
+      {addressLines.map((l, i) => (
+        <p key={i} style={{ color: '#000000' }}>
+          {l}
+        </p>
+      ))}
+      {d.mobile && (
+        <p style={{ color: '#000000' }}>
+          Mob No. : {d.mobile}
+        </p>
+      )}
+      {d.email && (
+        <p style={{ color: '#000000' }}>
+          Email Id : {d.email}
+        </p>
+      )}
+
+      <hr className="my-2 border-t-[3px] border-black" />
+
+      {objective.trim() && (
+        <section>
+          {bar('Career Objective')}
+          <p style={{ color: '#000000' }}>{objective}</p>
+        </section>
+      )}
+
+      {d.qualifications.some((q) => q.degree || q.university || q.year || q.gpa) && (
+        <section>
+          {bar('Academic Qualification')}
+          <table className="w-full border-collapse text-[12px]" style={{ color: '#000000' }}>
+            <thead>
+              <tr style={{ background: TRAD_BAR }}>
+                {['S.No.', 'Qualification', 'University / Board', 'Year', 'Per %'].map((h) => (
+                  <th key={h} className="border border-gray-400 px-2 py-1 text-left font-bold">
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {d.qualifications.map((q, i) => (
+                <tr key={i}>
+                  <td className="border border-gray-400 px-2 py-1">{i + 1}</td>
+                  <td className="border border-gray-400 px-2 py-1">{q.degree}</td>
+                  <td className="border border-gray-400 px-2 py-1">{q.university}</td>
+                  <td className="border border-gray-400 px-2 py-1">{q.year}</td>
+                  <td className="border border-gray-400 px-2 py-1">{q.gpa}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+      )}
+
+      <section>
+        {bar('Other Qualification')}
+        {bullets(d.otherQual)}
+      </section>
+
+      <section>
+        {bar('Work Experience')}
+        {bullets(d.experience)}
+      </section>
+
+      {d.customSections.map((s) => (
+        <section key={s.id}>
+          {s.title.trim() && bar(s.title)}
+          {s.type === 'text' ? (
+            s.content.trim() && (
+              <p style={{ color: '#000000' }}>{s.content}</p>
+            )
+          ) : (
+            bullets(s.bullets)
+          )}
+        </section>
+      ))}
+
+      <section>
+        {bar('Personal Information')}
+        <table className="text-[12px]" style={{ color: '#000000' }}>
+          <tbody>
+            {personalRows.map(([label, value]) => (
+              <tr key={label}>
+                <td className="py-0.5 pr-2 align-top" style={{ minWidth: '150px' }}>
+                  {label}
+                </td>
+                <td className="px-2 py-0.5 align-top">:</td>
+                <td className="py-0.5 align-top">{value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        {bar('Declaration')}
+        <p style={{ color: '#000000' }}>{DECLARATION_TEXT}</p>
+      </section>
+
+      <div className="mt-6 flex items-start justify-between text-[13px] font-bold" style={{ color: '#000000' }}>
+        <div>
+          <p>Date :</p>
+          {d.state && <p>Place : {d.state}</p>}
+        </div>
+        {d.name && <p>({d.name})</p>}
+      </div>
+    </div>
+  );
+}
+
+/* ============ traditional PDF (jsPDF, A4 portrait, direct download) ============
+   Replicates the reference dompdf output: same order, gray #D3D3D3 bars,
+   bordered qualification table, bullets, personal-info rows, declaration,
+   and the Date/Place/(name) footer. All text stays selectable. */
+
+function generateTraditionalPdf(d: TraditionalData): void {
+  const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+  const PW = 210;
+  const ML = 15;
+  const MR = 15;
+  const CW = PW - ML - MR; // 180
+  let y = 15;
+  const BLACK: [number, number, number] = [0, 0, 0];
+  const GRAY: [number, number, number] = [211, 211, 211];
+
+  const need = (h: number) => {
+    if (y + h > 282) {
+      doc.addPage();
+      y = 15;
+    }
+  };
+  const para = (text: string, size: number, style: 'normal' | 'bold', indent = 0) => {
+    doc.setFont('helvetica', style);
+    doc.setFontSize(size);
+    doc.setTextColor(...BLACK);
+    const lines = doc.splitTextToSize(text, CW - indent);
+    const lh = size * 0.45;
+    lines.forEach((ln: string) => {
+      need(lh + 1);
+      doc.text(ln, ML + indent, y);
+      y += lh;
+    });
+    y += 1.5;
+  };
+  const grayBar = (text: string) => {
+    need(10);
+    doc.setFillColor(...GRAY);
+    doc.rect(ML, y, CW, 7, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(12);
+    doc.setTextColor(...BLACK);
+    doc.text(text.toUpperCase(), ML + 2, y + 5);
+    y += 10;
+  };
+
+  // 1. heading
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(20);
+  doc.setTextColor(...BLACK);
+  doc.text(d.heading || 'RESUME', PW / 2, y, { align: 'center' });
+  y += 10;
+
+  // 2-4. name / profile / address / contact
+  if (d.name.trim()) {
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
+    doc.text(d.name.trim(), ML, y);
+    y += 7;
+  }
+  if (d.profile.trim()) {
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(11);
+    doc.text(d.profile.trim(), ML, y);
+    y += 6;
+  }
+  const addr = [d.house, d.area, d.state && d.pincode ? `${d.state} - ${d.pincode}` : d.state || d.pincode]
+    .map((s) => s.trim())
+    .filter(Boolean);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10);
+  addr.forEach((l) => {
+    need(5);
+    doc.text(l, ML, y);
+    y += 5;
+  });
+  if (d.mobile.trim()) {
+    need(5);
+    doc.text(`Mob No. : ${d.mobile.trim()}`, ML, y);
+    y += 5;
+  }
+  if (d.email.trim()) {
+    need(5);
+    doc.text(`Email Id : ${d.email.trim()}`, ML, y);
+    y += 5;
+  }
+
+  // 5. thick rule
+  need(4);
+  doc.setDrawColor(...BLACK);
+  doc.setLineWidth(1.1);
+  doc.line(ML, y, PW - MR, y);
+  y += 5;
+
+  // 6a. career objective
+  const objective = d.objectivePreset === 'entry' ? ENTRY_LEVEL_OBJECTIVE : d.objective;
+  if (objective.trim()) {
+    grayBar('Career Objective');
+    para(objective.trim(), 10.5, 'normal');
+  }
+
+  // 6b. academic qualification table
+  const quals = d.qualifications.filter((q) => q.degree || q.university || q.year || q.gpa);
+  if (quals.length > 0) {
+    grayBar('Academic Qualification');
+    autoTable(doc, {
+      startY: y,
+      head: [['S.No.', 'Qualification', 'University / Board', 'Year', 'Per %']],
+      body: quals.map((q, i) => [String(i + 1), q.degree, q.university, q.year, q.gpa]),
+      theme: 'grid',
+      styles: { font: 'helvetica', fontSize: 10, textColor: BLACK, lineColor: [150, 150, 150], lineWidth: 0.2, cellPadding: 2 },
+      headStyles: { fillColor: GRAY, textColor: BLACK, fontStyle: 'bold' },
+      columnStyles: { 0: { cellWidth: 15 }, 1: { cellWidth: 45 }, 2: { cellWidth: 60 }, 3: { cellWidth: 25 }, 4: { cellWidth: 35 } },
+      margin: { left: ML, right: MR },
+    });
+    y = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 4;
+  }
+
+  // 6c/6d. bullets sections
+  const bulletSection = (title: string, items: string[]) => {
+    const list = items.map((s) => s.trim()).filter(Boolean);
+    if (list.length === 0) return;
+    grayBar(title);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10.5);
+    doc.setTextColor(...BLACK);
+    list.forEach((s) => {
+      const lines = doc.splitTextToSize(s, CW - 6);
+      const lh = 10.5 * 0.45;
+      lines.forEach((ln: string, li: number) => {
+        need(lh + 1);
+        doc.text(li === 0 ? '•  ' + ln : '    ' + ln, ML, y);
+        y += lh;
+      });
+      y += 1;
+    });
+    y += 2;
+  };
+  bulletSection('Other Qualification', d.otherQual);
+  bulletSection('Work Experience', d.experience);
+
+  // 6e. custom sections
+  d.customSections.forEach((s) => {
+    if (!s.title.trim()) return;
+    if (s.type === 'text') {
+      grayBar(s.title.trim());
+      if (s.content.trim()) para(s.content.trim(), 10.5, 'normal');
+    } else {
+      bulletSection(s.title.trim(), s.bullets); // emits its own gray bar
+    }
+  });
+
+  // 6f. personal information
+  grayBar('Personal Information');
+  const rows: [string, string][] = [
+    ["Father's Name", d.fatherName],
+    ['Date of Birth', d.dob],
+    ['Language Known', d.languages],
+    ['Gender', d.gender],
+    ['Nationality', d.nationality],
+    ['Marital Status', d.maritalStatus],
+  ];
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10.5);
+  doc.setTextColor(...BLACK);
+  rows.forEach(([label, value]) => {
+    need(6);
+    doc.text(label, ML, y);
+    doc.text(':', ML + 45, y);
+    const vlines = doc.splitTextToSize(value || '', CW - 50);
+    vlines.forEach((ln: string, li: number) => {
+      if (li > 0) need(6);
+      doc.text(ln, ML + 50, y);
+      if (li < vlines.length - 1) y += 5;
+    });
+    y += 5.5;
+  });
+  y += 2;
+
+  // 6g. declaration
+  grayBar('Declaration');
+  para(DECLARATION_TEXT, 10.5, 'normal');
+
+  // 7. footer
+  need(14);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(11);
+  doc.text('Date :', ML, y);
+  y += 6;
+  if (d.state.trim()) doc.text(`Place : ${d.state.trim()}`, ML, y);
+  if (d.name.trim()) doc.text(`(${d.name.trim()})`, PW - MR, y - 6, { align: 'right' });
+
+  doc.save('resume.pdf');
+}
 
 function SectionCard({
   title,
@@ -844,6 +1346,13 @@ export default function BuilderApp({ locale, dict }: Props) {
   const savedHideTimer = useRef<number | null>(null);
   const firstRender = useRef(true);
 
+  /* ---- traditional template state (separate draft) ---- */
+  const [tdata, setTdata] = useState<TraditionalData>(loadTraditionalDraft);
+  const tradSaveTimer = useRef<number | null>(null);
+  const tradFirstRender = useRef(true);
+  const [tradErrors, setTradErrors] = useState<Record<string, boolean>>({});
+  const [tradModal, setTradModal] = useState<{ title: string; type: 'text' | 'bullets' } | null>(null);
+
   /* ---- autosave (debounced 800ms; retry without photo on quota errors) ---- */
   useEffect(() => {
     if (firstRender.current) {
@@ -877,6 +1386,28 @@ export default function BuilderApp({ locale, dict }: Props) {
   useEffect(() => {
     document.getElementById('builder-fallback')?.remove();
   }, []);
+
+  /* ---- traditional autosave (debounced 800ms) ---- */
+  useEffect(() => {
+    if (tradFirstRender.current) {
+      tradFirstRender.current = false;
+      return;
+    }
+    if (tradSaveTimer.current) window.clearTimeout(tradSaveTimer.current);
+    tradSaveTimer.current = window.setTimeout(() => {
+      try {
+        localStorage.setItem(TRADITIONAL_DRAFT_KEY, JSON.stringify(tdata));
+      } catch {
+        /* storage unavailable — stay quiet */
+      }
+      setShowSaved(true);
+      if (savedHideTimer.current) window.clearTimeout(savedHideTimer.current);
+      savedHideTimer.current = window.setTimeout(() => setShowSaved(false), 2200);
+    }, 800);
+    return () => {
+      if (tradSaveTimer.current) window.clearTimeout(tradSaveTimer.current);
+    };
+  }, [tdata]);
 
   /* ---- print: hide all chrome, force A4 print root ---- */
   useEffect(() => {
@@ -968,6 +1499,75 @@ export default function BuilderApp({ locale, dict }: Props) {
   const removeCustomSection = (id: string) =>
     setData((d) => ({ ...d, customSections: d.customSections.filter((s) => s.id !== id) }));
 
+  /* ---- traditional helpers ---- */
+  const setT = <K extends keyof TraditionalData>(k: K, v: TraditionalData[K]) => {
+    setTdata((d) => ({ ...d, [k]: v }));
+    setTradErrors((e) => ({ ...e, [k as string]: false }));
+  };
+  const setTObjectivePreset = (preset: TraditionalData['objectivePreset']) =>
+    setTdata((d) => ({
+      ...d,
+      objectivePreset: preset,
+      objective: preset === 'entry' ? ENTRY_LEVEL_OBJECTIVE : preset === '' ? '' : d.objective,
+    }));
+  const addTQual = () =>
+    setTdata((d) => ({
+      ...d,
+      qualifications: [...d.qualifications, { degree: '', university: '', year: '', gpa: '' }],
+    }));
+  const updTQual = (i: number, patch: Partial<TraditionalQualification>) =>
+    setTdata((d) => ({
+      ...d,
+      qualifications: d.qualifications.map((q, j) => (j === i ? { ...q, ...patch } : q)),
+    }));
+  const removeTQual = (i: number) =>
+    setTdata((d) => ({ ...d, qualifications: d.qualifications.filter((_, j) => j !== i) }));
+  const updTBulletList = (key: 'otherQual' | 'experience', i: number, v: string) =>
+    setTdata((d) => ({ ...d, [key]: d[key].map((s, j) => (j === i ? v : s)) }));
+  const addTBullet = (key: 'otherQual' | 'experience') =>
+    setTdata((d) => ({ ...d, [key]: [...d[key], ''] }));
+  const removeTBullet = (key: 'otherQual' | 'experience', i: number) =>
+    setTdata((d) => ({ ...d, [key]: d[key].filter((_, j) => j !== i) }));
+  const addTradCustomSection = (title: string, type: 'text' | 'bullets') =>
+    setTdata((d) => ({
+      ...d,
+      customSections: [...d.customSections, { id: uid(), title, type, content: '', bullets: [''] }],
+    }));
+  const updTradCustomSection = (id: string, patch: Partial<TraditionalCustomSection>) =>
+    setTdata((d) => ({
+      ...d,
+      customSections: d.customSections.map((s) => (s.id === id ? { ...s, ...patch } : s)),
+    }));
+  const removeTradCustomSection = (id: string) =>
+    setTdata((d) => ({ ...d, customSections: d.customSections.filter((s) => s.id !== id) }));
+
+  /* ---- traditional required-field validation (reference marks with *) ---- */
+  const validateTraditional = (): boolean => {
+    const missing: Record<string, boolean> = {};
+    if (!tdata.name.trim()) missing.name = true;
+    if (!tdata.house.trim()) missing.house = true;
+    if (!tdata.area.trim()) missing.area = true;
+    if (!tdata.state.trim()) missing.state = true;
+    if (!tdata.pincode.trim()) missing.pincode = true;
+    if (!tdata.mobile.trim()) missing.mobile = true;
+    if (!tdata.fatherName.trim()) missing.fatherName = true;
+    if (!tdata.dob.trim()) missing.dob = true;
+    if (!tdata.languages.trim()) missing.languages = true;
+    if (!tdata.nationality.trim()) missing.nationality = true;
+    setTradErrors(missing);
+    if (Object.keys(missing).length > 0) {
+      const first = document.querySelector<HTMLElement>('[data-trad-error="true"]');
+      first?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return false;
+    }
+    return true;
+  };
+
+  const downloadTraditional = () => {
+    if (!validateTraditional()) return;
+    generateTraditionalPdf(tdata);
+  };
+
   /* ---- photo ---- */
   const onPhotoFile = (f: File | undefined) => {
     if (!f) return;
@@ -978,6 +1578,12 @@ export default function BuilderApp({ locale, dict }: Props) {
 
   /* ---- toolbar actions ---- */
   const fillSample = () => {
+    if (data.template === 'traditional') {
+      setTdata(cloneTraditionalSample());
+      setTradErrors({});
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
     const s = cloneSample();
     s.template = data.template;
     s.accent = data.accent;
@@ -1005,10 +1611,426 @@ export default function BuilderApp({ locale, dict }: Props) {
     setClearArmed(false);
     const prefs = { template: data.template, accent: data.accent, font: data.font };
     setData({ ...emptyData(), ...prefs });
+    setTdata(emptyTraditionalData());
+    setTradErrors({});
   };
 
   const activeTemplate = TEMPLATES.find((x) => x.id === data.template) ?? TEMPLATES[0];
   const p = data.personal;
+
+  /* ============ traditional (reference-style) form ============ */
+  const tr = b.traditional;
+  const tradInput = (key: string) =>
+    `${inputCls}${tradErrors[key] ? ' !border-red-500 !ring-2 !ring-red-500/20' : ''}`;
+  const tradErrAttr = (key: string) =>
+    tradErrors[key] ? ({ 'data-trad-error': 'true' } as const) : {};
+  const hasTradErrors = Object.keys(tradErrors).length > 0;
+
+  const renderTraditionalForm = () => (
+    <>
+      {hasTradErrors && (
+        <div className="rounded-xl border border-red-300 bg-red-50 p-4 text-sm font-medium text-red-700 dark:border-red-500/40 dark:bg-red-500/10 dark:text-red-300">
+          {tr.requiredHint}
+        </div>
+      )}
+
+      {/* personal */}
+      <SectionCard title={tr.sections.personal} icon={<User className="h-5 w-5" />}>
+        <div>
+          <label className={labelCls}>{tr.headingLabel} *</label>
+          <select value={tdata.heading} onChange={(e) => setT('heading', e.target.value as TraditionalData['heading'])} className={inputCls}>
+            <option value="RESUME">{tr.headingResume}</option>
+            <option value="CURRICULUM VITAE">{tr.headingCV}</option>
+          </select>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="col-span-2" {...tradErrAttr('name')}>
+            <label className={labelCls}>{tr.fullName} *</label>
+            <input type="text" value={tdata.name} onChange={(e) => setT('name', e.target.value)} className={tradInput('name')} />
+          </div>
+          <div {...tradErrAttr('house')}>
+            <label className={labelCls}>{tr.houseNo} *</label>
+            <input type="text" value={tdata.house} onChange={(e) => setT('house', e.target.value)} className={tradInput('house')} />
+          </div>
+          <div>
+            <label className={labelCls}>{tr.landmark}</label>
+            <input type="text" value={tdata.landmark} onChange={(e) => setT('landmark', e.target.value)} className={inputCls} />
+          </div>
+          <div className="col-span-2" {...tradErrAttr('area')}>
+            <label className={labelCls}>{tr.area} *</label>
+            <input type="text" value={tdata.area} onChange={(e) => setT('area', e.target.value)} className={tradInput('area')} />
+          </div>
+          <div {...tradErrAttr('state')}>
+            <label className={labelCls}>{tr.stateCity} *</label>
+            <input type="text" value={tdata.state} onChange={(e) => setT('state', e.target.value)} className={tradInput('state')} />
+          </div>
+          <div {...tradErrAttr('pincode')}>
+            <label className={labelCls}>{tr.pincode} *</label>
+            <input type="text" inputMode="numeric" value={tdata.pincode} onChange={(e) => setT('pincode', e.target.value)} className={tradInput('pincode')} />
+          </div>
+          <div {...tradErrAttr('mobile')}>
+            <label className={labelCls}>{tr.mobile} *</label>
+            <input type="tel" value={tdata.mobile} onChange={(e) => setT('mobile', e.target.value)} className={tradInput('mobile')} />
+          </div>
+          <div>
+            <label className={labelCls}>{tr.email}</label>
+            <input type="email" value={tdata.email} onChange={(e) => setT('email', e.target.value)} className={inputCls} />
+          </div>
+          <div className="col-span-2">
+            <label className={labelCls}>{tr.profile}</label>
+            <input
+              type="text"
+              value={tdata.profile}
+              onChange={(e) => setT('profile', e.target.value)}
+              placeholder={tr.profilePlaceholder}
+              className={inputCls}
+            />
+          </div>
+        </div>
+      </SectionCard>
+
+      {/* career objective */}
+      <SectionCard title={tr.sections.objective} icon={<FileText className="h-5 w-5" />}>
+        <div>
+          <select
+            value={tdata.objectivePreset}
+            onChange={(e) => setTObjectivePreset(e.target.value as TraditionalData['objectivePreset'])}
+            className={inputCls}
+          >
+            <option value="">{tr.presetSelect}</option>
+            <option value="entry">{tr.presetEntry}</option>
+            <option value="custom">{tr.presetCustom}</option>
+          </select>
+        </div>
+        <div>
+          <label className={labelCls}>{tr.objectiveLabel}</label>
+          <textarea
+            rows={4}
+            value={tdata.objectivePreset === 'entry' ? ENTRY_LEVEL_OBJECTIVE : tdata.objective}
+            onChange={(e) => setT('objective', e.target.value)}
+            disabled={tdata.objectivePreset !== 'custom'}
+            placeholder={tr.objectivePlaceholder}
+            className={`${inputCls} resize-y disabled:opacity-60`}
+          />
+        </div>
+      </SectionCard>
+
+      {/* qualification */}
+      <SectionCard title={tr.sections.qualification} icon={<GraduationCap className="h-5 w-5" />}>
+        {tdata.qualifications.map((q, i) => (
+          <div key={i} className="rounded-xl border border-graphite-100 p-4 dark:border-graphite-800">
+            <div className="mb-3 flex items-center justify-between">
+              <span className="text-xs font-bold text-graphite-400 dark:text-graphite-500">#{i + 1}</span>
+              {tdata.qualifications.length > 1 && (
+                <button
+                  type="button"
+                  onClick={() => removeTQual(i)}
+                  className={`${iconBtnCls} hover:!border-red-400 hover:!text-red-500`}
+                  aria-label={tr.remove}
+                  title={tr.remove}
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="col-span-2">
+                <label className={labelCls}>{tr.qualDegree} *</label>
+                <input type="text" value={q.degree} onChange={(e) => updTQual(i, { degree: e.target.value })} className={inputCls} />
+              </div>
+              <div className="col-span-2">
+                <label className={labelCls}>{tr.qualUniversity} *</label>
+                <input type="text" value={q.university} onChange={(e) => updTQual(i, { university: e.target.value })} className={inputCls} />
+              </div>
+              <div>
+                <label className={labelCls}>{tr.qualYear} *</label>
+                <input type="text" value={q.year} onChange={(e) => updTQual(i, { year: e.target.value })} className={inputCls} />
+              </div>
+              <div>
+                <label className={labelCls}>{tr.qualGpa} *</label>
+                <input type="text" value={q.gpa} onChange={(e) => updTQual(i, { gpa: e.target.value })} className={inputCls} />
+              </div>
+            </div>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={addTQual}
+          className="inline-flex items-center gap-2 rounded-lg border border-dashed border-graphite-300 px-4 py-2.5 text-sm font-semibold text-graphite-600 transition hover:border-brand-400 hover:text-brand-600 dark:border-graphite-700 dark:text-graphite-300 dark:hover:border-brand-500 dark:hover:text-brand-400"
+        >
+          <Plus className="h-4 w-4" weight="bold" />
+          {tr.addMore}
+        </button>
+      </SectionCard>
+
+      {/* other qualification bullets */}
+      <SectionCard title={tr.sections.otherQual} icon={<Star className="h-5 w-5" />}>
+        {tdata.otherQual.map((s, i) => (
+          <div key={i} className="flex items-center gap-2">
+            <input
+              type="text"
+              value={s}
+              onChange={(e) => updTBulletList('otherQual', i, e.target.value)}
+              placeholder={tr.bulletPlaceholder}
+              className={inputCls}
+            />
+            <button
+              type="button"
+              onClick={() => removeTBullet('otherQual', i)}
+              className={`${iconBtnCls} shrink-0 hover:!border-red-400 hover:!text-red-500`}
+              aria-label={tr.remove}
+              title={tr.remove}
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={() => addTBullet('otherQual')}
+          className="inline-flex items-center gap-2 rounded-lg border border-dashed border-graphite-300 px-4 py-2.5 text-sm font-semibold text-graphite-600 transition hover:border-brand-400 hover:text-brand-600 dark:border-graphite-700 dark:text-graphite-300 dark:hover:border-brand-500 dark:hover:text-brand-400"
+        >
+          <Plus className="h-4 w-4" weight="bold" />
+          {tr.addPoint}
+        </button>
+      </SectionCard>
+
+      {/* work experience bullets */}
+      <SectionCard title={tr.sections.experience} icon={<Briefcase className="h-5 w-5" />}>
+        {tdata.experience.map((s, i) => (
+          <div key={i} className="flex items-center gap-2">
+            <input
+              type="text"
+              value={s}
+              onChange={(e) => updTBulletList('experience', i, e.target.value)}
+              placeholder={tr.bulletPlaceholder}
+              className={inputCls}
+            />
+            <button
+              type="button"
+              onClick={() => removeTBullet('experience', i)}
+              className={`${iconBtnCls} shrink-0 hover:!border-red-400 hover:!text-red-500`}
+              aria-label={tr.remove}
+              title={tr.remove}
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={() => addTBullet('experience')}
+          className="inline-flex items-center gap-2 rounded-lg border border-dashed border-graphite-300 px-4 py-2.5 text-sm font-semibold text-graphite-600 transition hover:border-brand-400 hover:text-brand-600 dark:border-graphite-700 dark:text-graphite-300 dark:hover:border-brand-500 dark:hover:text-brand-400"
+        >
+          <Plus className="h-4 w-4" weight="bold" />
+          {tr.addPoint}
+        </button>
+      </SectionCard>
+
+      {/* custom sections */}
+      <SectionCard title={tr.sections.custom} icon={<ListPlus className="h-5 w-5" />}>
+        {tdata.customSections.map((s) => (
+          <div key={s.id} className="rounded-xl border border-graphite-100 p-4 dark:border-graphite-800">
+            <div className="mb-3 flex items-end gap-3">
+              <div className="flex-1">
+                <label className={labelCls}>{tr.sectionTitle}</label>
+                <input
+                  type="text"
+                  value={s.title}
+                  onChange={(e) => updTradCustomSection(s.id, { title: e.target.value })}
+                  className={inputCls}
+                />
+              </div>
+              <button
+                type="button"
+                onClick={() => removeTradCustomSection(s.id)}
+                className={`${iconBtnCls} mb-0.5 hover:!border-red-400 hover:!text-red-500`}
+                aria-label={tr.remove}
+                title={tr.remove}
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            <div>
+              <label className={labelCls}>{tr.contentType}: {s.type === 'text' ? tr.typeText : tr.typeBullets}</label>
+              {s.type === 'text' ? (
+                <textarea
+                  rows={3}
+                  value={s.content}
+                  onChange={(e) => updTradCustomSection(s.id, { content: e.target.value })}
+                  className={`${inputCls} resize-y`}
+                />
+              ) : (
+                s.bullets.map((bl, bi) => (
+                  <div key={bi} className="mb-2 flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={bl}
+                      onChange={(e) =>
+                        updTradCustomSection(s.id, {
+                          bullets: s.bullets.map((x, j) => (j === bi ? e.target.value : x)),
+                        })
+                      }
+                      className={inputCls}
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        updTradCustomSection(s.id, { bullets: s.bullets.filter((_, j) => j !== bi) })
+                      }
+                      className={`${iconBtnCls} shrink-0 hover:!border-red-400 hover:!text-red-500`}
+                      aria-label={tr.remove}
+                      title={tr.remove}
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))
+              )}
+              {s.type === 'bullets' && (
+                <button
+                  type="button"
+                  onClick={() => updTradCustomSection(s.id, { bullets: [...s.bullets, ''] })}
+                  className="mt-1 inline-flex items-center gap-2 rounded-lg border border-dashed border-graphite-300 px-3 py-2 text-xs font-semibold text-graphite-600 transition hover:border-brand-400 hover:text-brand-600 dark:border-graphite-700 dark:text-graphite-300 dark:hover:border-brand-500 dark:hover:text-brand-400"
+                >
+                  <Plus className="h-3.5 w-3.5" weight="bold" />
+                  {tr.addPoint}
+                </button>
+              )}
+            </div>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={() => setTradModal({ title: '', type: 'text' })}
+          className="inline-flex items-center gap-2 rounded-lg border border-dashed border-graphite-300 px-4 py-2.5 text-sm font-semibold text-graphite-600 transition hover:border-brand-400 hover:text-brand-600 dark:border-graphite-700 dark:text-graphite-300 dark:hover:border-brand-500 dark:hover:text-brand-400"
+        >
+          <Plus className="h-4 w-4" weight="bold" />
+          {tr.addNewSection}
+        </button>
+      </SectionCard>
+
+      {/* personal information */}
+      <SectionCard title={tr.sections.personalInfo} icon={<User className="h-5 w-5" />}>
+        <div>
+          <span className={labelCls}>{tr.gender} *</span>
+          <div className="flex flex-wrap gap-4">
+            {(['Male', 'Female', 'Others'] as const).map((g) => (
+              <label key={g} className="flex cursor-pointer items-center gap-2 text-sm font-medium text-graphite-700 dark:text-graphite-200">
+                <input
+                  type="radio"
+                  name="trad-gender"
+                  checked={tdata.gender === g}
+                  onChange={() => setT('gender', g)}
+                  className="h-4 w-4 accent-[#0084D1]"
+                />
+                {g === 'Male' ? tr.genderMale : g === 'Female' ? tr.genderFemale : tr.genderOthers}
+              </label>
+            ))}
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="col-span-2" {...tradErrAttr('fatherName')}>
+            <label className={labelCls}>{tr.fatherName} *</label>
+            <input type="text" value={tdata.fatherName} onChange={(e) => setT('fatherName', e.target.value)} className={tradInput('fatherName')} />
+          </div>
+          <div {...tradErrAttr('dob')}>
+            <label className={labelCls}>{tr.dob} *</label>
+            <input type="date" value={tdata.dob} onChange={(e) => setT('dob', e.target.value)} className={tradInput('dob')} />
+          </div>
+          <div className="col-span-2" {...tradErrAttr('languages')}>
+            <label className={labelCls}>{tr.languages} *</label>
+            <input
+              type="text"
+              value={tdata.languages}
+              onChange={(e) => setT('languages', e.target.value)}
+              placeholder={tr.languagesPlaceholder}
+              className={tradInput('languages')}
+            />
+          </div>
+          <div className="col-span-2" {...tradErrAttr('nationality')}>
+            <label className={labelCls}>{tr.nationality} *</label>
+            <input
+              type="text"
+              value={tdata.nationality}
+              onChange={(e) => setT('nationality', e.target.value)}
+              placeholder={tr.nationalityPlaceholder}
+              className={tradInput('nationality')}
+            />
+          </div>
+        </div>
+        <div>
+          <span className={labelCls}>{tr.maritalStatus}</span>
+          <div className="flex flex-wrap gap-4">
+            {(['Married', 'Unmarried'] as const).map((m) => (
+              <label key={m} className="flex cursor-pointer items-center gap-2 text-sm font-medium text-graphite-700 dark:text-graphite-200">
+                <input
+                  type="radio"
+                  name="trad-marital"
+                  checked={tdata.maritalStatus === m}
+                  onChange={() => setT('maritalStatus', m)}
+                  className="h-4 w-4 accent-[#0084D1]"
+                />
+                {m === 'Married' ? tr.married : tr.unmarried}
+              </label>
+            ))}
+          </div>
+        </div>
+      </SectionCard>
+
+      {/* add-section modal */}
+      {tradModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" role="dialog" aria-modal="true">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl dark:bg-graphite-900">
+            <h3 className="text-lg font-bold text-graphite-900 dark:text-white">{tr.modalTitle}</h3>
+            <div className="mt-4 space-y-4">
+              <div>
+                <label className={labelCls}>{tr.sectionTitle} *</label>
+                <input
+                  type="text"
+                  value={tradModal.title}
+                  onChange={(e) => setTradModal({ ...tradModal, title: e.target.value })}
+                  className={inputCls}
+                  autoFocus
+                />
+              </div>
+              <div>
+                <label className={labelCls}>{tr.contentType}</label>
+                <select
+                  value={tradModal.type}
+                  onChange={(e) => setTradModal({ ...tradModal, type: e.target.value as 'text' | 'bullets' })}
+                  className={inputCls}
+                >
+                  <option value="text">{tr.typeText}</option>
+                  <option value="bullets">{tr.typeBullets}</option>
+                </select>
+              </div>
+            </div>
+            <div className="mt-6 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setTradModal(null)}
+                className="rounded-lg border border-graphite-200 px-4 py-2 text-sm font-semibold text-graphite-600 transition hover:border-graphite-300 dark:border-graphite-700 dark:text-graphite-300"
+              >
+                {tr.cancel}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (!tradModal.title.trim()) return;
+                  addTradCustomSection(tradModal.title.trim(), tradModal.type);
+                  setTradModal(null);
+                }}
+                className="rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-700"
+              >
+                {tr.addSection}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
 
   return (
     <div ref={rootRef} dir={rtl ? 'rtl' : 'ltr'}>
@@ -1019,7 +2041,7 @@ export default function BuilderApp({ locale, dict }: Props) {
         <div className="flex flex-wrap gap-2">
           <button
             type="button"
-            onClick={() => window.print()}
+            onClick={() => (data.template === 'traditional' ? downloadTraditional() : window.print())}
             className="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700"
           >
             <DownloadSimple className="h-4 w-4" weight="bold" />
@@ -1061,7 +2083,7 @@ export default function BuilderApp({ locale, dict }: Props) {
       <div className="rf-no-print mt-8">
         <h2 className="text-lg font-bold text-graphite-900 dark:text-white">{b.templateTitle}</h2>
         <p className="mt-1 text-sm text-graphite-500 dark:text-graphite-400">{b.templateSubtitle}</p>
-        <div className="mt-4 grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <div className="mt-4 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
           {TEMPLATES.map(({ id, render }) => {
             const selected = data.template === id;
             return (
@@ -1116,6 +2138,10 @@ export default function BuilderApp({ locale, dict }: Props) {
       <div className="mt-8 grid items-start gap-8 lg:grid-cols-[480px_1fr]">
         {/* ---- form column ---- */}
         <div className={`space-y-4 ${mobileTab === 'edit' ? '' : 'hidden'} rf-no-print lg:block`}>
+          {data.template === 'traditional' ? (
+            renderTraditionalForm()
+          ) : (
+            <>
           {/* customize */}
           <SectionCard title={b.customizeTitle} icon={<SlidersHorizontal className="h-5 w-5" />}>
             <div>
@@ -1567,6 +2593,8 @@ export default function BuilderApp({ locale, dict }: Props) {
               {b.custom.addSection}
             </button>
           </SectionCard>
+            </>
+          )}
         </div>
 
         {/* ---- preview column ---- */}
@@ -1579,7 +2607,7 @@ export default function BuilderApp({ locale, dict }: Props) {
               id="resume-print-root"
               className="aspect-[1/1.414] w-full overflow-y-auto rounded-sm bg-white shadow-xl ring-1 ring-graphite-200 dark:ring-graphite-700"
             >
-              {activeTemplate.render(data, t)}
+              {data.template === 'traditional' ? ResumeTraditional(tdata) : activeTemplate.render(data, t)}
             </div>
           </div>
         </div>
