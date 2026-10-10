@@ -1647,6 +1647,74 @@ export default function BuilderApp({ locale, dict }: Props) {
     generateTraditionalPdf(tdata, data.accent, data.font);
   };
 
+  /* ---- direct PDF download for the 19 HTML templates ----
+     Renders the live preview to canvas (WYSIWYG) and slices it into
+     A4 pages. No print dialog — the file downloads as resume.pdf. */
+  const [pdfBusy, setPdfBusy] = useState(false);
+  const downloadHtmlPdf = async () => {
+    if (pdfBusy) return;
+    const src = document.querySelector('#resume-print-root > div') as HTMLElement | null;
+    if (!src) return;
+    setPdfBusy(true);
+    // A4 @96dpi = 794px wide; render off-screen at exact A4 width
+    const W = 794;
+    const holder = document.createElement('div');
+    holder.style.cssText = `position:fixed;left:-10000px;top:0;width:${W}px;background:#ffffff;`;
+    const root = rootRef.current;
+    if (root?.getAttribute('dir') === 'rtl') holder.setAttribute('dir', 'rtl');
+    const clone = src.cloneNode(true) as HTMLElement;
+    clone.style.margin = '0';
+    clone.style.width = `${W}px`;
+    holder.appendChild(clone);
+    document.body.appendChild(holder);
+    try {
+      const { default: html2canvas } = await import('html2canvas');
+      // let fonts/layout settle in the clone
+      await new Promise((r) => setTimeout(r, 120));
+      const canvas = await html2canvas(holder, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+      });
+      const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+      const pageW = 210;
+      const pageH = 297;
+      const pxPerMm = canvas.width / pageW;
+      const pagePxH = Math.floor(pageH * pxPerMm);
+      let y = 0;
+      let first = true;
+      while (y < canvas.height) {
+        const sliceH = Math.min(pagePxH, canvas.height - y);
+        const pageCanvas = document.createElement('canvas');
+        pageCanvas.width = canvas.width;
+        pageCanvas.height = sliceH;
+        const ctx = pageCanvas.getContext('2d');
+        if (!ctx) break;
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
+        ctx.drawImage(canvas, 0, y, canvas.width, sliceH, 0, 0, canvas.width, sliceH);
+        const img = pageCanvas.toDataURL('image/jpeg', 0.92);
+        if (!first) pdf.addPage();
+        pdf.addImage(img, 'JPEG', 0, 0, pageW, sliceH / pxPerMm);
+        first = false;
+        y += pagePxH;
+      }
+      pdf.save('resume.pdf');
+    } catch {
+      /* fall back to print if canvas capture fails */
+      window.print();
+    } finally {
+      document.body.removeChild(holder);
+      setPdfBusy(false);
+    }
+  };
+
+  const handleDownload = () => {
+    if (data.template === 'traditional') downloadTraditional();
+    else void downloadHtmlPdf();
+  };
+
   /* ---- photo ---- */
   const onPhotoFile = (f: File | undefined) => {
     if (!f) return;
@@ -2180,11 +2248,12 @@ export default function BuilderApp({ locale, dict }: Props) {
         <div className="flex flex-wrap gap-2">
           <button
             type="button"
-            onClick={() => (data.template === 'traditional' ? downloadTraditional() : window.print())}
-            className="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700"
+            onClick={handleDownload}
+            disabled={pdfBusy}
+            className="inline-flex items-center gap-2 rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-brand-700 disabled:opacity-60"
           >
             <DownloadSimple className="h-4 w-4" weight="bold" />
-            {b.actions.downloadPdf}
+            {pdfBusy ? '…' : b.actions.downloadPdf}
           </button>
           <button
             type="button"
