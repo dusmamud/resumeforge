@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
+import html2canvas from 'html2canvas';
 import {
   DownloadSimple,
   MagicWand,
@@ -1668,7 +1669,6 @@ export default function BuilderApp({ locale, dict }: Props) {
     holder.appendChild(clone);
     document.body.appendChild(holder);
     try {
-      const { default: html2canvas } = await import('html2canvas');
       // let fonts/layout settle in the clone
       await new Promise((r) => setTimeout(r, 120));
       const canvas = await html2canvas(holder, {
