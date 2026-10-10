@@ -1418,6 +1418,9 @@ export default function BuilderApp({ locale, dict }: Props) {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const photoInputRef = useRef<HTMLInputElement | null>(null);
   const carouselRef = useRef<HTMLDivElement | null>(null);
+  const previewBoxRef = useRef<HTMLDivElement | null>(null);
+  const previewContentRef = useRef<HTMLDivElement | null>(null);
+  const [pageBreaks, setPageBreaks] = useState<number[]>([]);
   const scrollCarousel = (dir: 1 | -1) => {
     const el = carouselRef.current;
     if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: 'smooth' });
@@ -1428,6 +1431,26 @@ export default function BuilderApp({ locale, dict }: Props) {
 
   /* ---- traditional template state (separate draft) ---- */
   const [tdata, setTdata] = useState<TraditionalData>(loadTraditionalDraft);
+
+  // measure preview content to show page-break markers when resume exceeds 1 page
+  useEffect(() => {
+    const box = previewBoxRef.current;
+    const content = previewContentRef.current;
+    if (!box || !content) {
+      setPageBreaks([]);
+      return;
+    }
+    const pageH = box.clientHeight;
+    const contentH = content.scrollHeight;
+    if (pageH <= 0 || contentH <= pageH + 4) {
+      setPageBreaks([]);
+      return;
+    }
+    const breaks: number[] = [];
+    const pages = Math.ceil(contentH / pageH);
+    for (let i = 1; i < pages; i++) breaks.push(Math.round(i * pageH));
+    setPageBreaks(breaks);
+  }, [data, tdata, t, mobileTab]);
   const tradSaveTimer = useRef<number | null>(null);
   const tradFirstRender = useRef(true);
   const [tradErrors, setTradErrors] = useState<Record<string, boolean>>({});
@@ -1654,7 +1677,7 @@ export default function BuilderApp({ locale, dict }: Props) {
   const [pdfBusy, setPdfBusy] = useState(false);
   const downloadHtmlPdf = async () => {
     if (pdfBusy) return;
-    const src = document.querySelector('#resume-print-root > div') as HTMLElement | null;
+    const src = document.querySelector('#resume-content') as HTMLElement | null;
     if (!src) return;
     setPdfBusy(true);
     // A4 @96dpi = 794px wide; render off-screen at exact A4 width
@@ -1680,25 +1703,65 @@ export default function BuilderApp({ locale, dict }: Props) {
       const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
       const pageW = 210;
       const pageH = 297;
+      const MARGIN_MM = 14; // clean top/bottom margin on every page
       const pxPerMm = canvas.width / pageW;
       const pagePxH = Math.floor(pageH * pxPerMm);
+      const marginPx = Math.round(MARGIN_MM * pxPerMm);
+      const contentPxH = pagePxH - marginPx * 2;
+
+      // find the whitest row near a nominal break so we never cut through text
+      const ctx0 = canvas.getContext('2d', { willReadFrequently: true });
+      const snapBreak = (nominal: number): number => {
+        if (!ctx0) return nominal;
+        const lo = Math.max(0, nominal - 60);
+        const hi = Math.min(canvas.height - 1, nominal + 60);
+        let bestY = nominal;
+        let bestScore = -1;
+        const w = canvas.width;
+        try {
+          for (let yy = lo; yy <= hi; yy += 2) {
+            const row = ctx0.getImageData(0, yy, w, 1).data;
+            let white = 0;
+            const step = Math.max(1, Math.floor(w / 40));
+            for (let x = 0; x < w; x += step) {
+              const i = x * 4;
+              if (row[i] > 238 && row[i + 1] > 238 && row[i + 2] > 238) white++;
+            }
+            // prefer rows closest to nominal among equally white rows
+            const score = white * 1000 - Math.abs(yy - nominal);
+            if (score > bestScore) {
+              bestScore = score;
+              bestY = yy;
+            }
+          }
+        } catch {
+          return nominal;
+        }
+        return bestY;
+      };
+
       let y = 0;
       let first = true;
-      while (y < canvas.height) {
-        const sliceH = Math.min(pagePxH, canvas.height - y);
+      while (y < canvas.height - 2) {
+        const nominalEnd = y + contentPxH;
+        const isLast = nominalEnd >= canvas.height - 2;
+        const endY = isLast ? canvas.height : snapBreak(nominalEnd);
+        const sliceH = Math.max(1, Math.min(endY, canvas.height) - y);
         const pageCanvas = document.createElement('canvas');
         pageCanvas.width = canvas.width;
-        pageCanvas.height = sliceH;
+        pageCanvas.height = pagePxH;
         const ctx = pageCanvas.getContext('2d');
         if (!ctx) break;
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, pageCanvas.width, pageCanvas.height);
-        ctx.drawImage(canvas, 0, y, canvas.width, sliceH, 0, 0, canvas.width, sliceH);
+        ctx.drawImage(canvas, 0, y, canvas.width, sliceH, 0, marginPx, canvas.width, sliceH);
         const img = pageCanvas.toDataURL('image/jpeg', 0.92);
         if (!first) pdf.addPage();
-        pdf.addImage(img, 'JPEG', 0, 0, pageW, sliceH / pxPerMm);
+        pdf.addImage(img, 'JPEG', 0, 0, pageW, pageH);
         first = false;
-        y += pagePxH;
+        y += sliceH;
+        // safety: avoid infinite loop on degenerate slices
+        if (sliceH <= 0) break;
       }
       pdf.save('resume.pdf');
     } catch {
@@ -2841,9 +2904,25 @@ export default function BuilderApp({ locale, dict }: Props) {
             </h2>
             <div
               id="resume-print-root"
-              className="aspect-[1/1.414] w-full overflow-y-auto rounded-sm bg-white shadow-xl ring-1 ring-graphite-200 dark:ring-graphite-700"
+              ref={previewBoxRef}
+              className="relative aspect-[1/1.414] w-full overflow-y-auto rounded-sm bg-white shadow-xl ring-1 ring-graphite-200 dark:ring-graphite-700"
             >
-              {data.template === 'traditional' ? ResumeTraditional(tdata, data.accent, data.font) : activeTemplate.render(data, t)}
+              <div ref={previewContentRef} id="resume-content">
+                {data.template === 'traditional' ? ResumeTraditional(tdata, data.accent, data.font) : activeTemplate.render(data, t)}
+              </div>
+              {pageBreaks.map((top, i) => (
+                <div
+                  key={i}
+                  className="rf-no-print pointer-events-none absolute left-0 right-0 z-10"
+                  style={{ top }}
+                  aria-hidden="true"
+                >
+                  <div className="border-t-2 border-dashed border-brand-500/70" />
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-brand-500 px-2.5 py-0.5 text-[10px] font-bold text-white shadow">
+                    Page {i + 2}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
