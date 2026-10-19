@@ -24,6 +24,7 @@ const tr: Dict = {
     themeSystem: 'Sistem',
     language: 'Dil',
     createNow: 'Hemen Oluştur',
+    byDusrel: 'Dusrel imzalı',
   },
   hero: {
     badge: '%100 Ücretsiz · Kayıt Yok · Tasarım gereği özel',
@@ -130,12 +131,14 @@ const tr: Dict = {
     importantTitle: 'Önemli',
     followTitle: 'Bizi Takip Edin',
     rights: 'Tüm hakları saklıdır.',
+    byDusrel: 'Bir Dusrel ürünü',
   },
   about: {
     title: `${BRAND.name} Hakkında`,
     p1: `${BRAND.name}, tek bir basit iş için yapılmış ücretsiz bir çevrimiçi özgeçmiş oluşturucudur: tasarım becerisi olmadan ve ücret ödemeden hızlıca profesyonel bir özgeçmiş oluşturmanıza yardımcı olmak.`,
     p2: 'İşe alım uzmanları genellikle bir özgeçmişi taramak için yalnızca birkaç saniye harcar, bu nedenle yapı ve okunabilirlik süslemeden daha önemlidir. Buradaki her şablon bu fikir etrafında inşa edilmiştir — temiz başlıklar, net bölümler ve hem insan okuyucular hem de aday takip sistemleri için çalışan bir yerleşim.',
     p3: 'Kayıt yok ve hiçbir şey yüklenmiyor. Özgeçmiş verileriniz kendi tarayıcınızda yaşar, böylece yazdıklarınız size ait kalır.',
+    dusrel: 'ResumeForge bir Dusrel ürünüdür — gizliliği ön planda tutan ücretsiz çevrimiçi araçlar ailesinin bir parçasıdır. Her şey tarayıcınızda çalışır: kayıt yok, yükleme yok, izleme yok.',
   },
   privacy: {
     title: 'Gizlilik Politikası',

@@ -24,6 +24,7 @@ const id: Dict = {
     themeSystem: 'Sistem',
     language: 'Bahasa',
     createNow: 'Buat Sekarang',
+    byDusrel: 'oleh Dusrel',
   },
   hero: {
     badge: '100% Gratis · Tanpa Daftar · Privat Secara Desain',
@@ -130,12 +131,14 @@ const id: Dict = {
     importantTitle: 'Penting',
     followTitle: 'Ikuti Kami',
     rights: 'Hak cipta dilindungi.',
+    byDusrel: 'Produk Dusrel',
   },
   about: {
     title: `Tentang ${BRAND.name}`,
     p1: `${BRAND.name} adalah pembuat resume online gratis yang dibuat untuk satu tugas sederhana: membantu Anda membuat resume profesional dengan cepat, tanpa keahlian desain dan tanpa membayar.`,
     p2: 'Perekrut biasanya hanya menghabiskan beberapa detik untuk memindai resume, sehingga struktur dan keterbacaan lebih penting daripada dekorasi. Setiap template di sini dibangun dengan ide itu — judul yang jelas, bagian yang rapi, dan tata letak yang cocok untuk pembaca manusia maupun sistem pelacakan pelamar.',
     p3: 'Tidak ada pendaftaran dan tidak ada yang diunggah. Data resume Anda tersimpan di browser Anda sendiri, sehingga apa yang Anda tulis tetap milik Anda.',
+    dusrel: 'ResumeForge adalah produk Dusrel — bagian dari keluarga alat online gratis yang mengutamakan privasi. Semuanya berjalan di browser Anda: tanpa pendaftaran, tanpa unggahan, tanpa pelacakan.',
   },
   privacy: {
     title: 'Kebijakan Privasi',

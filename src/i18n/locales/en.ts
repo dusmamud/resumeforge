@@ -23,6 +23,7 @@ const en = {
     themeSystem: 'System',
     language: 'Language',
     createNow: 'Create Now',
+    byDusrel: 'by Dusrel',
   },
   hero: {
     badge: '100% Free · No sign-up · Private by design',
@@ -129,12 +130,14 @@ const en = {
     importantTitle: 'Important',
     followTitle: 'Follow Us',
     rights: 'All rights reserved.',
+    byDusrel: 'A Dusrel product',
   },
   about: {
     title: `About ${BRAND.name}`,
     p1: `${BRAND.name} is a free online resume builder made for one simple job: helping you create a professional resume quickly, without design skills and without paying a fee.`,
     p2: 'Recruiters typically spend only a few seconds scanning a resume, so structure and readability matter more than decoration. Every template here is built around that idea — clean headings, clear sections, and a layout that works for both human readers and applicant tracking systems.',
     p3: 'There is no sign-up and nothing is uploaded. Your resume data lives in your own browser, so what you write stays yours.',
+    dusrel: 'ResumeForge is a Dusrel product — part of a privacy-first family of free online tools. Everything runs in your browser: no sign-up, no uploads, no tracking.',
   },
   privacy: {
     title: 'Privacy Policy',

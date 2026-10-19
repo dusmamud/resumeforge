@@ -24,6 +24,7 @@ const it: Dict = {
     themeSystem: 'Sistema',
     language: 'Lingua',
     createNow: 'Crea ora',
+    byDusrel: 'di Dusrel',
   },
   hero: {
     badge: '100% gratis · Nessuna registrazione · Privato per progettazione',
@@ -130,12 +131,14 @@ const it: Dict = {
     importantTitle: 'Importante',
     followTitle: 'Seguici',
     rights: 'Tutti i diritti riservati.',
+    byDusrel: 'Un prodotto Dusrel',
   },
   about: {
     title: `Chi è ${BRAND.name}`,
     p1: `${BRAND.name} è un creatore di curriculum online gratuito nato per un compito semplice: aiutarti a creare un curriculum professionale in fretta, senza abilità di design e senza pagare.`,
     p2: 'I recruiter di solito dedicano solo pochi secondi alla scansione di un curriculum, quindi struttura e leggibilità contano più della decorazione. Ogni modello qui è costruito attorno a questa idea — titoli puliti, sezioni chiare e un layout che funziona sia per i lettori umani sia per i sistemi di tracciamento delle candidature.',
     p3: 'Nessuna registrazione e nulla viene caricato. I dati del tuo curriculum vivono nel tuo browser, quindi ciò che scrivi resta tuo.',
+    dusrel: 'ResumeForge è un prodotto Dusrel — parte di una famiglia di strumenti online gratuiti incentrati sulla privacy. Tutto funziona nel tuo browser: nessuna registrazione, nessun caricamento, nessun tracciamento.',
   },
   privacy: {
     title: 'Informativa sulla privacy',

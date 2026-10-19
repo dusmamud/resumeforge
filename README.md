@@ -12,3 +12,5 @@ Create professional resumes for free. No sign-up required.
 Built with Astro 5 + React + Tailwind CSS.
 
 Live: https://dusmamud.github.io/resumeforge/
+
+> A **Dusrel** product — part of the [Dusrel](https://dusrel.com) ecosystem.

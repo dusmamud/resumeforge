@@ -24,6 +24,7 @@ const zh: Dict = {
     themeSystem: '跟随系统',
     language: '语言',
     createNow: '立即创建',
+    byDusrel: 'Dusrel 出品',
   },
   hero: {
     badge: '100% 免费 · 无需注册 · 隐私优先设计',
@@ -130,12 +131,14 @@ const zh: Dict = {
     importantTitle: '重要事项',
     followTitle: '关注我们',
     rights: '版权所有。',
+    byDusrel: 'Dusrel 出品',
   },
   about: {
     title: `关于 ${BRAND.name}`,
     p1: `${BRAND.name} 是一款免费的在线简历制作工具，只为一个简单的目标而生：帮助您快速创建专业简历，无需设计技能，也不收取任何费用。`,
     p2: '招聘人员通常只花几秒钟浏览一份简历，因此结构和可读性比装饰更重要。这里的每个模板都围绕这一理念设计——清晰的标题、明确的板块，以及同时适合人工阅读和求职者跟踪系统的排版。',
     p3: '无需注册，也不会上传任何内容。您的简历数据保存在您自己的浏览器中，您写下的内容永远属于您。',
+    dusrel: 'ResumeForge 是 Dusrel 出品 — 隐私优先的免费在线工具家族的一员。所有功能都在您的浏览器中运行：无需注册、无需上传、无追踪。',
   },
   privacy: {
     title: '隐私政策',

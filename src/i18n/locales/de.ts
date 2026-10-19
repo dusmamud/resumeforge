@@ -24,6 +24,7 @@ const de: Dict = {
     themeSystem: 'System',
     language: 'Sprache',
     createNow: 'Jetzt erstellen',
+    byDusrel: 'von Dusrel',
   },
   hero: {
     badge: '100% kostenlos · Keine Anmeldung · Privat by Design',
@@ -130,12 +131,14 @@ const de: Dict = {
     importantTitle: 'Wichtig',
     followTitle: 'Folgen Sie uns',
     rights: 'Alle Rechte vorbehalten.',
+    byDusrel: 'Ein Dusrel-Produkt',
   },
   about: {
     title: `Über ${BRAND.name}`,
     p1: `${BRAND.name} ist ein kostenloser Online-Lebenslaufersteller für eine einfache Aufgabe: Ihnen zu helfen, schnell einen professionellen Lebenslauf zu erstellen, ohne Designkenntnisse und ohne Kosten.`,
     p2: 'Recruiter verbringen in der Regel nur wenige Sekunden damit, einen Lebenslauf zu überfliegen, daher sind Struktur und Lesbarkeit wichtiger als Dekoration. Jede Vorlage hier basiert auf dieser Idee — klare Überschriften, übersichtliche Bereiche und ein Layout, das sowohl für menschliche Leser als auch für Bewerber-Tracking-Systeme funktioniert.',
     p3: 'Es gibt keine Anmeldung und nichts wird hochgeladen. Ihre Lebenslaufdaten leben in Ihrem eigenen Browser, also bleibt das, was Sie schreiben, bei Ihnen.',
+    dusrel: 'ResumeForge ist ein Dusrel-Produkt — Teil einer datenschutzorientierten Familie kostenloser Online-Tools. Alles läuft in deinem Browser: keine Anmeldung, keine Uploads, kein Tracking.',
   },
   privacy: {
     title: 'Datenschutzerklärung',

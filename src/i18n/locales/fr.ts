@@ -24,6 +24,7 @@ const fr: Dict = {
     themeSystem: 'Système',
     language: 'Langue',
     createNow: 'Créer maintenant',
+    byDusrel: 'par Dusrel',
   },
   hero: {
     badge: '100% gratuit · Sans inscription · Privé par conception',
@@ -130,12 +131,14 @@ const fr: Dict = {
     importantTitle: 'Important',
     followTitle: 'Suivez-nous',
     rights: 'Tous droits réservés.',
+    byDusrel: 'Un produit Dusrel',
   },
   about: {
     title: `À propos de ${BRAND.name}`,
     p1: `${BRAND.name} est un créateur de CV en ligne gratuit conçu pour une seule mission : vous aider à créer un CV professionnel rapidement, sans compétences en design et sans payer.`,
     p2: 'Les recruteurs ne consacrent généralement que quelques secondes à parcourir un CV, la structure et la lisibilité comptent donc plus que la décoration. Chaque modèle est construit autour de cette idée — titres clairs, sections nettes et une mise en page qui fonctionne aussi bien pour les lecteurs humains que pour les systèmes de suivi des candidatures.',
     p3: 'Pas d’inscription et rien n’est téléversé. Les données de votre CV vivent dans votre propre navigateur, donc ce que vous écrivez reste à vous.',
+    dusrel: 'ResumeForge est un produit Dusrel — membre d’une famille d’outils en ligne gratuits axés sur la confidentialité. Tout fonctionne dans votre navigateur : sans inscription, sans téléversement, sans suivi.',
   },
   privacy: {
     title: 'Politique de confidentialité',

@@ -22,6 +22,14 @@ const { locale, dict } = Astro.props;
         <p class="mt-4 max-w-xs text-sm leading-relaxed text-graphite-400">
           {dict.footer.tagline}
         </p>
+        <a
+          href="https://dusrel.com"
+          target="_blank"
+          rel="noopener"
+          class="mt-2 inline-block text-xs font-medium text-graphite-500 transition hover:text-white"
+        >
+          {dict.footer.byDusrel}
+        </a>
       </div>
       <div>
         <h3 class="text-sm font-semibold uppercase tracking-wider text-graphite-400">{dict.footer.usefulTitle}</h3>

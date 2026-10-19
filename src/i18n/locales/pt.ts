@@ -24,6 +24,7 @@ const pt: Dict = {
     themeSystem: 'Sistema',
     language: 'Idioma',
     createNow: 'Criar agora',
+    byDusrel: 'por Dusrel',
   },
   hero: {
     badge: '100% grátis · Sem cadastro · Privado por design',
@@ -130,12 +131,14 @@ const pt: Dict = {
     importantTitle: 'Importante',
     followTitle: 'Siga-nos',
     rights: 'Todos os direitos reservados.',
+    byDusrel: 'Um produto Dusrel',
   },
   about: {
     title: `Sobre o ${BRAND.name}`,
     p1: `${BRAND.name} é um criador de currículos online gratuito feito para um trabalho simples: ajudar você a criar um currículo profissional rapidamente, sem habilidades de design e sem pagar nada.`,
     p2: 'Recrutadores geralmente gastam apenas alguns segundos analisando um currículo, por isso estrutura e legibilidade importam mais do que decoração. Cada modelo aqui é construído com essa ideia — títulos limpos, seções claras e um layout que funciona tanto para leitores humanos quanto para sistemas de rastreamento de candidatos.',
     p3: 'Não há cadastro e nada é enviado. Os dados do seu currículo ficam no seu próprio navegador, então o que você escreve continua sendo seu.',
+    dusrel: 'O ResumeForge é um produto Dusrel — parte de uma família de ferramentas online gratuitas focadas em privacidade. Tudo funciona no seu navegador: sem cadastro, sem uploads, sem rastreamento.',
   },
   privacy: {
     title: 'Política de Privacidade',

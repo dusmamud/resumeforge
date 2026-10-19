@@ -24,6 +24,7 @@ const vi: Dict = {
     themeSystem: 'Hệ thống',
     language: 'Ngôn ngữ',
     createNow: 'Tạo Ngay',
+    byDusrel: 'bởi Dusrel',
   },
   hero: {
     badge: '100% Miễn phí · Không cần đăng ký · Riêng tư theo thiết kế',
@@ -130,12 +131,14 @@ const vi: Dict = {
     importantTitle: 'Quan trọng',
     followTitle: 'Theo Dõi Chúng Tôi',
     rights: 'Đã đăng ký bản quyền.',
+    byDusrel: 'Một sản phẩm của Dusrel',
   },
   about: {
     title: `Về ${BRAND.name}`,
     p1: `${BRAND.name} là công cụ tạo resume trực tuyến miễn phí được tạo cho một nhiệm vụ đơn giản: giúp bạn tạo resume chuyên nghiệp nhanh chóng, không cần kỹ năng thiết kế và không mất phí.`,
     p2: 'Nhà tuyển dụng thường chỉ dành vài giây để lướt qua một resume, vì vậy cấu trúc và khả năng đọc quan trọng hơn trang trí. Mỗi mẫu ở đây đều được xây dựng quanh ý tưởng đó — tiêu đề rõ ràng, các phần rành mạch và bố cục phù hợp cả với người đọc lẫn hệ thống theo dõi ứng viên.',
     p3: 'Không đăng ký và không có gì được tải lên. Dữ liệu resume của bạn nằm trong trình duyệt của chính bạn, vì vậy những gì bạn viết vẫn là của bạn.',
+    dusrel: 'ResumeForge là một sản phẩm của Dusrel — thành viên của gia đình công cụ trực tuyến miễn phí đặt quyền riêng tư lên hàng đầu. Mọi thứ chạy trong trình duyệt của bạn: không đăng ký, không tải lên, không theo dõi.',
   },
   privacy: {
     title: 'Chính sách Quyền riêng tư',

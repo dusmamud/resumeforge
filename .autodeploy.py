@@ -1,0 +1,103 @@
+#!/usr/bin/env python3
+"""Auto-deploy resumeforge: if origin/main has new commits, build + push dist to gh-pages.
+
+Builds the workspace working tree with `npm run build`, then pushes dist/ to the
+gh-pages branch via the GitHub Git Data API (the stored credential only
+authorizes api.github.com, so plain `git push` is not used).
+
+Safety: the build only runs when the working tree's tracked files are
+byte-identical to origin/main (compared blob-by-blob through the API) and there
+are no untracked files. Otherwise it prints a skip message and exits 0 — it
+never builds or deploys a mix of pushed and unpushed work.
+"""
+import base64, json, os, subprocess, sys, time, urllib.request, urllib.error, http.client
+
+OWNER_REPO = 'dusmamud/resumeforge'
+REPO = '/home/hatch/workspace/dusrel/web-apps/resumeforge'
+DIST = os.path.join(REPO, 'dist')
+STATE = os.path.join(REPO, '.autodeploy-state')
+GIT_EMAIL = 'muse@resumeforge.local'
+
+sys.path.insert(0, '/opt/hatch/skills/skill-creator/bin')
+from dynamic_credentials import add_surrogate_to_request, read_json_response
+
+def api(method, path, body=None, retries=4):
+    data = json.dumps(body).encode() if body is not None else None
+    for attempt in range(retries):
+        req = urllib.request.Request('https://api.github.com' + path, data=data, method=method)
+        req.add_header('Accept', 'application/vnd.github+json')
+        if data: req.add_header('Content-Type', 'application/json')
+        add_surrogate_to_request(req, 'custom.github', allowed_hosts=['api.github.com'])
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                return r.status, read_json_response(r)
+        except urllib.error.HTTPError as e:
+            if e.code in (400, 429, 502, 503) and attempt < retries - 1:
+                time.sleep(2 ** attempt); continue
+            raise
+        except (http.client.RemoteDisconnected, ConnectionError, TimeoutError):
+            if attempt < retries - 1: time.sleep(2 ** attempt); continue
+            raise
+
+def sh(cmd, cwd=REPO):
+    return subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, check=True).stdout.strip()
+
+# what did we last deploy?
+last = open(STATE).read().strip() if os.path.exists(STATE) else ''
+st, ref = api('GET', f'/repos/{OWNER_REPO}/git/refs/heads/main')
+remote_main = ref['object']['sha']
+if remote_main == last:
+    print('no new commits')
+    sys.exit(0)
+print('new commit on main:', remote_main[:8])
+
+# safety: build only if the working tree is byte-identical to origin/main
+st, rtree = api('GET', f'/repos/{OWNER_REPO}/git/trees/{remote_main}?recursive=1')
+remote_blobs = {t['path']: t['sha'] for t in rtree['tree'] if t.get('type') == 'blob'}
+
+def in_sync():
+    for rel in sh(['git', 'ls-files']).splitlines():
+        if not os.path.isfile(os.path.join(REPO, rel)):
+            return False
+        if sh(['git', 'hash-object', rel]) != remote_blobs.get(rel):
+            return False
+    for line in sh(['git', 'status', '--porcelain']).splitlines():
+        if line.startswith('??'):
+            return False
+    return True
+
+if not in_sync():
+    print('working tree out of sync with origin/main, skipping')
+    sys.exit(0)
+
+# build
+r = subprocess.run(['npm', 'run', 'build'], cwd=REPO, capture_output=True, text=True)
+if r.returncode != 0:
+    print('BUILD FAILED'); print(r.stderr[-2000:]); sys.exit(1)
+
+# push dist/ to gh-pages via the Git Data API
+sh(['rm', '-rf', os.path.join(DIST, '.git')])
+sh(['git', 'init', '-qb', 'gh-pages'], cwd=DIST)
+sh(['git', 'add', '-A'], cwd=DIST)
+sh(['git', '-c', 'user.name=Muse', '-c', f'user.email={GIT_EMAIL}',
+    'commit', '-qm', f'Autodeploy {remote_main[:8]}'], cwd=DIST)
+st, gref = api('GET', f'/repos/{OWNER_REPO}/git/refs/heads/gh-pages')
+st, old_tree = api('GET', f"/repos/{OWNER_REPO}/git/trees/{gref['object']['sha']}?recursive=1")
+known = {t['sha'] for t in old_tree['tree']}
+files = sh(['git', 'ls-files'], cwd=DIST).splitlines()
+local = {rel: sh(['git', 'hash-object', rel], cwd=DIST) for rel in files}
+for rel in [r for r, s in local.items() if s not in known]:
+    with open(os.path.join(DIST, rel), 'rb') as f:
+        content = base64.b64encode(f.read()).decode()
+    st, _ = api('POST', f'/repos/{OWNER_REPO}/git/blobs', {"content": content, "encoding": "base64"})
+    assert st == 201, rel
+tree = [{"path": rel, "mode": "100644", "type": "blob", "sha": sha} for rel, sha in local.items()]
+st, tr = api('POST', f'/repos/{OWNER_REPO}/git/trees', {"tree": tree}); assert st == 201
+st, cm = api('POST', f'/repos/{OWNER_REPO}/git/commits',
+             {"message": f'Autodeploy {remote_main[:8]}', "tree": tr['sha'],
+              "parents": [gref['object']['sha']]})
+assert st == 201
+st, _ = api('PATCH', f'/repos/{OWNER_REPO}/git/refs/heads/gh-pages', {"sha": cm['sha']})
+assert st == 200
+open(STATE, 'w').write(remote_main)
+print('deployed', cm['sha'][:8])
