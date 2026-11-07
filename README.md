@@ -14,3 +14,4 @@ Built with Astro 5 + React + Tailwind CSS.
 Live: https://dusmamud.github.io/resumeforge/
 
 > A **Dusrel** product — part of the [Dusrel](https://dusrel.com) ecosystem.
+Tip: export to PDF via your browser's print function — there is no server-side PDF step, so your resume data stays in your browser.
