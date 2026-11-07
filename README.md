@@ -15,3 +15,4 @@ Live: https://dusmamud.github.io/resumeforge/
 
 > A **Dusrel** product — part of the [Dusrel](https://dusrel.com) ecosystem.
 Tip: export to PDF via your browser's print function — there is no server-side PDF step, so your resume data stays in your browser.
+Tip: switch between the Minimal, Professional, Modern, and Classic templates to preview the same resume in all four ATS-friendly layouts before exporting.
